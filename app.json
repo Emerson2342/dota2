@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "Dota2",
+    "name": "Dota 2",
     "slug": "Dota2",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/images/dota2Icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/images/dota2Icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -19,12 +19,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./src/images/dota2Icon.png",
+        "backgroundColor": "#000"
+      },
+      "package": "com.missinhoo.Dota2"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./src/images/dota2Icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d1c71134-6369-4c00-b034-0c4ef5fef5fc"
+      }
     }
   }
 }
