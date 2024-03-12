@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, Button } from 'react-native';
+import { View, Text, Image, TouchableOpacity, } from 'react-native';
 
 import Logo from "../../images/dota2Icon.png"
 
 import { styles } from './styles';
-import { BuscarPartidasPorId } from '../BuscarPartidasPorId';
 import { Border } from '../../components/Border';
+
 
 
 export function Home({ navigation }: any) {
@@ -25,7 +25,6 @@ export function Home({ navigation }: any) {
     function navToListaDeHerois() {
         navigation.navigate("listaDeHerois")
     }
-
 
 
     return (
@@ -66,7 +65,6 @@ export function Home({ navigation }: any) {
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPressIn={navToPartidasPorId}
-                    onPress={navToPartidasPorId}
                     style={styles.button}
                 >
                     <Text style={styles.textButton}>Buscar Partidas por ID</Text>

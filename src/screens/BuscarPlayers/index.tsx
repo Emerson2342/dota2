@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput, Image, FlatList } from 'react-native';
 import { styles } from './styles';
 import { Border } from '../../components/Border';
-import { Heroes, PlayerModel, PlayerModelWL, RecentMatches } from './props';
+import { Heroes, PlayerDetails, PlayerModel, PlayerModelWL, RecentMatches } from './props';
 import { fetchGetPlayerData } from '../../APIs/getPlayer';
 import { fetchGetRecentMatchesData } from '../../APIs/getRecentMatches';
 import { fetchGetHeroesPlayedData } from '../../APIs/getHeroesPlayed';
 import { fetchGetWinLosData } from '../../APIs/getWinLost';
+import { fetchGetMatchDetailsData } from '../../APIs/get.MatchesDatails';
 
 
 export function BuscarPlayers() {
@@ -14,6 +15,7 @@ export function BuscarPlayers() {
     const [playerData, setPlayerData] = useState<PlayerModel | null>(null);
     const [playerWL, setPlayerWL] = useState<PlayerModelWL | null>(null);
     const [recentMatches, setRecentMatches] = useState<RecentMatches[]>([]);
+    const [matchesDetails, setMatchesDetails] = useState<PlayerDetails[]>([]);
     const [heroes, setHeroes] = useState<Heroes[]>([])
     const [playerId, setPlayerId] = useState('');
 
@@ -39,6 +41,13 @@ export function BuscarPlayers() {
             const heroesDataResponse = await fetchGetHeroesPlayedData(playerId);
             const heroesData = heroesDataResponse ?? [];
             setHeroes(heroesData);
+
+            const detailsRecentMatchesDataResponse = await fetchGetMatchDetailsData(playerId);
+            const detailsRecentMatches = detailsRecentMatchesDataResponse ?? []
+            setMatchesDetails(detailsRecentMatches)
+
+            // console.log(JSON.stringify(matchesDetails, null, 2))
+
         } catch (error) {
             console.error(`Erro ao buscar dados: `, error);
         }
@@ -50,8 +59,25 @@ export function BuscarPlayers() {
     }
 
 
-
     const renderItem = ({ item, index }: { item: RecentMatches; index: number }) => {
+
+        const matchDetail = matchesDetails.find(detail => detail.match_id === item.match_id);
+
+
+
+        // console.log('Match Detail:', matchDetail);
+
+        let winStatus = null;
+        if (matchDetail) {
+            // Encontrou um matchDetail, então procure o win associado
+            const matchAccount = matchDetail.account_id;
+            const matchWin = matchDetail.win;
+
+            // Faça a lógica para determinar se a partida foi uma vitória ou uma derrota
+            winStatus = matchWin === 1 ? 'Vitória' : 'Derrota';
+        }
+
+
         const startDate = new Date(item.start_time * 1000);
         const durationInMinutes = item.duration;
         const hours = Math.floor(durationInMinutes / 60);
@@ -59,6 +85,9 @@ export function BuscarPlayers() {
         const formattedHours = String(hours).padStart(2, '0');
         const formattedMinutes = String(minutes).padStart(2, '0');
         const formattedDuration = `${formattedHours}:${formattedMinutes}`;
+
+
+        console.log('RenderItem:', item.match_id, "-", matchDetail?.match_id);
 
         const hero = heroes.find(hero => hero.id === item.hero_id);
         let nomeHero = hero?.localized_name;
@@ -77,11 +106,13 @@ export function BuscarPlayers() {
                 <Text style={[styles.textList, { width: "25%" }]}>
                     {startDate.toLocaleDateString('pt-BR')}
                 </Text>
+                <Text style={{ color: "#cece" }}>{winStatus}</Text>
                 <Text style={[styles.textList, { width: "20%" }]}>{formattedDuration}</Text>
                 <Text style={[styles.textList, { color: "green", width: "10%" }]}>{item.kills}</Text>
                 <Text style={[styles.textList, { color: "red", width: "10%" }]}>{item.deaths}</Text>
                 <Text style={[styles.textList, { color: "yellow", width: "10%" }]}>{item.assists}</Text>
                 <Text style={[styles.textList, { color: "orange", width: "15%" }]}>{item.last_hits}</Text>
+
             </View>
         );
     };
@@ -137,7 +168,6 @@ export function BuscarPlayers() {
                         <Text style={[styles.textList, { width: "10%", fontWeight: 'bold' }]}>A</Text>
                         <Text style={[styles.textList, { width: "13%", fontWeight: 'bold' }]}>LH's</Text>
                     </View>
-
 
                     <FlatList
                         data={recentMatches}
