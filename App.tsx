@@ -1,16 +1,18 @@
 import 'react-native-gesture-handler';
-import { StyleSheet, StatusBar, View, ScrollView } from 'react-native';
+import { StyleSheet, StatusBar, View } from 'react-native';
 import { Routes } from './src/routes';
-import { BuscarPartidasPorId } from './src/screens/BuscarPartidasPorId';
+import { PlayerProvider } from './src/components/Context/useDatasContex';
+
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Routes />
-      <StatusBar
-        backgroundColor={"#000"}
-      />
-
+      <PlayerProvider>
+        <Routes />
+        <StatusBar
+          backgroundColor={"#000"}
+        />
+      </PlayerProvider>
     </View>
   );
 }

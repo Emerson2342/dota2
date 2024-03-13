@@ -1,82 +1,54 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, TextInput, Image, FlatList } from 'react-native';
-import { styles } from './styles';
+import { Text, View, TouchableOpacity, TextInput, Image, FlatList, StyleSheet } from 'react-native';
+import { usePlayerContext } from '../../components/Context/useDatasContex';
 import { Border } from '../../components/Border';
-import { Heroes, PlayerDetails, PlayerModel, PlayerModelWL, RecentMatches } from './props';
+import { PlayerModel, RecentMatches } from './props';
 import { fetchGetPlayerData } from '../../APIs/getPlayer';
 import { fetchGetRecentMatchesData } from '../../APIs/getRecentMatches';
-import { fetchGetHeroesPlayedData } from '../../APIs/getHeroesPlayed';
-import { fetchGetWinLosData } from '../../APIs/getWinLost';
-import { fetchGetMatchDetailsData } from '../../APIs/get.MatchesDatails';
+import { HeroesList } from '../../components/Heroes/heroesList';
+import { styles } from './styles';
 
 
-export function BuscarPlayers() {
+export function BuscarPlayers({ navigation }: any) {
 
-    const [playerData, setPlayerData] = useState<PlayerModel | null>(null);
-    const [playerWL, setPlayerWL] = useState<PlayerModelWL | null>(null);
-    const [recentMatches, setRecentMatches] = useState<RecentMatches[]>([]);
-    const [matchesDetails, setMatchesDetails] = useState<PlayerDetails[]>([]);
-    const [heroes, setHeroes] = useState<Heroes[]>([])
-    const [playerId, setPlayerId] = useState('');
+    const { playerData, setPlayerData, recentMatches, setRecentMatches, playerId, setPlayerId } = usePlayerContext();
+
+    /*   const [playerData, setPlayerData] = useState<PlayerModel | null>(null);
+      const [recentMatches, setRecentMatches] = useState<RecentMatches[]>([]);
+      const [playerId, setPlayerId] = useState(''); */
+    const [novoId, setNovoId] = useState('')
+
+    const heroesList = HeroesList();
+
+    function navToHome() {
+        navigation.navigate("home")
+    }
 
 
-    const handleBuscar = async (playerId: string) => {
+    const handleBuscar = async () => {
+
         try {
-            // Obtém dados do jogador
+
             const playerDataResponse = await fetchGetPlayerData(playerId);
             const playerData = playerDataResponse ?? null;
             setPlayerData(playerData);
 
-            // Obtém dados de vitórias/derrotas
-            const playerWLDataResponse = await fetchGetWinLosData(playerId);
-            const playerWLData = playerWLDataResponse ?? null;
-            setPlayerWL(playerWLData);
-
-            // Obtém dados de partidas recentes
             const recentMatchesDataResponse = await fetchGetRecentMatchesData(playerId);
             const recentMatchesData = recentMatchesDataResponse ?? [];
             setRecentMatches(recentMatchesData);
 
-            // Obtém dados de heróis jogados recentemente
-            const heroesDataResponse = await fetchGetHeroesPlayedData(playerId);
-            const heroesData = heroesDataResponse ?? [];
-            setHeroes(heroesData);
-
-            const detailsRecentMatchesDataResponse = await fetchGetMatchDetailsData(playerId);
-            const detailsRecentMatches = detailsRecentMatchesDataResponse ?? []
-            setMatchesDetails(detailsRecentMatches)
-
-            // console.log(JSON.stringify(matchesDetails, null, 2))
 
         } catch (error) {
             console.error(`Erro ao buscar dados: `, error);
         }
     };
     const handleInputChange = (text: string) => {
-
-        const valorNumerico = text.replace(/\D/g, '');
+        let valorNumerico = text.replace(/\D/g, '');
         setPlayerId(valorNumerico)
     }
 
 
     const renderItem = ({ item, index }: { item: RecentMatches; index: number }) => {
-
-        const matchDetail = matchesDetails.find(detail => detail.match_id === item.match_id);
-
-
-
-        // console.log('Match Detail:', matchDetail);
-
-        let winStatus = null;
-        if (matchDetail) {
-            // Encontrou um matchDetail, então procure o win associado
-            const matchAccount = matchDetail.account_id;
-            const matchWin = matchDetail.win;
-
-            // Faça a lógica para determinar se a partida foi uma vitória ou uma derrota
-            winStatus = matchWin === 1 ? 'Vitória' : 'Derrota';
-        }
-
 
         const startDate = new Date(item.start_time * 1000);
         const durationInMinutes = item.duration;
@@ -86,11 +58,12 @@ export function BuscarPlayers() {
         const formattedMinutes = String(minutes).padStart(2, '0');
         const formattedDuration = `${formattedHours}:${formattedMinutes}`;
 
+        const team = item.player_slot < 5 ? 1 : 2
 
-        console.log('RenderItem:', item.match_id, "-", matchDetail?.match_id);
+        const resultadoFinal = (team == 1 && item.radiant_win == true || team == 2 && item.radiant_win == false) ? "V" : "D"
 
-        const hero = heroes.find(hero => hero.id === item.hero_id);
-        let nomeHero = hero?.localized_name;
+        const hero = heroesList.find(hero => hero.id === item.hero_id);
+        let nomeHero = hero?.name;
 
         let imgSource =
             "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/" + nomeHero + ".png";
@@ -103,16 +76,15 @@ export function BuscarPlayers() {
                         uri: imgSource
                     }}
                 />
+                <Text style={[resultadoFinal == "V" ? styles.textListV : styles.textListD, { width: "10%" }]}>{resultadoFinal}</Text>
                 <Text style={[styles.textList, { width: "25%" }]}>
                     {startDate.toLocaleDateString('pt-BR')}
                 </Text>
-                <Text style={{ color: "#cece" }}>{winStatus}</Text>
                 <Text style={[styles.textList, { width: "20%" }]}>{formattedDuration}</Text>
-                <Text style={[styles.textList, { color: "green", width: "10%" }]}>{item.kills}</Text>
-                <Text style={[styles.textList, { color: "red", width: "10%" }]}>{item.deaths}</Text>
-                <Text style={[styles.textList, { color: "yellow", width: "10%" }]}>{item.assists}</Text>
+                <Text style={[styles.textList, { color: "green", width: "7%" }]}>{item.kills}</Text>
+                <Text style={[styles.textList, { color: "red", width: "7%" }]}>{item.deaths}</Text>
+                <Text style={[styles.textList, { color: "yellow", width: "7%" }]}>{item.assists}</Text>
                 <Text style={[styles.textList, { color: "orange", width: "15%" }]}>{item.last_hits}</Text>
-
             </View>
         );
     };
@@ -132,7 +104,7 @@ export function BuscarPlayers() {
                 />
 
                 <TouchableOpacity
-                    onPress={() => handleBuscar(playerId)}
+                    onPress={() => handleBuscar()}
                     style={styles.buttonBuscar}>
                     <Text>Buscar</Text>
                 </TouchableOpacity>
@@ -140,33 +112,32 @@ export function BuscarPlayers() {
             <View
                 style={styles.jogadorInfo}
             >
-                <Text style={styles.nomeJogador}>{playerData?.profile.personaname}</Text>
-                <Image
-                    style={styles.image}
-                    source={{
-                        uri: playerData?.profile.avatarfull
-                    }}
-                    onError={(error) => console.error("Erro ao carregar a imgae: ", error)}
-                />
-                <View style={{ width: "90%", flexDirection: "row", justifyContent: "space-around" }}>
-                    <View style={{ flexDirection: "row" }}>
-                        <Text style={styles.text}>Vitórias: </Text>
-                        <Text style={[styles.text, { color: "green" }]}>{playerWL?.win}</Text>
+                <View style={styles.profile}>
+                    <View>
+                        <Image
+                            style={styles.image}
+                            source={{
+                                uri: playerData?.profile.avatarfull
+                            }}
+                            onError={(error) => console.error("Erro ao carregar a imgae: ", error)}
+                        />
                     </View>
-                    <View style={{ flexDirection: "row" }}>
-                        <Text style={styles.text}>Derrotas: </Text>
-                        <Text style={[styles.text, { color: "red" }]}>{playerWL?.lose}</Text>
+                    <View >
+                        <Text style={[styles.nomeJogador, { fontSize: 15 }]}>ID: {playerId}</Text>
+                        <Text style={styles.nomeJogador}>Nick: {playerData?.profile.personaname}</Text>
+
                     </View>
+
                 </View>
                 <View style={styles.flatListContainer}>
                     <View style={styles.listTitle}>
-                        <Text style={[styles.textList, { width: 60, fontWeight: 'bold' }]}>Herói</Text>
-                        <Text style={[styles.textList, { width: "20%", fontWeight: 'bold' }]}>Data</Text>
-                        <Text style={[styles.textList, { width: "20%", fontWeight: 'bold' }]}>Duração</Text>
-                        <Text style={[styles.textList, { width: "10%", fontWeight: 'bold' }]}>K</Text>
-                        <Text style={[styles.textList, { width: "10%", fontWeight: 'bold' }]}>D</Text>
-                        <Text style={[styles.textList, { width: "10%", fontWeight: 'bold' }]}>A</Text>
-                        <Text style={[styles.textList, { width: "13%", fontWeight: 'bold' }]}>LH's</Text>
+                        <Text style={[styles.textListV, { width: "15%", fontWeight: 'bold', color: "#fff" }]}>Herói</Text>
+                        <Text style={[styles.textListV, { width: "36%", fontWeight: 'bold', color: "#fff" }]}>Data</Text>
+                        <Text style={[styles.textListV, { width: "18%", fontWeight: 'bold', color: "#fff" }]}>Duração</Text>
+                        <Text style={[styles.textListV, { width: "7%", fontWeight: 'bold', color: "#fff" }]}>K</Text>
+                        <Text style={[styles.textListV, { width: "7%", fontWeight: 'bold', color: "#fff" }]}>D</Text>
+                        <Text style={[styles.textListV, { width: "7%", fontWeight: 'bold', color: "#fff" }]}>A</Text>
+                        <Text style={[styles.textListV, { width: "13%", fontWeight: 'bold', color: "#fff" }]}>LH's</Text>
                     </View>
 
                     <FlatList
@@ -175,11 +146,14 @@ export function BuscarPlayers() {
                         keyExtractor={(item) => item.match_id.toString()}
                     />
 
-
                 </View>
-
-
             </View>
+            <TouchableOpacity
+                onPress={navToHome}
+                style={styles.buttonVoltar}
+            >
+                <Text style={styles.text}>Voltar</Text>
+            </TouchableOpacity>
         </View>
 
     );

@@ -7,7 +7,7 @@
     "icon": "./src/images/dota2Icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/images/dota2Icon.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#000"
     },

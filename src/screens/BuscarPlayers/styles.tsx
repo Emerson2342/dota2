@@ -26,27 +26,35 @@ export const styles = StyleSheet.create({
         borderRadius: 5
     },
     jogadorInfo: {
-        marginTop: 50,
         alignItems: "center"
     },
+    profile: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: 'center',
+        width: "80%"
+    },
     nomeJogador: {
-        fontSize: 30,
+        fontSize: 20,
         fontWeight: "bold",
         fontStyle: "italic",
         color: "#fff",
+        width: "100%",
+        textAlign: "center"
     },
     image: {
-        height: 150,
-        width: 150,
+        height: 100,
+        width: 100,
         borderRadius: 5
     },
     text: {
         color: "#fff",
         fontSize: 20,
-        fontWeight: "bold"
+        fontWeight: "bold",
+
     },
     flatListContainer: {
-        height: 300,
+        height: 500,
         overflow: "hidden",
         padding: 5,
         width: "90%"
@@ -55,8 +63,6 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: "space-around",
         width: "100%",
-
-
     },
     listTitle: {
         flexDirection: "row",
@@ -67,5 +73,27 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         alignSelf: "center",
         fontWeight: "bold"
-    }
+    },
+    textListV: {
+        color: "green",
+        textAlign: 'center',
+        alignSelf: "center",
+        fontWeight: "bold"
+    },
+    textListD: {
+        color: "red",
+        textAlign: 'center',
+        alignSelf: "center",
+        fontWeight: "bold"
+    },
+    buttonVoltar: {
+        width: "85%",
+        marginTop: 15,
+        alignItems: "center",
+        backgroundColor: 'red',
+        borderRadius: 9,
+        padding: 5,
+        alignSelf: 'center'
+
+    },
 });

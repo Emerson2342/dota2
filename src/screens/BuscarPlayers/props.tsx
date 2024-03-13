@@ -6,11 +6,6 @@ export interface PlayerModel {
     }
 };
 
-export interface PlayerModelWL {
-    win: number;
-    lose: number;
-}
-
 export interface RecentMatches {
     match_id: number;
     radiant_win: boolean;
@@ -21,17 +16,18 @@ export interface RecentMatches {
     deaths: number;
     assists: number;
     last_hits: number;
+    player_slot: number;
 }
 
 export interface Heroes {
-    hero_id: any;
     id: number;
+    name: string;
     primaty_attr: string;
     attack_type: string;
     roles: [
         string, string, string
     ],
-    localized_name: string;
+
 }
 
 export interface MatchDetailsModel {
