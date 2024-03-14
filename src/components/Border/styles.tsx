@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         height: "98%",
         alignSelf: "center",
         margin: 7,
-        width: "98%",
+        width: "95%",
         position: "absolute",
         borderRadius: 9,
 

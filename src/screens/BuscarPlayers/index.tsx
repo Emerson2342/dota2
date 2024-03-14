@@ -7,11 +7,12 @@ import { fetchGetPlayerData } from '../../APIs/getPlayer';
 import { fetchGetRecentMatchesData } from '../../APIs/getRecentMatches';
 import { HeroesList } from '../../components/Heroes/heroesList';
 import { styles } from './styles';
+import { PICTURE_HERO_BASE_URL } from '../../constants/player';
 
 
 export function BuscarPlayers({ navigation }: any) {
 
-    const { playerData, setPlayerData, recentMatches, setRecentMatches, playerId, setPlayerId } = usePlayerContext();
+    const { playerData, setPlayerData, recentMatches, setRecentMatches, playerId, setPlayerId, idAtual, setIdAtual } = usePlayerContext();
 
     /*   const [playerData, setPlayerData] = useState<PlayerModel | null>(null);
       const [recentMatches, setRecentMatches] = useState<RecentMatches[]>([]);
@@ -29,11 +30,11 @@ export function BuscarPlayers({ navigation }: any) {
 
         try {
 
-            const playerDataResponse = await fetchGetPlayerData(playerId);
+            const playerDataResponse = await fetchGetPlayerData(idAtual);
             const playerData = playerDataResponse ?? null;
             setPlayerData(playerData);
 
-            const recentMatchesDataResponse = await fetchGetRecentMatchesData(playerId);
+            const recentMatchesDataResponse = await fetchGetRecentMatchesData(idAtual);
             const recentMatchesData = recentMatchesDataResponse ?? [];
             setRecentMatches(recentMatchesData);
 
@@ -42,10 +43,7 @@ export function BuscarPlayers({ navigation }: any) {
             console.error(`Erro ao buscar dados: `, error);
         }
     };
-    const handleInputChange = (text: string) => {
-        let valorNumerico = text.replace(/\D/g, '');
-        setPlayerId(valorNumerico)
-    }
+
 
 
     const renderItem = ({ item, index }: { item: RecentMatches; index: number }) => {
@@ -66,7 +64,7 @@ export function BuscarPlayers({ navigation }: any) {
         let nomeHero = hero?.name;
 
         let imgSource =
-            "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/" + nomeHero + ".png";
+            PICTURE_HERO_BASE_URL + nomeHero + ".png";
 
         return (
             <View key={index} style={styles.listContainer}>
@@ -89,6 +87,16 @@ export function BuscarPlayers({ navigation }: any) {
         );
     };
 
+    const buscarId = () => {
+        setIdAtual(novoId)
+        setNovoId('')
+        setPlayerId(idAtual)
+        handleBuscar();
+        console.log("Player ID:", playerId)
+        console.log("Id Atual:", idAtual)
+        console.log("-------------------")
+    }
+
 
 
     return (
@@ -99,12 +107,12 @@ export function BuscarPlayers({ navigation }: any) {
                     keyboardType='numeric'
                     style={styles.input}
                     placeholder='Digite o ID do jogador'
-                    onChangeText={handleInputChange}
-                    value={playerId}
+                    onChangeText={(text) => setIdAtual(text)}
+                    value={idAtual}
                 />
 
                 <TouchableOpacity
-                    onPress={() => handleBuscar()}
+                    onPress={() => buscarId()}
                     style={styles.buttonBuscar}>
                     <Text>Buscar</Text>
                 </TouchableOpacity>
@@ -148,12 +156,14 @@ export function BuscarPlayers({ navigation }: any) {
 
                 </View>
             </View>
+
             <TouchableOpacity
                 onPress={navToHome}
                 style={styles.buttonVoltar}
             >
                 <Text style={styles.text}>Voltar</Text>
             </TouchableOpacity>
+
         </View>
 
     );

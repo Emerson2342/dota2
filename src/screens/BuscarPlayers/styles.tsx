@@ -4,6 +4,8 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#000",
+        //justifyContent: "center",
+        alignItems: "center",
 
     },
     inputContainer: {
@@ -30,7 +32,7 @@ export const styles = StyleSheet.create({
     },
     profile: {
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         alignItems: 'center',
         width: "80%"
     },
@@ -45,7 +47,7 @@ export const styles = StyleSheet.create({
     image: {
         height: 100,
         width: 100,
-        borderRadius: 5
+        borderRadius: 20
     },
     text: {
         color: "#fff",
@@ -66,7 +68,8 @@ export const styles = StyleSheet.create({
     },
     listTitle: {
         flexDirection: "row",
-        justifyContent: "space-around"
+        justifyContent: "space-around",
+        padding: 10
     },
     textList: {
         color: "#fff",
@@ -87,6 +90,7 @@ export const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     buttonVoltar: {
+        top: 30,
         width: "85%",
         marginTop: 15,
         alignItems: "center",

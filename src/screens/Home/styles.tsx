@@ -7,9 +7,6 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#000",
     },
-    border: {
-
-    },
     logoContainer: {
         padding: 50
     },
@@ -22,12 +19,11 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         width: "100%",
         flexWrap: "wrap",
-
         justifyContent: "space-around"
 
     },
     button: {
-        width: "45%",
+        width: "40%",
         padding: 5,
         backgroundColor: "#e83b31",
         borderRadius: 9,

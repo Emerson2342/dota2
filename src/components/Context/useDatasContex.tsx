@@ -7,9 +7,11 @@ interface PlayerContextData {
     playerData: PlayerModel | null;
     recentMatches: RecentMatches[];
     playerId: string;
+    idAtual: string;
     setPlayerData: Dispatch<SetStateAction<PlayerModel | null>>;
     setRecentMatches: Dispatch<SetStateAction<RecentMatches[]>>;
     setPlayerId: Dispatch<SetStateAction<string>>;
+    setIdAtual: Dispatch<SetStateAction<string>>;
 }
 
 
@@ -24,6 +26,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
     const [playerData, setPlayerData] = useState<PlayerModel | null>(null);
     const [recentMatches, setRecentMatches] = useState<RecentMatches[]>([]);
     const [playerId, setPlayerId] = useState('');
+    const [idAtual, setIdAtual] = useState('');
 
 
     useEffect(() => {
@@ -32,6 +35,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
                 const storedPlayerData = await AsyncStorage.getItem('playerData');
                 const storedRecentMatches = await AsyncStorage.getItem('recentMatches');
                 const storedPlayerId = await AsyncStorage.getItem('playerId');
+                const storedIdAtual = await AsyncStorage.getItem('idAtual');
 
                 if (storedPlayerData) {
                     setPlayerData(JSON.parse(storedPlayerData));
@@ -43,6 +47,9 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
 
                 if (storedPlayerId) {
                     setPlayerId(storedPlayerId);
+                }
+                if (storedIdAtual) {
+                    setIdAtual(storedIdAtual);
                 }
             } catch (error) {
                 console.error('Erro ao carregar dados do AsyncStorage:', error);
@@ -59,6 +66,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
                 await AsyncStorage.setItem('playerData', JSON.stringify(playerData));
                 await AsyncStorage.setItem('recentMatches', JSON.stringify(recentMatches));
                 await AsyncStorage.setItem('playerId', playerId);
+                await AsyncStorage.setItem('idAtual', idAtual);
             } catch (error) {
                 console.error('Erro ao salvar dados no AsyncStorage:', error);
             }
@@ -71,9 +79,11 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
         playerData,
         recentMatches,
         playerId,
+        idAtual,
         setPlayerData,
         setRecentMatches,
         setPlayerId,
+        setIdAtual,
     };
 
     return (

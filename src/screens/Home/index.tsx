@@ -55,7 +55,7 @@ export function Home({ navigation }: any) {
                     <Text style={styles.textButton}>Heróis Mais Jogados</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={navToHeroisMaisJogados}
+                    onPress={navToListaDeHerois}
                     style={styles.button}
                 >
                     <Text style={styles.textButton}>Lista de Heróis</Text>
@@ -64,7 +64,7 @@ export function Home({ navigation }: any) {
                     onPressIn={navToPartidasPorId}
                     style={styles.button}
                 >
-                    <Text style={styles.textButton}>Buscar Partidas por ID</Text>
+                    <Text style={styles.textButton}>Buscar Partidas</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
