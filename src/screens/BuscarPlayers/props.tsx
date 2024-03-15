@@ -22,6 +22,7 @@ export interface RecentMatches {
 export interface Heroes {
     id: number;
     name: string;
+    localized_name: string;
     primaty_attr: string;
     attack_type: string;
     roles: [

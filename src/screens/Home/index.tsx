@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, } from 'react-native';
 
 import Logo from "../../images/dota2Icon.png"
 import { styles } from './styles';
 import { Border } from '../../components/Border';
+import { Heroes } from '../BuscarPlayers/props';
+import axios from 'axios';
 
 
 export function Home({ navigation }: any) {
@@ -23,6 +25,8 @@ export function Home({ navigation }: any) {
     function navToListaDeHerois() {
         navigation.navigate("listaDeHerois")
     }
+
+
 
     return (
         <View style={styles.container}>

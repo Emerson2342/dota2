@@ -9,9 +9,6 @@ export const fetchGetHeroesPlayedData = async () => {
         const responseHeroes = await axios.get<Heroes[]>(apiHeroes);
         return responseHeroes.data;
 
-
-
-
     } catch (error) {
         console.log("Erro ao buscar dados da API Heroes Played: ", error)
     }

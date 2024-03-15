@@ -9,8 +9,22 @@ import { ModalDestacarHeroi } from '../../components/Modals/ModalDestacarHeroi';
 
 export function ListaDeHerois() {
 
-    const [modalVisible, setModalVisible] = useState(false)
-    const [heroIndex, setHeroIndex] = useState('')
+    const [modalVisible, setModalVisible] = useState(false);
+    const [heroIndex, setHeroIndex] = useState({
+        id: 0,
+        name: "",
+        localized_name: "",
+        primary_attr: "",
+        attack_type: "",
+        roles: [
+            "",
+            "",
+            ""
+        ],
+        "legs": 0
+    });
+
+
 
     const listaDeHerois = HeroesList();
     const columns = 6;
@@ -21,9 +35,18 @@ export function ListaDeHerois() {
             <TouchableOpacity
                 onPress={() => {
                     setModalVisible(true);
-                    setHeroIndex(item.name)
+                    setHeroIndex({
+                        id: item.id,
+                        name: item.name,
+                        localized_name: item.localized_name,
+                        primary_attr: item.primary_attr,
+                        attack_type: item.attack_type,
+                        roles: item.roles.slice(0, 5),
+                        legs: item.legs
+                    })
                 }}
             >
+
                 <Image
                     style={styles.image}
                     source={{
@@ -39,11 +62,8 @@ export function ListaDeHerois() {
     return (
         <View style={styles.container}>
             <Border />
-
-
             <View
-
-                style={{ height: 700, top: 10 }}>
+                style={{ height: 750, top: 10 }}>
                 <FlatList
                     data={listaDeHerois}
                     renderItem={renderItem}
@@ -59,7 +79,11 @@ export function ListaDeHerois() {
             >
                 <ModalDestacarHeroi
                     handleClose={() => setModalVisible(false)}
-                    name={heroIndex}
+                    image={heroIndex.name}
+                    name={heroIndex.localized_name}
+                    primary_attr={heroIndex.primary_attr}
+                    attack_type={heroIndex.attack_type}
+                    roles={heroIndex.roles}
                 />
 
             </Modal>
