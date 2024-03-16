@@ -3,7 +3,9 @@ export interface PlayerModel {
         account_id: number;
         personaname: string;
         avatarfull: string;
-    }
+    },
+    rank_tier: number;
+    leaderboard_rank: null;
 };
 
 export interface RecentMatches {
@@ -17,6 +19,11 @@ export interface RecentMatches {
     assists: number;
     last_hits: number;
     player_slot: number;
+    xp_per_min: number;
+    gold_per_min: number;
+    hero_damage: number;
+    tower_damage: number;
+    hero_healing: number;
 }
 
 export interface Heroes {

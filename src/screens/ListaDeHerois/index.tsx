@@ -56,12 +56,10 @@ export function ListaDeHerois() {
                 />
             </TouchableOpacity>
         )
-
     }
 
     return (
         <View style={styles.container}>
-            <Border />
             <View
                 style={{ height: 750, top: 10 }}>
                 <FlatList

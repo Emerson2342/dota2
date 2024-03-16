@@ -30,13 +30,18 @@ export function Home({ navigation }: any) {
 
     return (
         <View style={styles.container}>
-            <Border />
-            <View style={styles.logoContainer}>
+            <Image
+                style={{ position: "absolute" }}
+                source={
+                    require('../../images/wallpaper.webp')
+                }
+            />
+            {/*  <View style={styles.logoContainer}>
                 <Image
                     style={styles.imageLogo}
                     source={Logo}
                 />
-            </View>
+            </View> */}
             <View
                 style={styles.buttonContainer}
             >

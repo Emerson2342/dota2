@@ -14,21 +14,15 @@ interface PlayerContextData {
     setIdAtual: Dispatch<SetStateAction<string>>;
 }
 
-
 const PlayerContext = createContext<PlayerContextData | undefined>(undefined);
-
-
 interface PlayerProviderProps {
     children: ReactNode;
 }
-
 export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
     const [playerData, setPlayerData] = useState<PlayerModel | null>(null);
     const [recentMatches, setRecentMatches] = useState<RecentMatches[]>([]);
     const [playerId, setPlayerId] = useState('');
     const [idAtual, setIdAtual] = useState('');
-
-
     useEffect(() => {
         const loadData = async () => {
             try {

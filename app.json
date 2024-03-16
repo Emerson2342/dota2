@@ -7,9 +7,9 @@
     "icon": "./src/images/dota2Icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000"
+      "image": "./src/images/splash.jpg",
+      "resizeMode": "cover",
+      "backgroundColor": "#fafa"
     },
     "assetBundlePatterns": [
       "**/*"

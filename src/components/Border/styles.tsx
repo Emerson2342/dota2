@@ -10,6 +10,5 @@ export const styles = StyleSheet.create({
         width: "95%",
         position: "absolute",
         borderRadius: 9,
-
     }
 });

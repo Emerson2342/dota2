@@ -6,7 +6,6 @@ import { styles } from './styles';
 export function Border() {
     return (
         <View style={styles.container}>
-
         </View>
     );
 }

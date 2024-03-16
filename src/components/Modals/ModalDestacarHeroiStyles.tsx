@@ -8,19 +8,19 @@ export const styles = StyleSheet.create({
         alignItems: "center"
     },
     image: {
-        width: 130,
-        height: 100,
+        width: 120,
+        height: 70,
         borderRadius: 10,
+        backgroundColor: "#cece"
     },
     textName: {
         textAlign: "center",
-        fontSize: 15,
+        fontSize: 20,
         color: "#9999"
     },
     textAtributo: {
         textAlign: "center",
-        fontWeight: "bold",
-        fontSize: 25,
+        fontSize: 20,
         color: "#777"
     },
     modal: {
@@ -30,9 +30,6 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "red"
 
-    },
-    nameContainer: {
-        padding: 15
     },
     nameText: {
         textAlign: "center",

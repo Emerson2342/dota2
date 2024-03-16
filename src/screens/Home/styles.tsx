@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
         resizeMode: "contain"
     },
     buttonContainer: {
+        top: 250,
         flexDirection: "row",
         width: "100%",
         flexWrap: "wrap",
@@ -25,9 +26,10 @@ export const styles = StyleSheet.create({
     button: {
         width: "40%",
         padding: 5,
-        backgroundColor: "#e83b31",
-        borderRadius: 9,
+        backgroundColor: 'rgb(0,255, 255)',
         marginVertical: 5,
+        borderRadius: 9,
+
 
     },
     textButton: {
