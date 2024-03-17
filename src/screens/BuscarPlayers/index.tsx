@@ -17,6 +17,23 @@ export function BuscarPlayers({ navigation }: any) {
     const [novoId, setNovoId] = useState('')
     const heroesList = HeroesList();
     const medalRank = playerData?.rank_tier;
+    const [modalVisible, setModalVisible] = useState(false);
+    const [matchIndex, setMatchIndex] = useState({
+        id: 0,
+        data: '',
+        modo: '',
+        heroi: 0,
+        kills: 0,
+        deaths: 0,
+        assists: 0,
+        xp: 0,
+        gold: 0,
+        heroDamage: 0,
+        towerDamage: 0,
+        lhs: 0
+    })
+
+
     function navToHome() {
         navigation.navigate("home")
     }
@@ -30,13 +47,12 @@ export function BuscarPlayers({ navigation }: any) {
             const recentMatchesData = recentMatchesDataResponse ?? [];
             setRecentMatches(recentMatchesData);
 
-
         } catch (error) {
             console.error(`Erro ao buscar dados: `, error);
         }
     };
 
-    const renderItem = ({ item, index }: { item: RecentMatches; index: number }) => {
+    const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
 
         const startDate = new Date(item.start_time * 1000);
         const durationInMinutes = item.duration;
@@ -52,6 +68,17 @@ export function BuscarPlayers({ navigation }: any) {
 
         const formattedTime = `${hoursDate.toString().padStart(2, '0')}:${minutesDate.toString().padStart(2, '0')}`;
 
+        const lobbyType = {
+            0: "Casual",
+            1: 'Practice',
+            2: 'Torneio',
+            3: "Tutorial",
+            4: "Com Bots",
+            5: "Team Match",
+            6: "Solo Queue",
+            7: "Ranked",
+            9: "Solo Mid"
+        }
 
         const team = item.player_slot < 5 ? 1 : 2
 
@@ -63,8 +90,31 @@ export function BuscarPlayers({ navigation }: any) {
         let imgSource =
             PICTURE_HERO_BASE_URL + nomeHero + ".png";
 
+
+        /* ---------Passando os valores para o index----------*/
+
+
+        /* -------------------------------------------------- */
         return (
-            <View key={index}
+            <TouchableOpacity
+                onPress={() => {
+                    setMatchIndex({
+                        id: item.match_id,
+                        data: startDate.toLocaleDateString('pt-BR'),
+                        modo: lobbyType[item.lobby_type as keyof typeof lobbyType],
+                        heroi: item.hero_id,
+                        kills: item.kills,
+                        deaths: item.deaths,
+                        assists: item.assists,
+                        xp: item.xp_per_min,
+                        gold: item.gold_per_min,
+                        heroDamage: item.hero_damage,
+                        towerDamage: item.tower_damage,
+                        lhs: item.last_hits
+                    });
+                    setModalVisible(true)
+                }}
+                key={index}
                 style={styles.listContainer}
             >
                 <Image
@@ -76,12 +126,12 @@ export function BuscarPlayers({ navigation }: any) {
                 <Text style={[styles.textList, { width: "35%" }]}>
                     {startDate.toLocaleDateString('pt-BR')}-{formattedTime}
                 </Text>
+                <Text style={[styles.textList, { color: "orange", width: "15%" }]}>{lobbyType[item.lobby_type as keyof typeof lobbyType]}</Text>
                 <Text style={[styles.textList, { width: "20%" }]}>{formattedDuration}</Text>
                 <Text style={[styles.textList, { color: "green", width: "5%" }]}>{item.kills}</Text>
                 <Text style={[styles.textList, { color: "red", width: "5%" }]}>{item.deaths}</Text>
                 <Text style={[styles.textList, { color: "yellow", width: "5%" }]}>{item.assists}</Text>
-                <Text style={[styles.textList, { color: "orange", width: "15%" }]}>{item.last_hits}</Text>
-            </View>
+            </TouchableOpacity>
         );
     };
 
@@ -161,34 +211,45 @@ export function BuscarPlayers({ navigation }: any) {
                     <View style={styles.listTitle}>
                         <Text style={[styles.textTitle, { width: "10%", fontWeight: 'bold', color: "#fff" }]}>Herói</Text>
                         <Text style={[styles.textTitle, { width: "40%", fontWeight: 'bold', color: "#fff" }]}>Data</Text>
-                        <Text style={[styles.textTitle, { width: "18%", fontWeight: 'bold', color: "#fff" }]}>Duração</Text>
+                        <Text style={[styles.textTitle, { width: "17%", fontWeight: 'bold', color: "#fff" }]}>Modo</Text>
+                        <Text style={[styles.textTitle, { width: "25%", fontWeight: 'bold', color: "#fff" }]}>Duração</Text>
                         <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>K</Text>
                         <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>D</Text>
                         <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>A</Text>
-                        <Text style={[styles.textTitle, { width: "13%", fontWeight: 'bold', color: "#fff" }]}>LH's</Text>
                     </View>
-
                     <FlatList
                         data={recentMatches}
                         renderItem={renderItem}
                         keyExtractor={(item) => item.match_id.toString()}
                     />
-
                 </View>
             </View>
 
             <TouchableOpacity
-                onPress={navToHome}
+                onPress={() => navToHome()}
                 style={styles.buttonVoltar}
             >
                 <Text style={[styles.text, { color: "#000" }]}>Voltar</Text>
             </TouchableOpacity>
             <Modal
-                visible={false}
+                visible={modalVisible}
                 transparent={true}
                 animationType='fade'
             >
                 <ModalDestacarPartida
+                    handleClose={() => setModalVisible(false)}
+                    id={matchIndex.id}
+                    data={matchIndex.data}
+                    modo={matchIndex.modo}
+                    heroi={matchIndex.heroi}
+                    kills={matchIndex.kills}
+                    deaths={matchIndex.deaths}
+                    assists={matchIndex.assists}
+                    xp={matchIndex.xp}
+                    gold={matchIndex.gold}
+                    heroDamage={matchIndex.heroDamage}
+                    towerDamage={matchIndex.towerDamage}
+                    lhs={matchIndex.lhs}
                 />
             </Modal>
         </View>
