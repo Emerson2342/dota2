@@ -30,7 +30,9 @@ export function BuscarPlayers({ navigation }: any) {
         gold: 0,
         heroDamage: 0,
         towerDamage: 0,
-        lhs: 0
+        lhs: 0,
+        resultadoFinal: true
+
     })
 
 
@@ -90,11 +92,6 @@ export function BuscarPlayers({ navigation }: any) {
         let imgSource =
             PICTURE_HERO_BASE_URL + nomeHero + ".png";
 
-
-        /* ---------Passando os valores para o index----------*/
-
-
-        /* -------------------------------------------------- */
         return (
             <TouchableOpacity
                 onPress={() => {
@@ -110,7 +107,8 @@ export function BuscarPlayers({ navigation }: any) {
                         gold: item.gold_per_min,
                         heroDamage: item.hero_damage,
                         towerDamage: item.tower_damage,
-                        lhs: item.last_hits
+                        lhs: item.last_hits,
+                        resultadoFinal: resultadoFinal
                     });
                     setModalVisible(true)
                 }}
@@ -250,6 +248,7 @@ export function BuscarPlayers({ navigation }: any) {
                     heroDamage={matchIndex.heroDamage}
                     towerDamage={matchIndex.towerDamage}
                     lhs={matchIndex.lhs}
+                    resultadoFinal={matchIndex.resultadoFinal}
                 />
             </Modal>
         </View>

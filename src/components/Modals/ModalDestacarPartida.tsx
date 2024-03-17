@@ -1,86 +1,72 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ImageBackground } from 'react-native';
 
 import { styles } from './ModalDestacarPartidaStyles';
+import { HeroesList } from '../Heroes/heroesList';
 
 export function ModalDestacarPartida(
     {
-        handleClose,
-        id,
-        data,
-        modo,
-        heroi,
-        kills,
-        deaths,
-        assists,
-        xp,
-        gold,
-        heroDamage,
-        towerDamage,
-        lhs
-    }:
+        handleClose, id, data, modo, heroi, kills, deaths, assists, xp, gold, heroDamage, towerDamage, lhs, resultadoFinal }:
         {
-            handleClose(): void,
-            id: number,
-            data: string,
-            modo: string,
-            heroi: number,
-            kills: number,
-            deaths: number,
-            assists: number,
-            xp: number,
-            gold: number,
-            heroDamage: number,
-            towerDamage: number,
-            lhs: number
+            handleClose(): void, id: number, data: string, modo: string, heroi: number, kills: number, deaths: number, assists: number,
+            xp: number, gold: number, heroDamage: number, towerDamage: number, lhs: number, resultadoFinal: boolean
         }) {
+
+    const heroName = HeroesList().find(hero => hero.id == heroi)?.localized_name
     return (
         <View style={styles.container}>
+
             <View
-                style={styles.modal}
+                style={(resultadoFinal == true) ? styles.modal : [styles.modal, { borderColor: "red" }]}
             >
+                <Image
+                    style={styles.image}
+                    source={require('../../images/matchDetails.jpg')}
+                />
                 <View
                     style={styles.modalContent}>
                     <View>
                         <View style={styles.info}>
-                            <Text style={styles.textNome}>Id da partida:</Text><Text style={styles.textValue}> {id}</Text>
+                            <Text style={styles.textNome}>Id da partida:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {id}</Text>
                         </View>
                         <View style={styles.info}>
-                            <Text style={styles.textNome}>Data:</Text><Text style={styles.textValue}> {data}</Text>
+                            <Text style={styles.textNome}>Data:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {data}</Text>
                         </View>
                         <View style={styles.info}>
-                            <Text style={styles.textNome}>Modo:</Text><Text style={styles.textValue}> {modo}</Text>
+                            <Text style={styles.textNome}>Modo:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {modo}</Text>
                         </View>
                         <View style={styles.info}>
-                            <Text style={styles.textNome}>Herói:</Text><Text style={styles.textValue}>{heroi}</Text>
+                            <Text style={styles.textNome}>Herói:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {heroName}</Text>
                         </View>
                         <View style={styles.info}>
-                            <Text style={styles.textNome}>KDA:</Text><Text style={styles.textValue}> {kills}/{deaths}/{assists}</Text>
+                            <Text style={styles.textNome}>KDA:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {kills}/{deaths}/{assists}</Text>
                         </View>
                     </View>
                     <View>
-                        <View style={styles.info}>
-                            <Text style={styles.textNome}>XP por minuto:</Text><Text style={styles.textValue}> {xp}</Text>
+                        <View style={[styles.info, { justifyContent: "flex-end" }]}>
+                            <Text style={styles.textNome}>XP por minuto:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {xp}</Text>
                         </View>
-                        <View style={styles.info}>
-                            <Text style={styles.textNome}>GOLD por minuto:</Text><Text style={styles.textValue}> {gold}</Text>
+                        <View style={[styles.info, { justifyContent: "flex-end" }]}>
+                            <Text style={styles.textNome}>GOLD por minuto:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {gold}</Text>
                         </View>
-                        <View style={styles.info}>
-                            <Text style={styles.textNome}>Dano em heróis:</Text><Text style={styles.textValue}> {heroDamage}</Text>
+                        <View style={[styles.info, { justifyContent: "flex-end" }]}>
+                            <Text style={styles.textNome}>Dano em heróis:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {heroDamage}</Text>
                         </View>
-                        <View style={styles.info}>
-                            <Text style={styles.textNome}>Dano em torres:</Text><Text style={styles.textValue}> {towerDamage}</Text>
+                        <View style={[styles.info, { justifyContent: "flex-end" }]}>
+                            <Text style={styles.textNome}>Dano em torres:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {towerDamage}</Text>
                         </View>
-                        <View style={styles.info}>
-                            <Text style={styles.textNome}>LH's:</Text><Text style={styles.textValue}>{lhs}</Text>
+                        <View style={[styles.info, { justifyContent: "flex-end" }]}>
+                            <Text style={[styles.textNome,]}>LH's:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {lhs}</Text>
                         </View>
                     </View>
                 </View>
 
                 <TouchableOpacity
                     onPress={() => handleClose()}
-                    style={styles.button}>
-                    <Text>Fechar</Text>
+                    style={resultadoFinal ? styles.button : [styles.button, { backgroundColor: "red" }]}>
+                    <Text
+                        style={styles.textButton}
+                    >Fechar</Text>
                 </TouchableOpacity>
             </View>
         </View>
