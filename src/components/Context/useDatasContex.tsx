@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PlayerModel, RecentMatches } from '../../screens/BuscarPlayers/props';
+import { PlayerModel, RecentMatches, WL } from '../../screens/BuscarPlayers/props';
 
 
 interface PlayerContextData {
@@ -8,10 +8,13 @@ interface PlayerContextData {
     recentMatches: RecentMatches[];
     playerId: string;
     idAtual: string;
+    winrate: WL | null;
     setPlayerData: Dispatch<SetStateAction<PlayerModel | null>>;
     setRecentMatches: Dispatch<SetStateAction<RecentMatches[]>>;
     setPlayerId: Dispatch<SetStateAction<string>>;
     setIdAtual: Dispatch<SetStateAction<string>>;
+    setWinrate: Dispatch<SetStateAction<WL | null>>;
+
 }
 
 const PlayerContext = createContext<PlayerContextData | undefined>(undefined);
@@ -23,6 +26,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
     const [recentMatches, setRecentMatches] = useState<RecentMatches[]>([]);
     const [playerId, setPlayerId] = useState('');
     const [idAtual, setIdAtual] = useState('');
+    const [winrate, setWinrate] = useState<WL | null>(null);
     useEffect(() => {
         const loadData = async () => {
             try {
@@ -30,6 +34,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
                 const storedRecentMatches = await AsyncStorage.getItem('recentMatches');
                 const storedPlayerId = await AsyncStorage.getItem('playerId');
                 const storedIdAtual = await AsyncStorage.getItem('idAtual');
+                const storedWinrate = await AsyncStorage.getItem('winrate');
 
                 if (storedPlayerData) {
                     setPlayerData(JSON.parse(storedPlayerData));
@@ -44,6 +49,9 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
                 }
                 if (storedIdAtual) {
                     setIdAtual(storedIdAtual);
+                }
+                if (storedWinrate) {
+                    setWinrate(JSON.parse(storedWinrate));
                 }
             } catch (error) {
                 console.error('Erro ao carregar dados do AsyncStorage:', error);
@@ -61,6 +69,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
                 await AsyncStorage.setItem('recentMatches', JSON.stringify(recentMatches));
                 await AsyncStorage.setItem('playerId', playerId);
                 await AsyncStorage.setItem('idAtual', idAtual);
+                await AsyncStorage.setItem('winrate', JSON.stringify(winrate));
             } catch (error) {
                 console.error('Erro ao salvar dados no AsyncStorage:', error);
             }
@@ -78,6 +87,8 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
         setRecentMatches,
         setPlayerId,
         setIdAtual,
+        winrate,
+        setWinrate
     };
 
     return (

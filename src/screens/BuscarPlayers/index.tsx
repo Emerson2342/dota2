@@ -11,9 +11,20 @@ import { Medal } from '../../components/Medals/MedalsList';
 
 import { ModalDestacarPartida } from '../../components/Modals/ModalDestacarPartida';
 
+import { useQuery } from '@apollo/client';
+import { GET_PLAYER_DATA } from '../../graphql/queries';
+
 export function BuscarPlayers({ navigation }: any) {
 
-    const { playerData, setPlayerData, recentMatches, setRecentMatches, playerId, setPlayerId, idAtual, setIdAtual } = usePlayerContext();
+
+
+
+    const { winrate, setWinrate, playerData, setPlayerData, recentMatches, setRecentMatches, playerId, setPlayerId, idAtual, setIdAtual } = usePlayerContext();
+
+
+    const playerIdLong = parseInt(idAtual, 10);
+    const { data, loading, error } = useQuery(GET_PLAYER_DATA,
+        { variables: { steamAccountId: playerIdLong } });
     const [novoId, setNovoId] = useState('')
     const heroesList = HeroesList();
     const medalRank = playerData?.rank_tier;
@@ -48,11 +59,15 @@ export function BuscarPlayers({ navigation }: any) {
             const recentMatchesDataResponse = await fetchGetRecentMatchesData(idAtual);
             const recentMatchesData = recentMatchesDataResponse ?? [];
             setRecentMatches(recentMatchesData);
+            setWinrate(data)
+
 
         } catch (error) {
             console.error(`Erro ao buscar dados: `, error);
         }
     };
+    console.log(JSON.stringify(winrate, null, 2))
+
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
 
@@ -65,7 +80,7 @@ export function BuscarPlayers({ navigation }: any) {
         const formattedMinutes = String(minutes).padStart(2, '0');
         const formattedDuration = `${formattedHours}:${formattedMinutes}`;
 
-        const hoursDate = startDate.getHours();
+        const hoursDate = startDate.getHours() - 3;
         const minutesDate = startDate.getMinutes();
 
         const formattedTime = `${hoursDate.toString().padStart(2, '0')}:${minutesDate.toString().padStart(2, '0')}`;
@@ -194,11 +209,17 @@ export function BuscarPlayers({ navigation }: any) {
                                     uri: `${Medal(medalRank)}`
                                 }}
                             />
+
                             <Text style={styles.textRank}>{playerData?.leaderboard_rank}</Text>
                             <View style={{ justifyContent: "center", width: "75%" }}>
                                 <Text style={styles.nomeJogador}>{playerData?.profile.personaname} </Text>
+                                <Text style={styles.nomeJogador}> Vitórias: {winrate?.player.winCount}</Text>
+                                <Text style={styles.nomeJogador}> Partidas: {winrate?.player.matchCount}</Text>
+
                                 <View style={{ flexDirection: "row", justifyContent: "center" }}>
+
                                     <Text style={[styles.nomeJogador, { fontSize: 15, color: "#999999" }]}>id: </Text>
+
                                     <Text style={[styles.nomeJogador, { fontSize: 15, color: "#999999" }]}>{playerId}</Text>
                                 </View>
                             </View>

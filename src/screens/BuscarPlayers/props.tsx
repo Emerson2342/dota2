@@ -27,6 +27,14 @@ export interface RecentMatches {
     lobby_type: number;
 }
 
+export interface WL {
+    player: {
+        winCount: number;
+        matchCount: number;
+    }
+
+}
+
 export interface Heroes {
     id: number;
     name: string;

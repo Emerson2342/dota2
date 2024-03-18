@@ -3,7 +3,6 @@ import { StyleSheet, StatusBar, View } from 'react-native';
 import { Routes } from './src/routes';
 import { PlayerProvider } from './src/components/Context/useDatasContex';
 
-
 export default function App() {
   return (
     <View style={styles.container}>
