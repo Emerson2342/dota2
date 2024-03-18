@@ -46,28 +46,32 @@ export const styles = StyleSheet.create({
         color: "#fff",
         textAlign: "center",
     },
+    title: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 13,
+        fontWeight: 'bold'
+    },
     image: {
         height: 100,
         width: 100,
         borderRadius: 20,
     },
     imageMedal: {
-        height: 70,
-        width: 70,
+        height: 60,
+        width: 60,
         position: "absolute",
-        top: -20,
+        top: 10,
         left: 0,
-        // backgroundColor: "#fafa"
-
     },
     textRank: {
         color: "#fff",
         position: "absolute",
-        left: 17,
-        top: 29,
+        left: 10,
+        top: 52,
         width: 40,
         textAlign: 'center',
-        fontSize: 13,
+        fontSize: 10,
         fontWeight: "bold",
     },
     text: {

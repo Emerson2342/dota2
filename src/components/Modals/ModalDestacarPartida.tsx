@@ -6,10 +6,10 @@ import { HeroesList } from '../Heroes/heroesList';
 
 export function ModalDestacarPartida(
     {
-        handleClose, id, data, modo, heroi, kills, deaths, assists, xp, gold, heroDamage, towerDamage, lhs, resultadoFinal }:
+        handleClose, id, data, modo, heroi, kills, deaths, assists, xp, gold, heroDamage, towerDamage, lhs, resultadoFinal, duracao, hora }:
         {
             handleClose(): void, id: number, data: string, modo: string, heroi: number, kills: number, deaths: number, assists: number,
-            xp: number, gold: number, heroDamage: number, towerDamage: number, lhs: number, resultadoFinal: boolean
+            xp: number, gold: number, heroDamage: number, towerDamage: number, lhs: number, resultadoFinal: boolean, duracao: string, hora: string
         }) {
 
     const heroName = HeroesList().find(hero => hero.id == heroi)?.localized_name
@@ -35,14 +35,22 @@ export function ModalDestacarPartida(
                         <View style={styles.info}>
                             <Text style={styles.textNome}>Modo:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {modo}</Text>
                         </View>
+
+                        <View style={styles.info}>
+                            <Text style={styles.textNome}>Duração:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {duracao}</Text>
+                        </View>
+                        <View style={styles.info}>
+                            <Text style={styles.textNome}>Hora:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {hora}</Text>
+                        </View>
                         <View style={styles.info}>
                             <Text style={styles.textNome}>Herói:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {heroName}</Text>
                         </View>
-                        <View style={styles.info}>
-                            <Text style={styles.textNome}>KDA:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {kills}/{deaths}/{assists}</Text>
-                        </View>
+
                     </View>
                     <View>
+                        <View style={[styles.info, { justifyContent: "flex-end" }]}>
+                            <Text style={styles.textNome}>KDA:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {kills}/{deaths}/{assists}</Text>
+                        </View>
                         <View style={[styles.info, { justifyContent: "flex-end" }]}>
                             <Text style={styles.textNome}>XP por minuto:</Text><Text style={resultadoFinal ? styles.textValue : [styles.textValue, { color: "red" }]}> {xp}</Text>
                         </View>

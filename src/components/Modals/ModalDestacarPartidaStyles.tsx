@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     image: {
-        width: 400,
-        height: 200,
+        width: 420,
+        height: 280,
         position: "absolute",
         resizeMode: "stretch",
 
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "green",
         overflow: "hidden",
-        height: 200
+        height: 230
     },
     modalContent: {
         top: 20,

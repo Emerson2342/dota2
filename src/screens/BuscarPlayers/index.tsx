@@ -42,8 +42,9 @@ export function BuscarPlayers({ navigation }: any) {
         heroDamage: 0,
         towerDamage: 0,
         lhs: 0,
-        resultadoFinal: true
-
+        resultadoFinal: true,
+        duracao: '',
+        hora: ''
     })
 
 
@@ -123,7 +124,9 @@ export function BuscarPlayers({ navigation }: any) {
                         heroDamage: item.hero_damage,
                         towerDamage: item.tower_damage,
                         lhs: item.last_hits,
-                        resultadoFinal: resultadoFinal
+                        resultadoFinal: resultadoFinal,
+                        duracao: formattedDuration,
+                        hora: formattedTime
                     });
                     setModalVisible(true)
                 }}
@@ -213,14 +216,14 @@ export function BuscarPlayers({ navigation }: any) {
                             <Text style={styles.textRank}>{playerData?.leaderboard_rank}</Text>
                             <View style={{ justifyContent: "center", width: "75%" }}>
                                 <Text style={styles.nomeJogador}>{playerData?.profile.personaname} </Text>
-                                <Text style={styles.nomeJogador}> Vitórias: {winrate?.player.winCount}</Text>
-                                <Text style={styles.nomeJogador}> Partidas: {winrate?.player.matchCount}</Text>
+                                <Text style={styles.title}> Vitórias: {winrate?.player.winCount}</Text>
+                                <Text style={styles.title}> Partidas: {winrate?.player.matchCount}</Text>
 
                                 <View style={{ flexDirection: "row", justifyContent: "center" }}>
 
-                                    <Text style={[styles.nomeJogador, { fontSize: 15, color: "#999999" }]}>id: </Text>
+                                    <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>id: </Text>
 
-                                    <Text style={[styles.nomeJogador, { fontSize: 15, color: "#999999" }]}>{playerId}</Text>
+                                    <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>{playerId}</Text>
                                 </View>
                             </View>
                         </View>
@@ -270,6 +273,8 @@ export function BuscarPlayers({ navigation }: any) {
                     towerDamage={matchIndex.towerDamage}
                     lhs={matchIndex.lhs}
                     resultadoFinal={matchIndex.resultadoFinal}
+                    duracao={matchIndex.duracao}
+                    hora={matchIndex.hora}
                 />
             </Modal>
         </View>
