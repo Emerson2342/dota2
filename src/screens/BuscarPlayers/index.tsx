@@ -56,19 +56,15 @@ export function BuscarPlayers({ navigation }: any) {
             const playerDataResponse = await fetchGetPlayerData(idAtual);
             const playerData = playerDataResponse ?? null;
             setPlayerData(playerData);
-
             const recentMatchesDataResponse = await fetchGetRecentMatchesData(idAtual);
             const recentMatchesData = recentMatchesDataResponse ?? [];
             setRecentMatches(recentMatchesData);
             setWinrate(data)
 
-
         } catch (error) {
             console.error(`Erro ao buscar dados: `, error);
         }
     };
-    console.log(JSON.stringify(winrate, null, 2))
-
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
 

@@ -28,7 +28,6 @@ export function BuscarProPlayers() {
     );
   }
 
-
   console.log(JSON.stringify(data, null, 2))
   return (
     <View style={styles.container}>

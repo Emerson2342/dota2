@@ -3,7 +3,6 @@ import { View, Text, Image, TouchableOpacity, } from 'react-native';
 
 import Logo from "../../images/dota2Icon.png"
 import { styles } from './styles';
-import { Border } from '../../components/Border';
 import { Heroes } from '../BuscarPlayers/props';
 import axios from 'axios';
 
@@ -26,8 +25,6 @@ export function Home({ navigation }: any) {
         navigation.navigate("listaDeHerois")
     }
 
-
-
     return (
         <View style={styles.container}>
             <Image
@@ -36,12 +33,6 @@ export function Home({ navigation }: any) {
                     require('../../images/wallpaper.webp')
                 }
             />
-            {/*  <View style={styles.logoContainer}>
-                <Image
-                    style={styles.imageLogo}
-                    source={Logo}
-                />
-            </View> */}
             <View
                 style={styles.buttonContainer}
             >
@@ -51,35 +42,31 @@ export function Home({ navigation }: any) {
                 >
                     <Text style={styles.textButton}> Procurar Players</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/*  <TouchableOpacity
                     onPress={navToProPlayes}
                     style={styles.button}
                 >
                     <Text style={styles.textButton}>Procurar Pro Players</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </TouchableOpacity> */}
+                {/*  <TouchableOpacity
                     onPress={navToHeroisMaisJogados}
                     style={styles.button}
                 >
                     <Text style={styles.textButton}>Heróis Mais Jogados</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                     onPress={navToListaDeHerois}
                     style={styles.button}
                 >
                     <Text style={styles.textButton}>Lista de Heróis</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/*   <TouchableOpacity
                     onPressIn={navToPartidasPorId}
                     style={styles.button}
                 >
                     <Text style={styles.textButton}>Buscar Partidas</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.button}
-                >
-                    <Text style={styles.textButton}>Buscar por ID</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+
 
 
             </View>

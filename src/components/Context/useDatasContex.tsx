@@ -39,11 +39,9 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
                 if (storedPlayerData) {
                     setPlayerData(JSON.parse(storedPlayerData));
                 }
-
                 if (storedRecentMatches) {
                     setRecentMatches(JSON.parse(storedRecentMatches));
                 }
-
                 if (storedPlayerId) {
                     setPlayerId(storedPlayerId);
                 }
@@ -76,7 +74,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
         };
 
         saveData();
-    }, [playerData, recentMatches, playerId]);
+    }, [playerData, recentMatches, playerId, winrate]);
 
     const contextValue: PlayerContextData = {
         playerData,

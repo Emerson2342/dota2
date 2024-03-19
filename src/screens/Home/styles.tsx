@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
         resizeMode: "contain"
     },
     buttonContainer: {
-        top: 250,
+        top: 350,
         flexDirection: "row",
         width: "100%",
         flexWrap: "wrap",
@@ -29,8 +29,6 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgb(0,255, 255)',
         marginVertical: 5,
         borderRadius: 9,
-
-
     },
     textButton: {
         color: "#000",
