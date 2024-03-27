@@ -15,13 +15,15 @@ export const styles = StyleSheet.create({
 
     },
     modal: {
+        backgroundColor: "#fff",
         width: "95%",
         borderRadius: 5,
         padding: 10,
         borderWidth: 2,
         borderColor: "green",
         overflow: "hidden",
-        height: 230
+        flex: 1
+
     },
     modalContent: {
         top: 20,

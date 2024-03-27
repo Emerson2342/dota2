@@ -16,9 +16,6 @@ import { GET_PLAYER_DATA } from '../../graphql/queries';
 
 export function BuscarPlayers({ navigation }: any) {
 
-
-
-
     const { winrate, setWinrate, playerData, setPlayerData, recentMatches, setRecentMatches, playerId, setPlayerId, idAtual, setIdAtual } = usePlayerContext();
 
 
@@ -30,7 +27,7 @@ export function BuscarPlayers({ navigation }: any) {
     const medalRank = playerData?.rank_tier;
     const [modalVisible, setModalVisible] = useState(false);
     const [matchIndex, setMatchIndex] = useState({
-        id: 0,
+        id: '',
         data: '',
         modo: '',
         heroi: 0,
@@ -56,9 +53,11 @@ export function BuscarPlayers({ navigation }: any) {
             const playerDataResponse = await fetchGetPlayerData(idAtual);
             const playerData = playerDataResponse ?? null;
             setPlayerData(playerData);
+            //
             const recentMatchesDataResponse = await fetchGetRecentMatchesData(idAtual);
             const recentMatchesData = recentMatchesDataResponse ?? [];
             setRecentMatches(recentMatchesData);
+            //
             setWinrate(data)
 
         } catch (error) {
@@ -67,8 +66,8 @@ export function BuscarPlayers({ navigation }: any) {
     };
 
 
-    console.log(JSON.stringify(winrate, null, 2))
-    console.log(JSON.stringify(data, null, 2))
+    // console.log(JSON.stringify(winrate, null, 2))
+    // console.log(JSON.stringify(data.w, null, 2))
 
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
@@ -166,7 +165,7 @@ export function BuscarPlayers({ navigation }: any) {
 
         <View style={styles.container}>
             <Image
-                style={{ position: 'absolute', opacity: 0.3 }}
+                style={{ position: 'absolute', opacity: 0.5 }}
                 source={
                     require('../../images/playerWallpaper.webp')
                 }
