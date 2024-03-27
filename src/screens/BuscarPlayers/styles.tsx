@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
         borderRadius: 3,
         borderWidth: 1,
         marginVertical: 3,
-        backgroundColor: "rgba(0,0,0,0.5)",
+        backgroundColor: "rgba(0,0,0,0.4)",
     },
 
     listTitle: {
