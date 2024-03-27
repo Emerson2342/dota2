@@ -108,8 +108,17 @@ export function Medal(rank_tier: number | undefined) {
         case 75:
             rank = 'https://static.wikia.nocookie.net/dota2_gamepedia/images/3/33/SeasonalRank7-5.png'
             break;
+        case 80:
+            rank = 'https://static.wikia.nocookie.net/dota2_gamepedia/images/f/f2/SeasonalRankTop0.png'
+            break;
+        case null:
+            rank = 'https://static.wikia.nocookie.net/dota2_gamepedia/images/e/e7/SeasonalRank0-0.png'
+            break;
+        case undefined:
+            rank = 'https://static.wikia.nocookie.net/dota2_gamepedia/images/e/e7/SeasonalRank0-0.png'
+            break;
         default:
-            rank = 'https://static.wikia.nocookie.net/dota2_gamepedia/images/8/8e/SeasonalRankTop3.png';
+            rank = 'https://static.wikia.nocookie.net/dota2_gamepedia/images/4/46/SeasonalRankTop4.png'
             break;
     }
     return rank;
