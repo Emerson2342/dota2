@@ -65,11 +65,6 @@ export function BuscarPlayers({ navigation }: any) {
         }
     };
 
-
-    // console.log(JSON.stringify(winrate, null, 2))
-    // console.log(JSON.stringify(data.w, null, 2))
-
-
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
 
         const startDate = new Date(item.start_time * 1000);
@@ -81,7 +76,7 @@ export function BuscarPlayers({ navigation }: any) {
         const formattedMinutes = String(minutes).padStart(2, '0');
         const formattedDuration = `${formattedHours}:${formattedMinutes}`;
 
-        const hoursDate = startDate.getHours();
+        const hoursDate = startDate.getHours() - 3;
         const minutesDate = startDate.getMinutes();
 
         const formattedTime = `${hoursDate.toString().padStart(2, '0')}:${minutesDate.toString().padStart(2, '0')}`;
@@ -131,10 +126,10 @@ export function BuscarPlayers({ navigation }: any) {
                     setModalVisible(true)
                 }}
                 key={index}
-                style={styles.listContainer}
+                style={resultadoFinal ? styles.listContainer : [styles.listContainer, { backgroundColor: "rgba(255,0,0,0.4)" }]}
             >
                 <Image
-                    style={resultadoFinal ? styles.imageHero : [styles.imageHero, styles.imageHeroD]}
+                    style={styles.imageHero}
                     source={{
                         uri: imgSource
                     }}

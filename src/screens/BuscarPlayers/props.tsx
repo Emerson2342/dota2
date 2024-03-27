@@ -69,9 +69,10 @@ export interface MatchDetailsModel {
     engine: number;
     radiant_score: number;
     dire_score: number;
+
 }
 
-export interface Player {
+interface Player {
     account_id: number;
     win: number;
     lose: number;
@@ -92,6 +93,8 @@ export interface Player {
     hero_damage: number;
     tower_damage: number;
     hero_healing: number;
+    isRadiant: boolean;
+    rank_tier: number;
 }
 
 
