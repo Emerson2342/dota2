@@ -84,7 +84,9 @@ export const styles = StyleSheet.create({
         width: 53,
         height: 30,
         resizeMode: "contain",
-        borderRadius: 3
+        borderRadius: 3,
+        borderWidth: 2,
+        borderColor: "green"
     },
     imageHeroD: {
         borderColor: "red"
@@ -101,8 +103,9 @@ export const styles = StyleSheet.create({
         width: "100%",
         padding: 1,
         borderRadius: 3,
+        borderWidth: 1,
         marginVertical: 3,
-        backgroundColor: "rgba(0,255,0,0.4)",
+        backgroundColor: "rgba(0,0,0,0.7)",
     },
 
     listTitle: {

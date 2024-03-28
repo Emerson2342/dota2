@@ -3,10 +3,24 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "rgba(0,0,0,0.5)",
+        backgroundColor: "rgba(0,0,0,0.7)",
         justifyContent: 'center',
         alignItems: 'center',
-
+    },
+    carregandoContent: {
+        backgroundColor: "#000",
+        width: '85%',
+        height: 90,
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: "#fff",
+        borderRadius: 5
+    },
+    carregando: {
+        color: "#fff",
+        fontSize: 30,
+        textAlign: 'center',
+        fontWeight: 'bold'
     },
     modal: {
         backgroundColor: "#000",
@@ -14,19 +28,18 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
         borderColor: "green",
-
     },
     modalContent: {
         top: 20,
     },
     button: {
-        top: 40,
+        top: 65,
         alignSelf: "center",
         alignItems: "center",
         padding: 5,
         backgroundColor: "green",
         borderRadius: 7,
-        width: "50%"
+        width: "75%"
     },
     textButton: {
         color: "#000",
@@ -48,13 +61,12 @@ export const styles = StyleSheet.create({
     },
     radiantContainer: {
         flexDirection: "row",
-
     },
     title: {
         fontSize: 30,
         color: "#fff",
         fontStyle: "italic",
-        fontWeight: "bold"
+        fontWeight: "bold",
     },
     cabecalho: {
         flexDirection: "row",
@@ -62,6 +74,12 @@ export const styles = StyleSheet.create({
         width: "80%",
         alignSelf: "flex-end",
         padding: 5
+    },
+    cabecalhoText: {
+        color: "#fff",
+        textAlign: "center",
+        fontWeight: "bold",
+        alignSelf: "flex-end"
     },
     imageHero: {
         width: 45,

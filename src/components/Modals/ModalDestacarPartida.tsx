@@ -11,16 +11,13 @@ const heroesList = HeroesList();
 
 export function ModalDestacarPartida(
     {
-        handleClose, id, data, modo, heroi, kills, deaths, assists, xp, gold, heroDamage, towerDamage, lhs, resultadoFinal, duracao, hora }:
+        handleClose, id, heroi, resultadoFinal }:
         {
-            handleClose(): void, id: string, data: string, modo: string, heroi: number, kills: number, deaths: number, assists: number,
-            xp: number, gold: number, heroDamage: number, towerDamage: number, lhs: number, resultadoFinal: boolean, duracao: string, hora: string
+            handleClose(): void, id: string, heroi: number, resultadoFinal: boolean,
         }) {
 
-    const heroName = HeroesList().find(hero => hero.id == heroi)?.localized_name
-
-
     const [matchDetails, setMatchDetails] = useState<MatchDetailsModel | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchData() {
@@ -29,9 +26,11 @@ export function ModalDestacarPartida(
                 setMatchDetails(recentMatchesDataResponse ?? null);
             } catch (error) {
                 console.error('Erro ao buscar detalhes da partida:', error);
+                setTimeout(handleClose, 3000);
+            } finally {
+                setLoading(false);
             }
         }
-
         fetchData();
     }, [id]);
 
@@ -42,23 +41,23 @@ export function ModalDestacarPartida(
             <View
                 style={{ alignItems: "center" }}
             >
-                <Text style={{ color: "#fff", fontWeight: "bold" }}>{item.radiant_score}</Text>
+                <Text style={{ color: "green", fontWeight: "bold" }}>{item.radiant_score}</Text>
 
-                {item.radiant_win ? <Text style={styles.title}>Vitória dos Iluminados</Text> : <Text style={styles.title}> Iluminados</Text>}
+                {item.radiant_win ? <Text style={[styles.title, { color: "green" }]}>Vitória dos Iluminados</Text> : <Text style={[styles.title, { color: "green" }]}> Iluminados</Text>}
 
                 <View style={{ width: "20%" }} />
                 <View
                     style={styles.cabecalho}
                 >
-                    <Text style={{ color: "#fff", width: '7%', textAlign: "center", fontWeight: "bold" }}>K</Text>
-                    <Text style={{ color: "#fff", width: '7%', textAlign: "center", fontWeight: "bold" }}>D</Text>
-                    <Text style={{ color: "#fff", width: '7%', textAlign: "center", fontWeight: "bold" }}>A</Text>
-                    <Text style={{ color: "#fff", width: '8%', textAlign: "center", fontWeight: "bold" }}>LH</Text>
-                    <Text style={{ color: "#fff", width: '10%', textAlign: "center", fontWeight: "bold" }}>Den</Text>
-                    <Text style={{ color: "#fff", width: '18%', textAlign: "center", fontWeight: "bold" }}>Dano H</Text>
-                    <Text style={{ color: "#fff", width: '15%', textAlign: "center", fontWeight: "bold" }}>Dano T</Text>
-                    <Text style={{ color: "#fff", width: '15%', textAlign: "center", fontWeight: "bold" }}>Cura</Text>
-                    <Text style={{ color: "#fff", width: '15%', textAlign: "center", fontWeight: "bold" }}>Net</Text>
+                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>K</Text>
+                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>D</Text>
+                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>A</Text>
+                    <Text style={[styles.cabecalhoText, { width: '8%' }]}>LH</Text>
+                    <Text style={[styles.cabecalhoText, { width: '10%' }]}>Den</Text>
+                    <Text style={[styles.cabecalhoText, { width: '18%' }]}>Dano Heróis</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Dano Torres</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Cura</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Net Worth</Text>
                 </View>
                 {radiant.map((player, index) => {
 
@@ -115,23 +114,23 @@ export function ModalDestacarPartida(
             <View
                 style={{ alignItems: "center" }}
             >
-                <Text style={{ color: "#fff", fontWeight: "bold" }}>{item.dire_score}</Text>
-                {!item.radiant_win ? <Text style={styles.title}>Vitória dos Temidos</Text> : <Text style={styles.title}> Temidos</Text>}
+                <Text style={{ color: "red", fontWeight: "bold" }}>{item.dire_score}</Text>
+                {!item.radiant_win ? <Text style={[styles.title, { color: "red" }]}>Vitória dos Temidos</Text> : <Text style={[styles.title, { color: "red" }]}> Temidos</Text>}
 
 
                 <View style={{ width: "20%" }} />
                 <View
                     style={styles.cabecalho}
                 >
-                    <Text style={{ color: "#fff", width: '7%', textAlign: "center", fontWeight: "bold" }}>K</Text>
-                    <Text style={{ color: "#fff", width: '7%', textAlign: "center", fontWeight: "bold" }}>D</Text>
-                    <Text style={{ color: "#fff", width: '7%', textAlign: "center", fontWeight: "bold" }}>A</Text>
-                    <Text style={{ color: "#fff", width: '8%', textAlign: "center", fontWeight: "bold" }}>LH</Text>
-                    <Text style={{ color: "#fff", width: '10%', textAlign: "center", fontWeight: "bold" }}>Den</Text>
-                    <Text style={{ color: "#fff", width: '18%', textAlign: "center", fontWeight: "bold" }}>Dano H</Text>
-                    <Text style={{ color: "#fff", width: '15%', textAlign: "center", fontWeight: "bold" }}>Dano T</Text>
-                    <Text style={{ color: "#fff", width: '15%', textAlign: "center", fontWeight: "bold" }}>Cura</Text>
-                    <Text style={{ color: "#fff", width: '15%', textAlign: "center", fontWeight: "bold" }}>Net</Text>
+                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>K</Text>
+                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>D</Text>
+                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>A</Text>
+                    <Text style={[styles.cabecalhoText, { width: '8%' }]}>LH</Text>
+                    <Text style={[styles.cabecalhoText, { width: '10%' }]}>Den</Text>
+                    <Text style={[styles.cabecalhoText, { width: '18%' }]}>Dano Heróis</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Dano Torres</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Cura</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Net Worth</Text>
                 </View>
                 {radiant.map((player, index) => {
 
@@ -181,39 +180,51 @@ export function ModalDestacarPartida(
         );
     };
 
-
-
-
-
     return (
         <View style={styles.container}>
 
-            <View
-                style={(resultadoFinal == true) ? styles.modal : [styles.modal, { borderColor: "red" }]}
+            {loading ? (<View
+                style={styles.carregandoContent}
             >
-                <View
-                    style={styles.modalContent}>
-                    <FlatList
-                        data={matchDetails ? [matchDetails] : []}
-                        renderItem={renderItemIluminados}
-                        keyExtractor={(item) => item.match_id.toString()}
-                    />
-                    <FlatList
-                        data={matchDetails ? [matchDetails] : []}
-                        renderItem={renderItemTemidos}
-                        keyExtractor={(item) => item.match_id.toString()}
-                    />
+                <Text
+                    style={styles.carregando}
+                >Carregando dados...</Text>
+            </View>) : (
 
-                </View>
+                matchDetails ? (<View
+                    style={(resultadoFinal == true) ? styles.modal : [styles.modal, { borderColor: "red" }]}
+                >
+                    <View
+                        style={styles.modalContent}>
+                        <FlatList
+                            data={matchDetails ? [matchDetails] : []}
+                            renderItem={renderItemIluminados}
+                            keyExtractor={(item) => item.match_id.toString()}
+                        />
+                        <FlatList
+                            data={matchDetails ? [matchDetails] : []}
+                            renderItem={renderItemTemidos}
+                            keyExtractor={(item) => item.match_id.toString()}
+                        />
+                    </View>
+                    <TouchableOpacity
+                        onPress={() => handleClose()}
+                        style={resultadoFinal ? styles.button : [styles.button, { backgroundColor: "red" }]}>
+                        <Text
+                            style={styles.textButton}
+                        >Fechar</Text>
+                    </TouchableOpacity>
+                </View>) : (
+                    <View
+                        style={styles.carregandoContent}
+                    >
+                        <Text
+                            style={styles.carregando}
+                        >Erro ao carregar dados da partida!</Text>
+                    </View>
+                )
 
-                <TouchableOpacity
-                    onPress={() => handleClose()}
-                    style={resultadoFinal ? styles.button : [styles.button, { backgroundColor: "red" }]}>
-                    <Text
-                        style={styles.textButton}
-                    >Fechar</Text>
-                </TouchableOpacity>
-            </View>
+            )}
         </View>
 
     );

@@ -126,10 +126,10 @@ export function BuscarPlayers({ navigation }: any) {
                     setModalVisible(true)
                 }}
                 key={index}
-                style={resultadoFinal ? styles.listContainer : [styles.listContainer, { backgroundColor: "rgba(255,0,0,0.4)" }]}
+                style={styles.listContainer}
             >
                 <Image
-                    style={styles.imageHero}
+                    style={resultadoFinal ? styles.imageHero : ([styles.imageHero, { borderColor: 'red' }])}
                     source={{
                         uri: imgSource
                     }}
@@ -160,7 +160,7 @@ export function BuscarPlayers({ navigation }: any) {
 
         <View style={styles.container}>
             <Image
-                style={{ position: 'absolute', opacity: 0.5 }}
+                style={{ position: 'absolute', opacity: 0.9 }}
                 source={
                     require('../../images/playerWallpaper.webp')
                 }
@@ -256,20 +256,8 @@ export function BuscarPlayers({ navigation }: any) {
                 <ModalDestacarPartida
                     handleClose={() => setModalVisible(false)}
                     id={matchIndex.id}
-                    data={matchIndex.data}
-                    modo={matchIndex.modo}
                     heroi={matchIndex.heroi}
-                    kills={matchIndex.kills}
-                    deaths={matchIndex.deaths}
-                    assists={matchIndex.assists}
-                    xp={matchIndex.xp}
-                    gold={matchIndex.gold}
-                    heroDamage={matchIndex.heroDamage}
-                    towerDamage={matchIndex.towerDamage}
-                    lhs={matchIndex.lhs}
                     resultadoFinal={matchIndex.resultadoFinal}
-                    duracao={matchIndex.duracao}
-                    hora={matchIndex.hora}
                 />
             </Modal>
         </View>
