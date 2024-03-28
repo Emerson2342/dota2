@@ -6,18 +6,22 @@ import { HeroesList } from '../Heroes/heroesList';
 import { MatchDetailsModel } from '../../screens/BuscarPlayers/props';
 import { fetchGetMatchDetailsData } from '../../APIs/getDetailsMatch';
 import { PICTURE_HERO_BASE_URL } from '../../constants/player';
+import { usePlayerContext } from '../Context/useDatasContex';
 import { Medal } from '../Medals/MedalsList';
 const heroesList = HeroesList();
 
 export function ModalDestacarPartida(
     {
-        handleClose, id, heroi, resultadoFinal }:
+        handleClose, id, resultadoFinal, playerId }:
         {
-            handleClose(): void, id: string, heroi: number, resultadoFinal: boolean,
+            handleClose(): void, id: string, resultadoFinal: boolean, playerId: string
+
         }) {
+    const { idAtual } = usePlayerContext();
 
     const [matchDetails, setMatchDetails] = useState<MatchDetailsModel | null>(null);
     const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         async function fetchData() {
@@ -26,13 +30,13 @@ export function ModalDestacarPartida(
                 setMatchDetails(recentMatchesDataResponse ?? null);
             } catch (error) {
                 console.error('Erro ao buscar detalhes da partida:', error);
-                setTimeout(handleClose, 3000);
             } finally {
                 setLoading(false);
             }
         }
         fetchData();
     }, [id]);
+
 
     const renderItemIluminados = ({ item }: { item: MatchDetailsModel }) => {
         const radiant = item.players.slice(0, 5);
@@ -44,6 +48,7 @@ export function ModalDestacarPartida(
                 <Text style={{ color: "green", fontWeight: "bold" }}>{item.radiant_score}</Text>
 
                 {item.radiant_win ? <Text style={[styles.title, { color: "green" }]}>Vitória dos Iluminados</Text> : <Text style={[styles.title, { color: "green" }]}> Iluminados</Text>}
+
 
                 <View style={{ width: "20%" }} />
                 <View
@@ -68,9 +73,15 @@ export function ModalDestacarPartida(
                         PICTURE_HERO_BASE_URL + nome + ".png";
 
                     return (
-                        <View key={index}
-                            style={styles.radiantContainer}
+                        <View
+                            key={index}
+                            style={
+                                (playerId && player.account_id && playerId === player.account_id.toString()) ?
+                                    [styles.radiantContainer, { backgroundColor: "#888" }] :
+                                    styles.radiantContainer
+                            }
                         >
+
                             <View
                                 style={{ flexDirection: "row" }}
                             >
@@ -141,9 +152,15 @@ export function ModalDestacarPartida(
                         PICTURE_HERO_BASE_URL + nome + ".png";
 
                     return (
-                        <View key={index}
-                            style={styles.radiantContainer}
+                        <View
+                            key={index}
+                            style={
+                                (playerId && player.account_id && playerId === player.account_id.toString()) ?
+                                    [styles.radiantContainer, { backgroundColor: "#888" }] :
+                                    styles.radiantContainer
+                            }
                         >
+
                             <View
                                 style={{ flexDirection: "row" }}
                             >
@@ -188,7 +205,14 @@ export function ModalDestacarPartida(
             >
                 <Text
                     style={styles.carregando}
-                >Carregando dados...</Text>
+                >Carregando dados da partida...</Text>
+                <TouchableOpacity
+                    onPress={() => handleClose()}
+                    style={styles.buttonModal}>
+                    <Text
+                        style={styles.textButtonModal}
+                    >Cancelar</Text>
+                </TouchableOpacity>
             </View>) : (
 
                 matchDetails ? (<View
@@ -228,13 +252,9 @@ export function ModalDestacarPartida(
                                 style={styles.textButtonModal}
                             >Fechar</Text>
                         </TouchableOpacity>
-
                     </View>
-
                 )
-
             )}
         </View>
-
     );
 }

@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     carregandoContent: {
         backgroundColor: "#000000",
         width: '85%',
-        // height: 190,
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: "rgb(0,255, 255)",
@@ -67,22 +66,20 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#fff"
     },
-    textValue: {
-        fontSize: 15,
-        fontWeight: "bold",
-        color: "green"
-    },
     info: {
         flexDirection: 'row',
     },
     radiantContainer: {
         flexDirection: "row",
+        borderRadius: 10
+
     },
     title: {
         fontSize: 30,
         color: "#fff",
         fontStyle: "italic",
         fontWeight: "bold",
+
     },
     cabecalho: {
         flexDirection: "row",
@@ -106,7 +103,6 @@ export const styles = StyleSheet.create({
     imageMedal: {
         height: 30,
         width: 25,
-        backgroundColor: "#000",
         resizeMode: "contain"
     },
     infoContainer: {
@@ -118,54 +114,63 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: "green",
         width: '7%',
-        textAlign: 'center'
+        textAlign: 'center',
+        alignSelf: "center"
     },
     d: {
         fontWeight: 'bold',
         color: "red",
         width: '7%',
         textAlign: 'center',
+        alignSelf: "center"
     },
     a: {
         fontWeight: 'bold',
         color: "yellow",
         width: '7%',
         textAlign: 'center',
+        alignSelf: "center"
     },
     lhs: {
         fontWeight: 'bold',
         color: "orange",
         width: '10%',
-        textAlign: 'center'
+        textAlign: 'center',
+        alignSelf: "center"
     },
     denies: {
         fontWeight: 'bold',
         color: "yellow",
         width: '8%',
         textAlign: 'center',
+        alignSelf: "center"
     },
     hDamage: {
         fontWeight: 'bold',
         color: "orange",
         width: '15%',
-        textAlign: 'center'
+        textAlign: 'center',
+        alignSelf: "center"
     },
     tDamage: {
         fontWeight: 'bold',
         color: "yellow",
         width: '15%',
-        textAlign: 'center'
+        textAlign: 'center',
+        alignSelf: "center"
     },
     healing: {
         fontWeight: 'bold',
         color: "orange",
         width: '15%',
-        textAlign: 'center'
+        textAlign: 'center',
+        alignSelf: "center"
     },
     netWorth: {
         fontWeight: 'bold',
         color: "yellow",
         width: '15%',
-        textAlign: 'center'
+        textAlign: 'center',
+        alignSelf: "center"
     }
 });

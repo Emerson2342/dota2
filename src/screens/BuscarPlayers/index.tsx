@@ -44,7 +44,6 @@ export function BuscarPlayers({ navigation }: any) {
         hora: ''
     })
 
-
     function navToHome() {
         navigation.navigate("home")
     }
@@ -156,6 +155,9 @@ export function BuscarPlayers({ navigation }: any) {
         console.log("-------------------")
     }
 
+
+
+
     return (
 
         <View style={styles.container}>
@@ -258,8 +260,9 @@ export function BuscarPlayers({ navigation }: any) {
                 <ModalDestacarPartida
                     handleClose={() => setModalVisible(false)}
                     id={matchIndex.id}
-                    heroi={matchIndex.heroi}
                     resultadoFinal={matchIndex.resultadoFinal}
+                    playerId={playerId}
+
                 />
             </Modal>
         </View>
