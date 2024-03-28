@@ -7,7 +7,7 @@
     "icon": "./src/images/dota2Icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/images/wallpaper.webp",
+      "image": "./src/images/wallpaper.jpg",
       "resizeMode": "cover",
       "backgroundColor": "#fafa"
     },

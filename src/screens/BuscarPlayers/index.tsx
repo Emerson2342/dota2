@@ -163,7 +163,7 @@ export function BuscarPlayers({ navigation }: any) {
             <Image
                 style={{ position: 'absolute', opacity: 0.9 }}
                 source={
-                    require('../../images/playerWallpaper.webp')
+                    require('../../images/playerWallpaper.jpg')
                 }
             />
             <View style={styles.inputContainer}>
