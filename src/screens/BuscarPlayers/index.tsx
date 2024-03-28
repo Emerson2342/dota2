@@ -159,7 +159,6 @@ export function BuscarPlayers({ navigation }: any) {
 
 
     return (
-
         <View style={styles.container}>
             <Image
                 style={{ position: 'absolute', opacity: 0.9 }}
@@ -228,8 +227,10 @@ export function BuscarPlayers({ navigation }: any) {
                         </View>
                     </View>
                 </View>
+
                 <View style={styles.flatListContainer}>
-                    <View style={styles.listTitle}>
+
+                    {recentMatches ? (<><View style={styles.listTitle}>
                         <Text style={[styles.textTitle, { width: "10%", fontWeight: 'bold', color: "#fff" }]}>Herói</Text>
                         <Text style={[styles.textTitle, { width: "40%", fontWeight: 'bold', color: "#fff" }]}>Data</Text>
                         <Text style={[styles.textTitle, { width: "17%", fontWeight: 'bold', color: "#fff" }]}>Modo</Text>
@@ -237,14 +238,19 @@ export function BuscarPlayers({ navigation }: any) {
                         <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>K</Text>
                         <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>D</Text>
                         <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>A</Text>
-                    </View>
-                    <FlatList
-                        data={recentMatches}
-                        renderItem={renderItem}
-                        keyExtractor={(item) => item.match_id.toString()}
-                    />
+                    </View><FlatList
+                            data={recentMatches}
+                            renderItem={renderItem}
+                            keyExtractor={(item) => item.match_id.toString()} /></>) :
+                        (<View
+                            style={styles.carregandoContent}
+                        ><Text
+                            style={styles.carregando}
+                        >Erro ao carregar as últimas partidas!</Text></View>)}
+
                 </View>
             </View>
+
 
             <TouchableOpacity
                 onPress={() => navToHome()}

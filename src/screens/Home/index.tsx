@@ -30,7 +30,7 @@ export function Home({ navigation }: any) {
             <Image
                 style={{ position: "absolute" }}
                 source={
-                    require('../../images/wallpaper.webp')
+                    require('../../images/splash.jpg')
                 }
             />
             <View

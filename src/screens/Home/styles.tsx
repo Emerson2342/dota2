@@ -19,14 +19,13 @@ export const styles = StyleSheet.create({
         top: 350,
         flexDirection: "row",
         width: "100%",
-        flexWrap: "wrap",
         justifyContent: "space-around"
 
     },
     button: {
         width: "40%",
-        padding: 5,
-        backgroundColor: 'rgb(0,255, 255)',
+        padding: 10,
+        backgroundColor: 'red',
         marginVertical: 5,
         borderRadius: 9,
     },

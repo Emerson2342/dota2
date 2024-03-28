@@ -135,6 +135,21 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 5,
         alignSelf: 'center',
-
+    },
+    carregandoContent: {
+        top: 150,
+        backgroundColor: "#000000",
+        width: '85%',
+        alignSelf: 'center',
+        borderWidth: 1,
+        borderColor: "rgb(0,255, 255)",
+        borderRadius: 5,
+        padding: 10,
+    },
+    carregando: {
+        color: "#fff",
+        fontSize: 20,
+        textAlign: 'center',
+        fontWeight: 'bold',
     },
 });
