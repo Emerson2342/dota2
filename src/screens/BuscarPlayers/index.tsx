@@ -129,7 +129,7 @@ export function BuscarPlayers({ navigation }: any) {
                 style={styles.listContainer}
             >
                 <Image
-                    style={resultadoFinal ? styles.imageHero : ([styles.imageHero, { borderColor: 'red' }])}
+                    style={resultadoFinal ? styles.imageHero : ([styles.imageHero, { borderColor: 'rgb(255,0,0)' }])}
                     source={{
                         uri: imgSource
                     }}
@@ -177,7 +177,9 @@ export function BuscarPlayers({ navigation }: any) {
                 <TouchableOpacity
                     onPress={() => buscarId()}
                     style={styles.buttonBuscar}>
-                    <Text>Buscar</Text>
+                    <Text
+                        style={styles.buscarText}
+                    >Buscar</Text>
                 </TouchableOpacity>
             </View>
             <View
@@ -256,20 +258,8 @@ export function BuscarPlayers({ navigation }: any) {
                 <ModalDestacarPartida
                     handleClose={() => setModalVisible(false)}
                     id={matchIndex.id}
-                    data={matchIndex.data}
-                    modo={matchIndex.modo}
                     heroi={matchIndex.heroi}
-                    kills={matchIndex.kills}
-                    deaths={matchIndex.deaths}
-                    assists={matchIndex.assists}
-                    xp={matchIndex.xp}
-                    gold={matchIndex.gold}
-                    heroDamage={matchIndex.heroDamage}
-                    towerDamage={matchIndex.towerDamage}
-                    lhs={matchIndex.lhs}
                     resultadoFinal={matchIndex.resultadoFinal}
-                    duracao={matchIndex.duracao}
-                    hora={matchIndex.hora}
                 />
             </Modal>
         </View>

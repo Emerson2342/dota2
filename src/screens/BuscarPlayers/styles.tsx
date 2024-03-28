@@ -21,11 +21,15 @@ export const styles = StyleSheet.create({
         padding: 7,
     },
     buttonBuscar: {
-        backgroundColor: "#e83b31",
-        width: "30%",
+        backgroundColor: "red",
+        width: "45%",
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 5
+        borderRadius: 5,
+
+    },
+    buscarText: {
+        fontSize: 20,
     },
     jogadorInfo: {
         alignItems: "center",
@@ -86,10 +90,7 @@ export const styles = StyleSheet.create({
         resizeMode: "contain",
         borderRadius: 3,
         borderWidth: 2,
-        borderColor: "green"
-    },
-    imageHeroD: {
-        borderColor: "red"
+        borderColor: "rgb(0,255, 0)"
     },
     flatListContainer: {
         height: 500,
@@ -130,8 +131,8 @@ export const styles = StyleSheet.create({
         width: "85%",
         marginTop: 15,
         alignItems: "center",
-        backgroundColor: 'rgba(255,0,0,0.7)',
-        borderRadius: 9,
+        backgroundColor: 'red',
+        borderRadius: 5,
         padding: 5,
         alignSelf: 'center',
 

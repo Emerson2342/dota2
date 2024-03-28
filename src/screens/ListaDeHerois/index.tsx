@@ -4,10 +4,9 @@ import { View, Text, Image, FlatList, Modal, TouchableOpacity } from 'react-nati
 import { styles } from './styles';
 import { HeroesList } from '../../components/Heroes/heroesList';
 import { PICTURE_HERO_BASE_URL } from '../../constants/player';
-import { Border } from '../../components/Border';
 import { ModalDestacarHeroi } from '../../components/Modals/ModalDestacarHeroi';
 
-export function ListaDeHerois() {
+export function ListaDeHerois({ navigation }: any) {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [heroIndex, setHeroIndex] = useState({
@@ -23,6 +22,10 @@ export function ListaDeHerois() {
         ],
         "legs": 0
     });
+
+    function navToHome() {
+        navigation.navigate("home")
+    }
 
 
 
@@ -61,7 +64,7 @@ export function ListaDeHerois() {
     return (
         <View style={styles.container}>
             <View
-                style={{ height: 750, top: 10 }}>
+                style={{ height: 700 }}>
                 <FlatList
                     data={listaDeHerois}
                     renderItem={renderItem}
@@ -70,6 +73,14 @@ export function ListaDeHerois() {
                     key={columns}
                 />
             </View>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navToHome()}
+            >
+                <Text
+                    style={styles.text}
+                >Voltar</Text>
+            </TouchableOpacity>
             <Modal
                 visible={modalVisible}
                 transparent={true}
@@ -85,6 +96,7 @@ export function ListaDeHerois() {
                 />
 
             </Modal>
+
         </View>
 
     );

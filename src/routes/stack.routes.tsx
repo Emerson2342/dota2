@@ -1,4 +1,4 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import { TransitionPresets, createStackNavigator } from "@react-navigation/stack";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -16,42 +16,48 @@ export function StackRoutes() {
                 name="home"
                 component={Home}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS
                 }}
             />
             <Screen
                 name="buscarPartidasPorId"
                 component={BuscarPartidasPorId}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS
                 }}
             />
             <Screen
                 name='buscarPlayers'
                 component={BuscarPlayers}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS
                 }}
             />
             <Screen
                 name="buscarProPlayers"
                 component={BuscarProPlayers}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS
                 }}
             />
             <Screen
                 name='heroisMaisJogados'
                 component={HeroisMaisJogados}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS
                 }}
             />
             <Screen
                 name='listaDeHerois'
                 component={ListaDeHerois}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS
                 }}
             />
         </Navigator>

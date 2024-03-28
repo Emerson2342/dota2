@@ -3,10 +3,40 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "rgba(0,0,0,0.5)",
+        backgroundColor: "rgba(0,0,0,0.8)",
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    carregandoContent: {
+        backgroundColor: "#000000",
+        width: '85%',
+        // height: 190,
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: "rgb(0,255, 255)",
+        borderRadius: 5,
+        padding: 10
+    },
+    carregando: {
+        color: "#fff",
+        fontSize: 20,
+        textAlign: 'center',
+        fontWeight: 'bold',
 
+    },
+    buttonModal: {
+        marginTop: 15,
+        backgroundColor: "rgb(0,255, 255)",
+        width: '70%',
+        alignSelf: "center",
+        padding: 5,
+        borderRadius: 5
+    },
+    textButtonModal: {
+        fontSize: 15,
+        textAlign: 'center',
+        fontWeight: "bold",
+        color: "#000"
     },
     modal: {
         backgroundColor: "#000",
@@ -14,19 +44,18 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
         borderColor: "green",
-
     },
     modalContent: {
         top: 20,
     },
     button: {
-        top: 40,
+        top: 65,
         alignSelf: "center",
         alignItems: "center",
         padding: 5,
         backgroundColor: "green",
         borderRadius: 7,
-        width: "50%"
+        width: "75%",
     },
     textButton: {
         color: "#000",
@@ -48,13 +77,12 @@ export const styles = StyleSheet.create({
     },
     radiantContainer: {
         flexDirection: "row",
-
     },
     title: {
         fontSize: 30,
         color: "#fff",
         fontStyle: "italic",
-        fontWeight: "bold"
+        fontWeight: "bold",
     },
     cabecalho: {
         flexDirection: "row",
@@ -62,6 +90,12 @@ export const styles = StyleSheet.create({
         width: "80%",
         alignSelf: "flex-end",
         padding: 5
+    },
+    cabecalhoText: {
+        color: "#fff",
+        textAlign: "center",
+        fontWeight: "bold",
+        alignSelf: "flex-end"
     },
     imageHero: {
         width: 45,
