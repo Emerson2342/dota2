@@ -1,30 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput, Image, FlatList, Modal } from 'react-native';
 import { usePlayerContext } from '../../components/Context/useDatasContex';
-import { RecentMatches } from './props';
+import { PlayerModel, RecentMatches, WL } from './props';
 import { fetchGetPlayerData } from '../../APIs/getPlayer';
 import { fetchGetRecentMatchesData } from '../../APIs/getRecentMatches';
 import { HeroesList } from '../../components/Heroes/heroesList';
 import { styles } from './styles';
-import { PICTURE_HERO_BASE_URL } from '../../constants/player';
+import { PICTURE_HERO_BASE_URL, PLAYER_PROFILE_API_BASE_URL } from '../../constants/player';
 import { Medal } from '../../components/Medals/MedalsList';
+import loadingAnimation from '../../components/AnimatedButtons/loading.json'
 
 import { ModalDestacarPartida } from '../../components/Modals/ModalDestacarPartida';
 
 import { useQuery } from '@apollo/client';
 import { GET_PLAYER_DATA } from '../../graphql/queries';
+import { MotiView } from 'moti';
+import LottieView from 'lottie-react-native';
 
 export function BuscarPlayers({ navigation }: any) {
 
-    const { winrate, setWinrate, playerData, setPlayerData, recentMatches, setRecentMatches, playerId, setPlayerId, idAtual, setIdAtual } = usePlayerContext();
+    const [searchId, setSearchId] = useState('');
+    const [playerId, setPlayerId] = useState('');
+    const [player, setPlayer] = useState<PlayerModel | null>(null);
+    const [recentMatches, setRecentMatches] = useState([]);
+    const [winrate, setWinrate] = useState<WL | null>(null)
+    const playerIdLong = parseInt(playerId, 10);
+    const [isLoading, setIsLoading] = useState(false)
 
-
-    const playerIdLong = parseInt(idAtual, 10);
     const { data, loading, error } = useQuery(GET_PLAYER_DATA,
         { variables: { steamAccountId: playerIdLong } });
-    const [novoId, setNovoId] = useState('')
+
     const heroesList = HeroesList();
-    const medalRank = playerData?.rank_tier;
+
+    const medalRank = player?.rank_tier;
     const [modalVisible, setModalVisible] = useState(false);
     const [matchIndex, setMatchIndex] = useState({
         id: '',
@@ -44,25 +52,40 @@ export function BuscarPlayers({ navigation }: any) {
         hora: ''
     })
 
+
     function navToHome() {
         navigation.navigate("home")
     }
-    const handleBuscar = async () => {
-        try {
-            const playerDataResponse = await fetchGetPlayerData(idAtual);
-            const playerData = playerDataResponse ?? null;
-            setPlayerData(playerData);
-            //
-            const recentMatchesDataResponse = await fetchGetRecentMatchesData(idAtual);
-            const recentMatchesData = recentMatchesDataResponse ?? [];
-            setRecentMatches(recentMatchesData);
-            //
-            setWinrate(data)
+    const getSearchPlayer = async (url: any) => {
+        setIsLoading(true);
+        const response = await fetch(url);
+        const data = await response.json();
+        setPlayer(data);
+        setIsLoading(false)
+    }
 
-        } catch (error) {
-            console.error(`Erro ao buscar dados: `, error);
-        }
-    };
+    const getRecentMatches = async (url: any) => {
+        const response = await fetch(url);
+        const data = await response.json();
+        setRecentMatches(data)
+    }
+    useEffect(() => {
+        const searchPlayer = `${PLAYER_PROFILE_API_BASE_URL}${playerId}`;
+        getSearchPlayer(searchPlayer);
+
+        const recentMatches = `${PLAYER_PROFILE_API_BASE_URL}${playerId}/recentMatches`;
+        getRecentMatches(recentMatches);
+
+        console.log(searchPlayer)
+        console.log("ID:", playerId)
+        console.log("últimas Partidas", recentMatches)
+
+    }, [playerId])
+
+
+
+    console.log("Player ID:", playerId)
+    console.log(winrate?.player.matchCount)
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
 
@@ -103,60 +126,58 @@ export function BuscarPlayers({ navigation }: any) {
             PICTURE_HERO_BASE_URL + nomeHero + ".png";
 
         return (
-            <TouchableOpacity
-                onPress={() => {
-                    setMatchIndex({
-                        id: item.match_id,
-                        data: startDate.toLocaleDateString('pt-BR'),
-                        modo: lobbyType[item.lobby_type as keyof typeof lobbyType],
-                        heroi: item.hero_id,
-                        kills: item.kills,
-                        deaths: item.deaths,
-                        assists: item.assists,
-                        xp: item.xp_per_min,
-                        gold: item.gold_per_min,
-                        heroDamage: item.hero_damage,
-                        towerDamage: item.tower_damage,
-                        lhs: item.last_hits,
-                        resultadoFinal: resultadoFinal,
-                        duracao: formattedDuration,
-                        hora: formattedTime
-                    });
-                    setModalVisible(true)
-                }}
-                key={index}
-                style={styles.listContainer}
+            <MotiView
+                from={{ translateX: 300, opacity: 1 }}
+                animate={{ translateX: 0, opacity: 1 }}
+                transition={{ type: 'timing', duration: 400 * index }}
             >
-                <Image
-                    style={resultadoFinal ? styles.imageHero : ([styles.imageHero, { borderColor: 'rgb(255,0,0)' }])}
-                    source={{
-                        uri: imgSource
+                <TouchableOpacity
+                    onPress={() => {
+                        setMatchIndex({
+                            id: item.match_id,
+                            data: startDate.toLocaleDateString('pt-BR'),
+                            modo: lobbyType[item.lobby_type as keyof typeof lobbyType],
+                            heroi: item.hero_id,
+                            kills: item.kills,
+                            deaths: item.deaths,
+                            assists: item.assists,
+                            xp: item.xp_per_min,
+                            gold: item.gold_per_min,
+                            heroDamage: item.hero_damage,
+                            towerDamage: item.tower_damage,
+                            lhs: item.last_hits,
+                            resultadoFinal: resultadoFinal,
+                            duracao: formattedDuration,
+                            hora: formattedTime
+                        });
+                        setModalVisible(true)
                     }}
-                />
-                <Text style={[styles.textList, { width: "35%" }]}>
-                    {startDate.toLocaleDateString('pt-BR')}-{formattedTime}
-                </Text>
-                <Text style={[styles.textList, { color: "orange", width: "15%" }]}>{lobbyType[item.lobby_type as keyof typeof lobbyType]}</Text>
-                <Text style={[styles.textList, { width: "20%" }]}>{formattedDuration}</Text>
-                <Text style={[styles.textList, { color: "green", width: "5%" }]}>{item.kills}</Text>
-                <Text style={[styles.textList, { color: "red", width: "5%" }]}>{item.deaths}</Text>
-                <Text style={[styles.textList, { color: "yellow", width: "5%" }]}>{item.assists}</Text>
-            </TouchableOpacity>
+                    key={index}
+                    style={styles.listContainer}
+                >
+                    <Image
+                        style={resultadoFinal ? styles.imageHero : ([styles.imageHero, { borderColor: 'rgb(255,0,0)' }])}
+                        source={{
+                            uri: imgSource
+                        }}
+                    />
+                    <Text style={[styles.textList, { width: "35%" }]}>
+                        {startDate.toLocaleDateString('pt-BR')}-{formattedTime}
+                    </Text>
+                    <Text style={[styles.textList, { color: "orange", width: "15%" }]}>{lobbyType[item.lobby_type as keyof typeof lobbyType]}</Text>
+                    <Text style={[styles.textList, { width: "20%" }]}>{formattedDuration}</Text>
+                    <Text style={[styles.textList, { color: "green", width: "5%" }]}>{item.kills}</Text>
+                    <Text style={[styles.textList, { color: "red", width: "5%" }]}>{item.deaths}</Text>
+                    <Text style={[styles.textList, { color: "yellow", width: "5%" }]}>{item.assists}</Text>
+                </TouchableOpacity>
+            </MotiView>
         );
     };
 
     const buscarId = () => {
-        setIdAtual(novoId)
-        setNovoId('')
-        setPlayerId(idAtual)
-        handleBuscar();
-        console.log("Player ID:", playerId)
-        console.log("Id Atual:", idAtual)
-        console.log("-------------------")
+        setPlayerId(searchId)
+        setSearchId('')
     }
-
-
-
 
     return (
         <View style={styles.container}>
@@ -171,93 +192,107 @@ export function BuscarPlayers({ navigation }: any) {
                     keyboardType='numeric'
                     style={styles.input}
                     placeholder='Digite o ID do jogador'
-                    onChangeText={(text) => setIdAtual(text)}
-                    value={idAtual}
+                    onChangeText={(text) => setSearchId(text)}
+                    value={searchId}
+                    onSubmitEditing={buscarId}
                 />
 
                 <TouchableOpacity
-                    onPress={() => buscarId()}
+                    onPress={buscarId}
                     style={styles.buttonBuscar}>
                     <Text
                         style={styles.buscarText}
                     >Buscar</Text>
                 </TouchableOpacity>
             </View>
-            <View
-                style={styles.jogadorInfo}
-            >
-                <View style={styles.profile}>
-                    <View
-                        style={{ width: "30%", alignItems: "center" }}
-                    >
-                        <Image
-                            style={styles.image}
-                            source={{
-                                uri: playerData?.profile.avatarfull
-                            }}
-                            onError={(error) => console.error("Erro ao carregar a imgae: ", error)}
-                        />
-
-                    </View>
-                    <View
-                        style={{ width: "60%" }}
-                    >
+            {isLoading && <LottieView
+                source={loadingAnimation}
+                loop={true}
+                autoPlay={true}
+                style={{ top: 300, alignSelf: 'center', width: 150, height: 100 }}
+            />}
+            {!isLoading && player && player.profile && player !== null && player !== undefined ? (
+                <View
+                    style={styles.jogadorInfo}
+                >
+                    <View style={styles.profile}>
                         <View
-                            style={styles.medals}>
+                            style={{ width: "30%", alignItems: "center" }}
+                        >
                             <Image
-                                style={styles.imageMedal}
+                                style={styles.image}
                                 source={{
-                                    uri: `${Medal(medalRank)}`
+                                    uri: player?.profile.avatarfull
                                 }}
+                                onError={(error) => console.error("Erro ao carregar a imgae: ", error)}
                             />
+                        </View>
+                        <View
+                            style={{ width: "60%" }}
+                        >
+                            <View
+                                style={styles.medals}>
+                                <Image
+                                    style={styles.imageMedal}
+                                    source={{
+                                        uri: `${Medal(medalRank)}`
+                                    }}
+                                />
 
-                            <Text style={styles.textRank}>{playerData?.leaderboard_rank}</Text>
-                            <View style={{ justifyContent: "center", width: "75%" }}>
-                                <Text style={styles.nomeJogador}>{playerData?.profile.personaname} </Text>
-                                <Text style={styles.title}> Vitórias: {winrate?.player.winCount}</Text>
-                                <Text style={styles.title}> Partidas: {winrate?.player.matchCount}</Text>
+                                <Text style={styles.textRank}>{player?.leaderboard_rank}</Text>
+                                <View style={{ justifyContent: "center", width: "75%" }}>
+                                    <Text style={styles.nomeJogador}>{player?.profile.personaname} </Text>
+                                    <Text style={styles.title}> Vitórias: {data?.player.winCount}</Text>
+                                    <Text style={styles.title}> Partidas: {data?.player.matchCount}</Text>
 
-                                <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                                    <View style={{ flexDirection: "row", justifyContent: "center" }}>
 
-                                    <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>id: </Text>
+                                        <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>id: </Text>
 
-                                    <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>{playerId}</Text>
+                                        <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>{playerId}</Text>
+                                    </View>
                                 </View>
                             </View>
                         </View>
                     </View>
-                </View>
 
-                <View style={styles.flatListContainer}>
+                    <View style={styles.flatListContainer}>
 
-                    {recentMatches ? (<><View style={styles.listTitle}>
-                        <Text style={[styles.textTitle, { width: "10%", fontWeight: 'bold', color: "#fff" }]}>Herói</Text>
-                        <Text style={[styles.textTitle, { width: "40%", fontWeight: 'bold', color: "#fff" }]}>Data</Text>
-                        <Text style={[styles.textTitle, { width: "17%", fontWeight: 'bold', color: "#fff" }]}>Modo</Text>
-                        <Text style={[styles.textTitle, { width: "25%", fontWeight: 'bold', color: "#fff" }]}>Duração</Text>
-                        <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>K</Text>
-                        <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>D</Text>
-                        <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>A</Text>
-                    </View><FlatList
-                            data={recentMatches}
-                            renderItem={renderItem}
-                            keyExtractor={(item) => item.match_id.toString()} /></>) :
-                        (<View
-                            style={styles.carregandoContent}
-                        ><Text
-                            style={styles.carregando}
-                        >Erro ao carregar as últimas partidas!</Text></View>)}
+                        {recentMatches ? (<><View style={styles.listTitle}>
+                            <Text style={[styles.textTitle, { width: "10%", fontWeight: 'bold', color: "#fff" }]}>Herói</Text>
+                            <Text style={[styles.textTitle, { width: "40%", fontWeight: 'bold', color: "#fff" }]}>Data</Text>
+                            <Text style={[styles.textTitle, { width: "17%", fontWeight: 'bold', color: "#fff" }]}>Modo</Text>
+                            <Text style={[styles.textTitle, { width: "25%", fontWeight: 'bold', color: "#fff" }]}>Duração</Text>
+                            <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>K</Text>
+                            <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>D</Text>
+                            <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>A</Text>
+                        </View><FlatList
+                                data={recentMatches}
+                                renderItem={renderItem}
+                                keyExtractor={(item) => item.match_id.toString()} /></>) :
+                            (<View
+                                style={styles.carregandoContent}
+                            ><Text
+                                style={styles.carregando}
+                            >Erro ao carregar as últimas partidas!</Text></View>)}
+                    </View>
+                </View>) : (!isLoading ?
+                    <Text
+                        style={styles.textTitle}
+                    >Nenhum Jogador Encontrado</Text> : <></>
+            )}
 
-                </View>
-            </View>
-
-
-            <TouchableOpacity
-                onPress={() => navToHome()}
-                style={styles.buttonVoltar}
+            <View
+                style={{ flex: 1, width: '85%', marginBottom: 20, justifyContent: 'flex-end' }}
             >
-                <Text style={[styles.text, { color: "#000" }]}>Voltar</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonVoltar}
+                    onPress={() => navToHome()}
+
+                >
+                    <Text style={[styles.text, { color: "#000" }]}>Voltar</Text>
+                </TouchableOpacity>
+            </View>
             <Modal
                 visible={modalVisible}
                 transparent={true}
@@ -267,7 +302,7 @@ export function BuscarPlayers({ navigation }: any) {
                     handleClose={() => setModalVisible(false)}
                     id={matchIndex.id}
                     resultadoFinal={matchIndex.resultadoFinal}
-                    playerId={playerId}
+                    playerId={playerId.toString()}
 
                 />
             </Modal>

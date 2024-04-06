@@ -32,7 +32,6 @@ export interface WL {
         winCount: number;
         matchCount: number;
     }
-
 }
 
 export interface Heroes {
@@ -44,7 +43,6 @@ export interface Heroes {
     roles: [
         string, string, string
     ],
-
 }
 
 export interface MatchDetailsModel {

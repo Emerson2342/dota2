@@ -6,8 +6,9 @@ import { HeroesList } from '../Heroes/heroesList';
 import { MatchDetailsModel } from '../../screens/BuscarPlayers/props';
 import { fetchGetMatchDetailsData } from '../../APIs/getDetailsMatch';
 import { PICTURE_HERO_BASE_URL } from '../../constants/player';
-import { usePlayerContext } from '../Context/useDatasContex';
 import { Medal } from '../Medals/MedalsList';
+import LottieView from 'lottie-react-native';
+import loadingAnimation from '../AnimatedButtons/loading.json'
 const heroesList = HeroesList();
 
 export function ModalDestacarPartida(
@@ -17,7 +18,7 @@ export function ModalDestacarPartida(
             handleClose(): void, id: string, resultadoFinal: boolean, playerId: string
 
         }) {
-    const { idAtual } = usePlayerContext();
+
 
     const [matchDetails, setMatchDetails] = useState<MatchDetailsModel | null>(null);
     const [loading, setLoading] = useState(true);
@@ -199,13 +200,16 @@ export function ModalDestacarPartida(
 
     return (
         <View style={styles.container}>
-
             {loading ? (<View
                 style={styles.carregandoContent}
             >
-                <Text
-                    style={styles.carregando}
-                >Carregando dados da partida...</Text>
+                <LottieView
+                    source={loadingAnimation}
+                    loop={true}
+                    autoPlay={true}
+                    style={{ alignSelf: 'center', width: 90, height: 90 }}
+                />
+
                 <TouchableOpacity
                     onPress={() => handleClose()}
                     style={styles.buttonModal}>

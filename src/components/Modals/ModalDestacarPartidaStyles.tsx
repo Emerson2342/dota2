@@ -8,13 +8,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     carregandoContent: {
-        backgroundColor: "#000000",
         width: '85%',
         justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: "rgb(0,255, 255)",
-        borderRadius: 5,
-        padding: 10
     },
     carregando: {
         color: "#fff",
@@ -23,7 +18,7 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     buttonModal: {
-        marginTop: 15,
+        top: 250,
         backgroundColor: "rgb(0,255, 255)",
         width: '70%',
         alignSelf: "center",

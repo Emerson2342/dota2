@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity, } from 'react-native';
 import Logo from "../../images/dota2Icon.png"
 import { styles } from './styles';
 import { Heroes } from '../BuscarPlayers/props';
-import axios from 'axios';
+import { MotiView } from 'moti';
 
 
 export function Home({ navigation }: any) {
@@ -27,21 +27,33 @@ export function Home({ navigation }: any) {
 
     return (
         <View style={styles.container}>
-            <Image
-                style={{ position: "absolute" }}
-                source={
-                    require('../../images/splash.jpg')
-                }
-            />
+            <MotiView
+                style={{ width: '100%', }}
+                from={{ translateX: -200, opacity: 1 }}
+                animate={{ translateX: 0, opacity: 1 }}
+                transition={{ type: 'spring', duration: 5000 }}
+            >
+                <Image
+                    source={
+                        require('../../images/splash.jpg')
+                    }
+                />
+            </MotiView>
             <View
                 style={styles.buttonContainer}
+            ><MotiView
+                style={styles.button}
+                from={{ translateY: -200, opacity: 1 }}
+                animate={{ translateY: 0, opacity: 1 }}
+                transition={{ type: 'spring', duration: 5000 }}
             >
-                <TouchableOpacity
-                    onPress={navToPlayers}
-                    style={styles.button}
-                >
-                    <Text style={styles.textButton}> Procurar Players</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={navToPlayers}
+
+                    >
+                        <Text style={styles.textButton}> Procurar Players</Text>
+                    </TouchableOpacity>
+                </MotiView>
                 {/*  <TouchableOpacity
                     onPress={navToProPlayes}
                     style={styles.button}
@@ -54,12 +66,18 @@ export function Home({ navigation }: any) {
                 >
                     <Text style={styles.textButton}>Heróis Mais Jogados</Text>
                 </TouchableOpacity> */}
-                <TouchableOpacity
-                    onPress={navToListaDeHerois}
+                <MotiView
                     style={styles.button}
+                    from={{ translateY: -200, opacity: 0 }}
+                    animate={{ translateY: 0, opacity: 1 }}
+                    transition={{ type: 'spring', duration: 3000 }}
                 >
-                    <Text style={styles.textButton}>Lista de Heróis</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={navToListaDeHerois}
+                    >
+                        <Text style={styles.textButton}>Lista de Heróis</Text>
+                    </TouchableOpacity>
+                </MotiView>
                 {/*   <TouchableOpacity
                     onPressIn={navToPartidasPorId}
                     style={styles.button}
@@ -67,11 +85,7 @@ export function Home({ navigation }: any) {
                     <Text style={styles.textButton}>Buscar Partidas</Text>
                 </TouchableOpacity> */}
 
-
-
             </View>
-
-
         </View >
     );
 }

@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
         resizeMode: "contain"
     },
     buttonContainer: {
-        top: 350,
         flexDirection: "row",
         width: "100%",
         justifyContent: "space-around"

@@ -1,3 +1,4 @@
+import 'react-native-reanimated';
 import 'react-native-gesture-handler';
 import { StyleSheet, StatusBar, View } from 'react-native';
 import { Routes } from './src/routes';

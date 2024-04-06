@@ -93,7 +93,7 @@ export const styles = StyleSheet.create({
         borderColor: "rgb(0,255, 0)"
     },
     flatListContainer: {
-        height: 500,
+        height: 530,
         overflow: "hidden",
         padding: 5,
         width: "95%"
@@ -127,14 +127,12 @@ export const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     buttonVoltar: {
-        top: 30,
-        width: "85%",
-        marginTop: 15,
-        alignItems: "center",
+
+        alignItems: 'center',
         backgroundColor: 'red',
         borderRadius: 5,
         padding: 5,
-        alignSelf: 'center',
+
     },
     carregandoContent: {
         top: 150,
