@@ -1,5 +1,6 @@
 
-![Home](https://github.com/Emerson2342/dota2/blob/main/assets/gifJogador.gif)
+![Jogador](https://github.com/Emerson2342/dota2/blob/main/assets/GifJogador.gif)
+![Heróis](https://github.com/Emerson2342/dota2/blob/main/assets/GifHeroes.gif)
 ![Home](https://github.com/Emerson2342/dota2/blob/main/assets/home.jpg)
 ![Detalhe Jogador](https://github.com/Emerson2342/dota2/blob/main/assets/player.jpg)
 ![Carregando Dados](https://github.com/Emerson2342/dota2/blob/main/assets/carregando.jpg)
