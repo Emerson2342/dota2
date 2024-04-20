@@ -26,10 +26,18 @@ export interface RecentMatches {
     hero_healing: number;
     lobby_type: number;
 }
+export interface HeroInfo {
+    heroId: number;
+    winCount: number;
+    lossCount: number;
+}
+
 
 export interface WL {
     player: {
-        winCount: number;
+        heroId: number,
+        winCount: number,
+        lossCount: number
         matchCount: number;
     }
 }
@@ -97,6 +105,9 @@ interface Player {
 
 
 export interface PlayerDetails {
+    id: number;
+    localized_name: string;
+    resultado: string;
     match_id: number;
     account_id: number;
     win: number;

@@ -15,6 +15,15 @@ export function Home({ navigation }: any) {
     }
 
     console.log(keyCounter)
+    console.log(homeFocus)
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            resetAnimation();
+            homeFocus ? setHomeFocus(true) : setHomeFocus(false);
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     function navToPlayers() {
         setHomeFocus(false)
@@ -34,12 +43,14 @@ export function Home({ navigation }: any) {
 
     return (
         <View style={styles.container}>
+
             <Image
                 style={{ position: 'absolute' }}
                 source={
-                    require('../../images/wallpaper.jpg')
+                    require('../../images/home.jpg')
                 }
             />
+
             <  MotiView
                 key={keyCounter}
                 from={{ translateY: homeFocus ? -500 : 0, opacity: 1 }}

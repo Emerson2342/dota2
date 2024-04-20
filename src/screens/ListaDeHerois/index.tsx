@@ -38,12 +38,33 @@ export function ListaDeHerois({ navigation }: any) {
     }
 
     const listaDeHerois = HeroesList();
-    const columns = 6;
+    const columns = 2;
 
 
     const renderItem = ({ item }: { item: any }) => {
+
+        let atributo;
+
+
+        switch (item.primary_attr) {
+            case "all":
+                atributo = "Universal";
+                break;
+            case "str":
+                atributo = "Froça";
+                break;
+            case "agi":
+                atributo = "Agilidade";
+                break;
+            case "int":
+                atributo = "Inteligência";
+                break;
+        }
+
+
         return (
             <TouchableOpacity
+                style={styles.listaHeroi}
                 onPress={() => {
                     setModalVisible(true);
                     setHeroIndex({
@@ -57,7 +78,6 @@ export function ListaDeHerois({ navigation }: any) {
                     })
                 }}
             >
-
                 <Image
                     style={styles.image}
                     source={{
@@ -65,14 +85,44 @@ export function ListaDeHerois({ navigation }: any) {
                     }}
                     onError={(error) => console.error("Erro ao carregar a imgae: ", error)}
                 />
+                <View
+                    style={{ alignSelf: 'center' }}
+                >
+                    <Text
+                        style={{ color: "yellow", textAlign: 'center', fontSize: 15, fontWeight: 'bold' }}
+                    >{item.localized_name}</Text>
+                    <Text
+                        style={{ color: '#fff', textAlign: 'center' }}
+                    >{atributo}</Text>
+                </View>
+                <View></View>
             </TouchableOpacity>
         )
     }
 
     return (
         <View style={styles.container}>
+            <Image
+                style={{ position: 'absolute' }}
+                source={
+                    require('../../images/player.jpg')
+                }
+            />
             <View
-                style={{ height: 700 }}>
+                style={styles.titleContainer}
+            >
+                <Text
+                    style={[styles.titleText, { color: "#fff" }]}>
+                    H
+                </Text>
+                <Text
+                    style={styles.titleText}>
+                    eróis
+                </Text>
+            </View>
+            <View
+                style={{ height: 550, paddingTop: 15 }}
+            >
                 <FlatList
                     data={listaDeHerois}
                     renderItem={renderItem}
@@ -86,8 +136,11 @@ export function ListaDeHerois({ navigation }: any) {
                 onPress={() => navToHome()}
             >
                 <Text
+                    style={[styles.text, { color: "#fff" }]}
+                >V</Text>
+                <Text
                     style={styles.text}
-                >Voltar</Text>
+                >oltar</Text>
             </TouchableOpacity>
             <Modal
                 visible={modalVisible}
@@ -105,7 +158,7 @@ export function ListaDeHerois({ navigation }: any) {
 
             </Modal>
 
-        </View>
+        </View >
 
     );
 }

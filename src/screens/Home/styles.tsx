@@ -3,8 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        //  backgroundColor: "#000",
+
     },
     logoContainer: {
         padding: 50
@@ -15,7 +14,6 @@ export const styles = StyleSheet.create({
         resizeMode: "contain"
     },
     buttonContainer: {
-        //  flex: 1,
         width: "55%",
         backgroundColor: "rgba(0,0,0,0.8)",
         alignSelf: "flex-end",

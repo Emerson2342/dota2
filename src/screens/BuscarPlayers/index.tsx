@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity, TextInput, Image, FlatList, Modal } from 'react-native';
+import { Text, View, TouchableOpacity, TextInput, Image, FlatList, Modal, Keyboard } from 'react-native';
 import { usePlayerContext } from '../../context/useDatasContex';
-import { PlayerModel, RecentMatches, WL } from './props';
+import { PlayerModel, RecentMatches, WL, HeroInfo, PlayerDetails } from './props';
 import { fetchGetPlayerData } from '../../APIs/getPlayer';
 import { fetchGetRecentMatchesData } from '../../APIs/getRecentMatches';
 import { HeroesList } from '../../components/Heroes/heroesList';
@@ -24,9 +24,9 @@ export function BuscarPlayers({ navigation }: any) {
     const [playerId, setPlayerId] = useState('');
     const [player, setPlayer] = useState<PlayerModel | null>(null);
     const [recentMatches, setRecentMatches] = useState([]);
-    const [winrate, setWinrate] = useState<WL | null>(null)
+
     const playerIdLong = parseInt(playerId, 10);
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
     const { data, loading, error } = useQuery(GET_PLAYER_DATA,
         { variables: { steamAccountId: playerIdLong } });
@@ -78,6 +78,7 @@ export function BuscarPlayers({ navigation }: any) {
         const data = await response.json();
         setRecentMatches(data)
     }
+
     useEffect(() => {
         const searchPlayer = `${PLAYER_PROFILE_API_BASE_URL}${playerId}`;
         getSearchPlayer(searchPlayer);
@@ -92,9 +93,6 @@ export function BuscarPlayers({ navigation }: any) {
     }, [playerId])
 
 
-
-    console.log("Player ID:", playerId)
-    console.log(winrate?.player.matchCount)
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
 
@@ -140,6 +138,7 @@ export function BuscarPlayers({ navigation }: any) {
                 animate={{ translateX: 0, opacity: 1 }}
                 transition={{ type: 'timing', duration: 400 * index }}
             >
+
                 <TouchableOpacity
                     onPress={() => {
                         setMatchIndex({
@@ -183,20 +182,37 @@ export function BuscarPlayers({ navigation }: any) {
         );
     };
 
+
+
+
     const buscarId = () => {
-        setPlayerId(searchId)
-        setSearchId('')
+        setPlayerId(searchId);
+        setSearchId('');
+        Keyboard.dismiss();
     }
 
     return (
         <View style={styles.container}>
             <Image
-                style={{ position: 'absolute', opacity: 0.9 }}
+                style={{ position: 'absolute' }}
                 source={
-                    require('../../images/playerWallpaper.jpg')
+                    require('../../images/orc.jpg')
                 }
             />
+            <View
+                style={styles.titleContainer}
+            >
+                <Text
+                    style={[styles.titleText, { color: "#fff" }]}>
+                    E
+                </Text>
+                <Text
+                    style={styles.titleText}>
+                    statísticas do jogador
+                </Text>
+            </View>
             <View style={styles.inputContainer}>
+
                 <TextInput
                     keyboardType='numeric'
                     style={styles.input}
@@ -210,8 +226,11 @@ export function BuscarPlayers({ navigation }: any) {
                     onPress={buscarId}
                     style={styles.buttonBuscar}>
                     <Text
+                        style={[styles.buscarText, { color: "#fff" }]}
+                    >B</Text>
+                    <Text
                         style={styles.buscarText}
-                    >Buscar</Text>
+                    >uscar</Text>
                 </TouchableOpacity>
             </View>
             {isLoading && <LottieView
@@ -222,55 +241,60 @@ export function BuscarPlayers({ navigation }: any) {
             />}
             {!isLoading && player && player.profile && player !== null && player !== undefined ? (
                 <View
-                    style={styles.jogadorInfo}
                 >
-                    < MotiView style={styles.profile}
+                    < MotiView
                         from={{ translateY: -100, opacity: 1 }}
                         animate={{ translateY: 0, opacity: 1 }}
                         transition={{ type: 'spring', duration: 9000 }}
                     >
                         <View
-                            style={{ width: "30%", alignItems: "center" }}
-                        >
-                            <Image
-                                style={styles.image}
-                                source={{
-                                    uri: player?.profile.avatarfull
-                                }}
-                                onError={(error) => console.error("Erro ao carregar a imgae: ", error)}
-                            />
-                        </View>
-                        <View
-                            style={{ width: "60%" }}
+                            style={styles.profile}
                         >
                             <View
-                                style={styles.medals}>
+                                style={{ width: "30%", alignItems: "center" }}
+                            >
                                 <Image
-                                    style={styles.imageMedal}
+                                    style={styles.image}
                                     source={{
-                                        uri: `${Medal(medalRank)}`
+                                        uri: player?.profile.avatarfull
                                     }}
+                                    onError={(error) => console.error("Erro ao carregar a imgae: ", error)}
                                 />
+                            </View>
 
-                                <Text style={styles.textRank}>{player?.leaderboard_rank}</Text>
-                                <View style={{ justifyContent: "center", width: "75%" }}>
-                                    <Text style={styles.nomeJogador}>{player?.profile.personaname} </Text>
-                                    <Text style={styles.title}> Vitórias: {data?.player.winCount}</Text>
-                                    <Text style={styles.title}> Partidas: {data?.player.matchCount}</Text>
+                            <View
+                                style={{ width: "60%" }}
+                            >
+                                <View
+                                    style={styles.medals}>
+                                    <Image
+                                        style={styles.imageMedal}
+                                        source={{
+                                            uri: `${Medal(medalRank)}`
+                                        }}
+                                    />
 
-                                    <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                                    <Text style={styles.textRank}>{player?.leaderboard_rank}</Text>
+                                    <View style={{ justifyContent: "center", width: "75%" }}>
+                                        <Text style={styles.nomeJogador}>{player?.profile.personaname} </Text>
+                                        <Text style={styles.title}> Vitórias: {data?.player.winCount}</Text>
+                                        <Text style={styles.title}> Partidas: {data?.player.matchCount}</Text>
 
-                                        <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>id: </Text>
 
-                                        <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>{playerId}</Text>
+                                        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+
+                                            <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>id: </Text>
+
+                                            <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>{playerId}</Text>
+                                        </View>
                                     </View>
                                 </View>
                             </View>
                         </View>
+
                     </MotiView>
 
-                    <View style={styles.flatListContainer}>
-
+                    <View style={styles.flatListContainer} >
                         {recentMatches ? (<><View style={styles.listTitle}>
                             <Text style={[styles.textTitle, { width: "10%", fontWeight: 'bold', color: "#fff" }]}>Herói</Text>
                             <Text style={[styles.textTitle, { width: "40%", fontWeight: 'bold', color: "#fff" }]}>Data</Text>
@@ -280,9 +304,11 @@ export function BuscarPlayers({ navigation }: any) {
                             <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>D</Text>
                             <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>A</Text>
                         </View><FlatList
+
                                 data={recentMatches}
                                 renderItem={renderItem}
-                                keyExtractor={(item) => item.match_id.toString()} /></>) :
+                                keyExtractor={(item) => item.match_id.toString()} />
+                        </>) :
                             (<View
                                 style={styles.carregandoContent}
                             ><Text
@@ -302,8 +328,10 @@ export function BuscarPlayers({ navigation }: any) {
                     style={styles.buttonVoltar}
                     onPress={() => navToHome()}
                 >
-                    <Text style={styles.text}>Voltar</Text>
+                    <Text style={[styles.text, { color: "#fff" }]}>V</Text>
+                    <Text style={styles.text}>oltar</Text>
                 </TouchableOpacity>
+
             </View>
             <Modal
                 visible={modalVisible}
@@ -315,7 +343,6 @@ export function BuscarPlayers({ navigation }: any) {
                     id={matchIndex.id}
                     resultadoFinal={matchIndex.resultadoFinal}
                     playerId={playerId.toString()}
-
                 />
             </Modal>
         </View>

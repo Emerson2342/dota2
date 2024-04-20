@@ -3,16 +3,32 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000",
         alignItems: "center",
-
+    },
+    titleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: "95%",
+        padding: 10,
+        marginTop: 15,
+        borderTopColor: '#3c3c3c',
+        borderLeftColor: '#3c3c3c',
+        backgroundColor: "rgba(0,0,0,0.8)",
+        borderWidth: 5,
+    },
+    titleText: {
+        fontSize: 25,
+        color: "yellow",
+        fontStyle: 'italic',
+        fontWeight: "bold",
+        textAlign: 'center'
     },
     inputContainer: {
         flexDirection: "row",
         justifyContent: "space-around",
-        width: '95%',
-        margin: 20,
-        zIndex: 1
+        zIndex: 1,
+        width: "95%",
+        padding: 10
     },
     input: {
         alignItems: "center",
@@ -21,14 +37,15 @@ export const styles = StyleSheet.create({
         padding: 7,
     },
     buttonBuscar: {
-        backgroundColor: "#050a64",
+        flexDirection: 'row',
         width: "45%",
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 5,
-        borderTopColor: 'blue',
-        borderLeftColor: 'blue',
+        backgroundColor: "rgba(0,0,0,0.8)",
         borderWidth: 5,
+        borderTopColor: "#3c3c3c",
+        borderLeftColor: "#3c3c3c",
     },
     buscarText: {
         fontSize: 20,
@@ -36,17 +53,11 @@ export const styles = StyleSheet.create({
         letterSpacing: 1,
         fontWeight: "bold",
     },
-    jogadorInfo: {
-        alignItems: "center",
-    },
+
     profile: {
         flexDirection: "row",
         alignItems: 'center',
         padding: 15,
-        backgroundColor: "rgba(0,0,0,0.7)",
-        borderWidth: 5,
-        borderTopColor: "#3c3c3c",
-        borderLeftColor: "#3c3c3c",
         borderRadius: 8,
     },
     medals: {
@@ -88,12 +99,13 @@ export const styles = StyleSheet.create({
         fontSize: 10,
         fontWeight: "bold",
     },
+
     text: {
-        fontSize: 20,
+        fontSize: 25,
         color: "yellow",
         letterSpacing: 1,
         fontWeight: "bold",
-        padding: 5
+
     },
     imageHero: {
         width: 53,
@@ -104,8 +116,7 @@ export const styles = StyleSheet.create({
         borderColor: "rgb(0,255, 0)"
     },
     flatListContainer: {
-        height: 450,
-        overflow: "hidden",
+        height: 400,
         padding: 5,
         width: "95%"
     },
@@ -117,7 +128,7 @@ export const styles = StyleSheet.create({
         borderRadius: 3,
         borderWidth: 1,
         marginVertical: 3,
-        backgroundColor: "rgba(0,0,0,0.7)",
+        backgroundColor: "rgba(0,0,0,0.5)",
     },
 
     listTitle: {
@@ -137,14 +148,15 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
         fontWeight: "bold"
     },
+
     buttonVoltar: {
-        alignItems: 'center',
-        backgroundColor: '#050a64',
+        flexDirection: "row",
+        justifyContent: 'center',
         borderRadius: 5,
-        padding: 5,
-        borderTopColor: 'blue',
-        borderLeftColor: 'blue',
+        backgroundColor: "rgba(0,0,0,0.8)",
         borderWidth: 5,
+        borderTopColor: "#3c3c3c",
+        borderLeftColor: "#3c3c3c",
     },
     carregandoContent: {
         top: 150,
