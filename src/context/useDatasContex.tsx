@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PlayerModel, RecentMatches, WL } from '../../screens/BuscarPlayers/props';
+import { PlayerModel, RecentMatches, WL } from '../screens/BuscarPlayers/props';
 
 
 interface PlayerContextData {

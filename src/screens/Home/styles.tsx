@@ -15,19 +15,16 @@ export const styles = StyleSheet.create({
         resizeMode: "contain"
     },
     buttonContainer: {
-
+        //  flex: 1,
         width: "55%",
         backgroundColor: "rgba(0,0,0,0.8)",
         alignSelf: "flex-end",
-        margin: 5,
+        marginRight: 10,
         borderWidth: 5,
         borderTopColor: "#3c3c3c",
         borderLeftColor: "#3c3c3c",
         borderRadius: 8,
         padding: 5,
-        top: 75
-
-
     },
     button: {
         width: "100%",

@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         justifyContent: "space-around",
         width: '95%',
         margin: 20,
-
+        zIndex: 1
     },
     input: {
         alignItems: "center",
@@ -21,15 +21,20 @@ export const styles = StyleSheet.create({
         padding: 7,
     },
     buttonBuscar: {
-        backgroundColor: "red",
+        backgroundColor: "#050a64",
         width: "45%",
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 5,
-
+        borderTopColor: 'blue',
+        borderLeftColor: 'blue',
+        borderWidth: 5,
     },
     buscarText: {
         fontSize: 20,
+        color: "yellow",
+        letterSpacing: 1,
+        fontWeight: "bold",
     },
     jogadorInfo: {
         alignItems: "center",
@@ -37,7 +42,12 @@ export const styles = StyleSheet.create({
     profile: {
         flexDirection: "row",
         alignItems: 'center',
-        width: "93%",
+        padding: 15,
+        backgroundColor: "rgba(0,0,0,0.7)",
+        borderWidth: 5,
+        borderTopColor: "#3c3c3c",
+        borderLeftColor: "#3c3c3c",
+        borderRadius: 8,
     },
     medals: {
         flexDirection: "row",
@@ -79,10 +89,11 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     text: {
-        color: "#fff",
         fontSize: 20,
+        color: "yellow",
+        letterSpacing: 1,
         fontWeight: "bold",
-
+        padding: 5
     },
     imageHero: {
         width: 53,
@@ -93,7 +104,7 @@ export const styles = StyleSheet.create({
         borderColor: "rgb(0,255, 0)"
     },
     flatListContainer: {
-        height: 530,
+        height: 450,
         overflow: "hidden",
         padding: 5,
         width: "95%"
@@ -121,18 +132,19 @@ export const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     textTitle: {
-        color: "red",
+        color: "yellow",
         textAlign: 'center',
         alignSelf: "center",
         fontWeight: "bold"
     },
     buttonVoltar: {
-
         alignItems: 'center',
-        backgroundColor: 'red',
+        backgroundColor: '#050a64',
         borderRadius: 5,
         padding: 5,
-
+        borderTopColor: 'blue',
+        borderLeftColor: 'blue',
+        borderWidth: 5,
     },
     carregandoContent: {
         top: 150,

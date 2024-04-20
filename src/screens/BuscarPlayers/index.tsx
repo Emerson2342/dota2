@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput, Image, FlatList, Modal } from 'react-native';
-import { usePlayerContext } from '../../components/Context/useDatasContex';
+import { usePlayerContext } from '../../context/useDatasContex';
 import { PlayerModel, RecentMatches, WL } from './props';
 import { fetchGetPlayerData } from '../../APIs/getPlayer';
 import { fetchGetRecentMatchesData } from '../../APIs/getRecentMatches';
@@ -16,6 +16,7 @@ import { useQuery } from '@apollo/client';
 import { GET_PLAYER_DATA } from '../../graphql/queries';
 import { MotiView } from 'moti';
 import LottieView from 'lottie-react-native';
+import { useKeyCounter } from '../../context/useKeyCounter';
 
 export function BuscarPlayers({ navigation }: any) {
 
@@ -29,6 +30,13 @@ export function BuscarPlayers({ navigation }: any) {
 
     const { data, loading, error } = useQuery(GET_PLAYER_DATA,
         { variables: { steamAccountId: playerIdLong } });
+
+    const { keyCounter, setKeyCounter, setHomeFocus } = useKeyCounter();
+
+    function resetAnimation() {
+        setKeyCounter(keyCounter + 1);
+        setHomeFocus(true);
+    }
 
     const heroesList = HeroesList();
 
@@ -54,7 +62,8 @@ export function BuscarPlayers({ navigation }: any) {
 
 
     function navToHome() {
-        navigation.navigate("home")
+        resetAnimation()
+        navigation.goBack()
     }
     const getSearchPlayer = async (url: any) => {
         setIsLoading(true);
@@ -215,7 +224,11 @@ export function BuscarPlayers({ navigation }: any) {
                 <View
                     style={styles.jogadorInfo}
                 >
-                    <View style={styles.profile}>
+                    < MotiView style={styles.profile}
+                        from={{ translateY: -100, opacity: 1 }}
+                        animate={{ translateY: 0, opacity: 1 }}
+                        transition={{ type: 'spring', duration: 9000 }}
+                    >
                         <View
                             style={{ width: "30%", alignItems: "center" }}
                         >
@@ -254,7 +267,7 @@ export function BuscarPlayers({ navigation }: any) {
                                 </View>
                             </View>
                         </View>
-                    </View>
+                    </MotiView>
 
                     <View style={styles.flatListContainer}>
 
@@ -279,7 +292,7 @@ export function BuscarPlayers({ navigation }: any) {
                 </View>) : (!isLoading ?
                     <Text
                         style={styles.textTitle}
-                    >Nenhum Jogador Encontrado</Text> : <></>
+                    >Favor digitar um ID válido</Text> : <></>
             )}
 
             <View
@@ -288,9 +301,8 @@ export function BuscarPlayers({ navigation }: any) {
                 <TouchableOpacity
                     style={styles.buttonVoltar}
                     onPress={() => navToHome()}
-
                 >
-                    <Text style={[styles.text, { color: "#000" }]}>Voltar</Text>
+                    <Text style={styles.text}>Voltar</Text>
                 </TouchableOpacity>
             </View>
             <Modal
@@ -307,6 +319,5 @@ export function BuscarPlayers({ navigation }: any) {
                 />
             </Modal>
         </View>
-
     );
 }

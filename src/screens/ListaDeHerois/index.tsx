@@ -6,7 +6,16 @@ import { HeroesList } from '../../components/Heroes/heroesList';
 import { PICTURE_HERO_BASE_URL } from '../../constants/player';
 import { ModalDestacarHeroi } from '../../components/Modals/ModalDestacarHeroi';
 
+import { useKeyCounter } from '../../context/useKeyCounter';
+
 export function ListaDeHerois({ navigation }: any) {
+
+    const { keyCounter, setKeyCounter, setHomeFocus } = useKeyCounter();
+
+    function resetAnimation() {
+        setKeyCounter(keyCounter + 1);
+        setHomeFocus(true);
+    }
 
     const [modalVisible, setModalVisible] = useState(false);
     const [heroIndex, setHeroIndex] = useState({
@@ -24,10 +33,9 @@ export function ListaDeHerois({ navigation }: any) {
     });
 
     function navToHome() {
-        navigation.navigate("home")
+        navigation.goBack();
+        resetAnimation();
     }
-
-
 
     const listaDeHerois = HeroesList();
     const columns = 6;
