@@ -3,15 +3,8 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
+        height: "50%"
 
-    },
-    logoContainer: {
-        padding: 50
-    },
-    imageLogo: {
-        margin: 50,
-        width: 200,
-        resizeMode: "contain"
     },
     buttonContainer: {
         width: "55%",

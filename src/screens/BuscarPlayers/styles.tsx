@@ -4,17 +4,20 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
+        padding: 10
     },
-    titleContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        width: "95%",
-        padding: 10,
-        marginTop: 15,
+    topContainer: {
         borderTopColor: '#3c3c3c',
         borderLeftColor: '#3c3c3c',
         backgroundColor: "rgba(0,0,0,0.8)",
         borderWidth: 5,
+        borderRadius: 5,
+        width: '100%'
+    },
+    titleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        padding: 10,
     },
     titleText: {
         fontSize: 25,
@@ -27,8 +30,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         zIndex: 1,
-        width: "95%",
-        padding: 10
+        padding: 10,
     },
     input: {
         alignItems: "center",
@@ -38,14 +40,14 @@ export const styles = StyleSheet.create({
     },
     buttonBuscar: {
         flexDirection: 'row',
-        width: "45%",
+        width: "50%",
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 5,
-        backgroundColor: "rgba(0,0,0,0.8)",
+        backgroundColor: "#050a64",
         borderWidth: 5,
-        borderTopColor: "#3c3c3c",
-        borderLeftColor: "#3c3c3c",
+        borderTopColor: "blue",
+        borderLeftColor: "blue",
     },
     buscarText: {
         fontSize: 20,

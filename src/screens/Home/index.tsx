@@ -43,14 +43,12 @@ export function Home({ navigation }: any) {
 
     return (
         <View style={styles.container}>
-
             <Image
                 style={{ position: 'absolute' }}
                 source={
                     require('../../images/home.jpg')
                 }
             />
-
             <  MotiView
                 key={keyCounter}
                 from={{ translateY: homeFocus ? -500 : 0, opacity: 1 }}

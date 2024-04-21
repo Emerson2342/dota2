@@ -199,40 +199,51 @@ export function BuscarPlayers({ navigation }: any) {
                     require('../../images/orc.jpg')
                 }
             />
-            <View
-                style={styles.titleContainer}
+
+            <MotiView
+                style={styles.topContainer}
+                key={keyCounter}
+                from={{ translateY: -500, opacity: 1 }}
+                animate={{ translateY: 0, opacity: 1 }}
+                transition={{ type: 'spring', duration: 9000 }}
             >
-                <Text
-                    style={[styles.titleText, { color: "#fff" }]}>
-                    E
-                </Text>
-                <Text
-                    style={styles.titleText}>
-                    statísticas do jogador
-                </Text>
-            </View>
-            <View style={styles.inputContainer}>
-
-                <TextInput
-                    keyboardType='numeric'
-                    style={styles.input}
-                    placeholder='Digite o ID do jogador'
-                    onChangeText={(text) => setSearchId(text)}
-                    value={searchId}
-                    onSubmitEditing={buscarId}
-                />
-
-                <TouchableOpacity
-                    onPress={buscarId}
-                    style={styles.buttonBuscar}>
+                <View
+                    style={styles.titleContainer}
+                >
                     <Text
-                        style={[styles.buscarText, { color: "#fff" }]}
-                    >B</Text>
+                        style={[styles.titleText, { color: "#fff" }]}>
+                        E
+                    </Text>
                     <Text
-                        style={styles.buscarText}
-                    >uscar</Text>
-                </TouchableOpacity>
-            </View>
+                        style={styles.titleText}>
+                        statísticas do jogador
+                    </Text>
+                </View>
+                <View
+                    style={styles.inputContainer}
+                >
+
+                    <TextInput
+                        keyboardType='numeric'
+                        style={styles.input}
+                        placeholder='Digite o ID do jogador'
+                        onChangeText={(text) => setSearchId(text)}
+                        value={searchId}
+                        onSubmitEditing={buscarId}
+                    />
+
+                    <TouchableOpacity
+                        onPress={buscarId}
+                        style={styles.buttonBuscar}>
+                        <Text
+                            style={[styles.buscarText, { color: "#fff" }]}
+                        >B</Text>
+                        <Text
+                            style={styles.buscarText}
+                        >uscar</Text>
+                    </TouchableOpacity>
+                </View>
+            </MotiView>
             {isLoading && <LottieView
                 source={loadingAnimation}
                 loop={true}
