@@ -4,7 +4,8 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        padding: 10
+        paddingTop: 10,
+        backgroundColor: "#000"
     },
     topContainer: {
         borderTopColor: '#3c3c3c',
@@ -12,7 +13,8 @@ export const styles = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0.8)",
         borderWidth: 5,
         borderRadius: 5,
-        width: '100%'
+        width: '95%',
+        zIndex: 1
     },
     titleContainer: {
         flexDirection: 'row',
@@ -120,7 +122,8 @@ export const styles = StyleSheet.create({
     flatListContainer: {
         height: 400,
         padding: 5,
-        width: "95%"
+        width: "95%",
+        alignSelf: 'center'
     },
     listContainer: {
         flexDirection: 'row',
@@ -150,28 +153,50 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
         fontWeight: "bold"
     },
-
-    buttonVoltar: {
-        flexDirection: "row",
-        justifyContent: 'center',
-        borderRadius: 5,
+    bottomContainer: {
+        marginTop: 15,
+        width: '50%',
+        padding: 5,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
         backgroundColor: "rgba(0,0,0,0.8)",
         borderWidth: 5,
         borderTopColor: "#3c3c3c",
         borderLeftColor: "#3c3c3c",
     },
+    bottomContainer2: {
+        marginTop: 500,
+        width: '50%',
+        padding: 5,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        backgroundColor: "rgba(0,0,0,0.8)",
+        borderWidth: 5,
+        borderTopColor: "#3c3c3c",
+        borderLeftColor: "#3c3c3c",
+    },
+
+    buttonVoltar: {
+        width: "90%",
+        flexDirection: "row",
+        justifyContent: 'center',
+        borderRadius: 5,
+        backgroundColor: "#050a64",
+        borderWidth: 5,
+        borderTopColor: "blue",
+        borderLeftColor: "blue",
+    },
     carregandoContent: {
         top: 150,
-        backgroundColor: "#000000",
-        width: '85%',
-        alignSelf: 'center',
-        borderWidth: 1,
-        borderColor: "rgb(0,255, 255)",
+        backgroundColor: "rgba(0,0,0,0.8)",
+        borderWidth: 5,
+        borderTopColor: "#3c3c3c",
+        borderLeftColor: "#3c3c3c",
         borderRadius: 5,
         padding: 10,
     },
     carregando: {
-        color: "#fff",
+        color: "yellow",
         fontSize: 20,
         textAlign: 'center',
         fontWeight: 'bold',

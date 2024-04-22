@@ -27,15 +27,16 @@ export function BuscarPlayers({ navigation }: any) {
 
     const playerIdLong = parseInt(playerId, 10);
     const [isLoading, setIsLoading] = useState(false);
+    const [erroRequest, setErroRequest] = useState(true);
+    const [erroMessage, setErroMessage] = useState([]);
 
     const { data, loading, error } = useQuery(GET_PLAYER_DATA,
         { variables: { steamAccountId: playerIdLong } });
 
-    const { keyCounter, setKeyCounter, setHomeFocus } = useKeyCounter();
+    const { keyCounter, setKeyCounter, setHomeFocus, playerFocus, setPlayerFocus } = useKeyCounter();
 
     function resetAnimation() {
         setKeyCounter(keyCounter + 1);
-        setHomeFocus(true);
     }
 
     const heroesList = HeroesList();
@@ -63,7 +64,11 @@ export function BuscarPlayers({ navigation }: any) {
 
     function navToHome() {
         resetAnimation()
-        navigation.goBack()
+        setHomeFocus(true);
+        setPlayerFocus(false);
+        setTimeout(() => {
+            navigation.goBack()
+        }, 1500)
     }
     const getSearchPlayer = async (url: any) => {
         setIsLoading(true);
@@ -74,9 +79,35 @@ export function BuscarPlayers({ navigation }: any) {
     }
 
     const getRecentMatches = async (url: any) => {
-        const response = await fetch(url);
-        const data = await response.json();
-        setRecentMatches(data)
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                const errorData = await response.json();
+                setErroRequest(true);
+                console.log(errorData)
+                throw new Error('Erro ao carregar os dados: ' + response.statusText);
+
+            } else {
+                const data = await response.json();
+                setRecentMatches(data);
+                setErroRequest(false);
+            }
+
+
+        } catch (error: any) {
+            console.log('Erro na solicitação:' + error.message);
+            setErroRequest(true);
+
+        }
+    };
+
+    console.log("Solicitação: ", erroRequest);
+
+    const buscarId = () => {
+        setPlayerId(searchId);
+        setSearchId('');
+        Keyboard.dismiss();
+        console.log(erroMessage);
     }
 
     useEffect(() => {
@@ -132,11 +163,13 @@ export function BuscarPlayers({ navigation }: any) {
         let imgSource =
             PICTURE_HERO_BASE_URL + nomeHero + ".png";
 
+
+
         return (
             <MotiView
-                from={{ translateX: 300, opacity: 1 }}
-                animate={{ translateX: 0, opacity: 1 }}
-                transition={{ type: 'timing', duration: 400 * index }}
+                from={{ translateX: playerFocus ? 300 : 0, opacity: playerFocus ? 0 : 1 }}
+                animate={{ translateX: playerFocus ? 0 : 400, opacity: playerFocus ? 1 : 0 }}
+                transition={{ type: 'timing', duration: 1 * (500 * (index * 0.5)) }}
             >
 
                 <TouchableOpacity
@@ -184,28 +217,28 @@ export function BuscarPlayers({ navigation }: any) {
 
 
 
-
-    const buscarId = () => {
-        setPlayerId(searchId);
-        setSearchId('');
-        Keyboard.dismiss();
-    }
-
     return (
         <View style={styles.container}>
-            <Image
-                style={{ position: 'absolute' }}
-                source={
-                    require('../../images/orc.jpg')
-                }
-            />
+            <  MotiView
+                key={keyCounter + 900}
+                from={{ opacity: playerFocus ? 0 : 1 }}
+                animate={{ opacity: playerFocus ? 1 : 0 }}
+                transition={{ duration: 1300 }}
+                style={{ alignItems: 'center', position: 'absolute' }}
+            >
+                <Image
+                    source={
+                        require('../../images/orc.jpg')
+                    }
+                />
+            </MotiView>
 
             <MotiView
                 style={styles.topContainer}
                 key={keyCounter}
-                from={{ translateY: -500, opacity: 1 }}
-                animate={{ translateY: 0, opacity: 1 }}
-                transition={{ type: 'spring', duration: 9000 }}
+                from={{ translateY: playerFocus ? -200 : 0, opacity: 1 }}
+                animate={{ translateY: playerFocus ? 0 : -200, opacity: 1 }}
+                transition={{ type: 'spring', duration: 7000 }}
             >
                 <View
                     style={styles.titleContainer}
@@ -248,15 +281,15 @@ export function BuscarPlayers({ navigation }: any) {
                 source={loadingAnimation}
                 loop={true}
                 autoPlay={true}
-                style={{ top: 300, alignSelf: 'center', width: 150, height: 100 }}
+                style={{ top: 100, alignSelf: 'center', width: 150, height: 100 }}
             />}
             {!isLoading && player && player.profile && player !== null && player !== undefined ? (
                 <View
                 >
                     < MotiView
-                        from={{ translateY: -100, opacity: 1 }}
-                        animate={{ translateY: 0, opacity: 1 }}
-                        transition={{ type: 'spring', duration: 9000 }}
+                        from={{ translateY: playerFocus ? -100 : 0, opacity: 1 }}
+                        animate={{ translateY: playerFocus ? 0 : -300, opacity: 1 }}
+                        transition={{ type: 'spring', duration: 7000 }}
                     >
                         <View
                             style={styles.profile}
@@ -306,35 +339,53 @@ export function BuscarPlayers({ navigation }: any) {
                     </MotiView>
 
                     <View style={styles.flatListContainer} >
-                        {recentMatches ? (<><View style={styles.listTitle}>
-                            <Text style={[styles.textTitle, { width: "10%", fontWeight: 'bold', color: "#fff" }]}>Herói</Text>
-                            <Text style={[styles.textTitle, { width: "40%", fontWeight: 'bold', color: "#fff" }]}>Data</Text>
-                            <Text style={[styles.textTitle, { width: "17%", fontWeight: 'bold', color: "#fff" }]}>Modo</Text>
-                            <Text style={[styles.textTitle, { width: "25%", fontWeight: 'bold', color: "#fff" }]}>Duração</Text>
-                            <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>K</Text>
-                            <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>D</Text>
-                            <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>A</Text>
-                        </View><FlatList
+                        {erroRequest ? (<View
+                            style={styles.carregandoContent}
+                        ><Text
+                            style={styles.carregando}
+                        >Erro ao carregar os dados</Text></View>) :
+                            (<  MotiView
+                                key={keyCounter + 200}
+                                from={{ opacity: playerFocus ? 0 : 1 }}
+                                animate={{ opacity: playerFocus ? 1 : 0 }}
+                                transition={{ duration: 900 }}
 
-                                data={recentMatches}
-                                renderItem={renderItem}
-                                keyExtractor={(item) => item.match_id.toString()} />
-                        </>) :
-                            (<View
-                                style={styles.carregandoContent}
-                            ><Text
-                                style={styles.carregando}
-                            >Erro ao carregar as últimas partidas!</Text></View>)}
+                            ><View style={styles.listTitle}>
+                                    <Text style={[styles.textTitle, { width: "10%", fontWeight: 'bold', color: "#fff" }]}>Herói</Text>
+                                    <Text style={[styles.textTitle, { width: "40%", fontWeight: 'bold', color: "#fff" }]}>Data</Text>
+                                    <Text style={[styles.textTitle, { width: "17%", fontWeight: 'bold', color: "#fff" }]}>Modo</Text>
+                                    <Text style={[styles.textTitle, { width: "25%", fontWeight: 'bold', color: "#fff" }]}>Duração</Text>
+                                    <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>K</Text>
+                                    <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>D</Text>
+                                    <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>A</Text>
+                                </View><FlatList
+                                    data={recentMatches}
+                                    renderItem={renderItem}
+                                    keyExtractor={(item) => item.match_id.toString()} />
+                            </MotiView>)
+                        }
                     </View>
-                </View>) : (!isLoading ?
-                    <Text
-                        style={styles.textTitle}
-                    >Favor digitar um ID válido</Text> : <></>
+                </View>) : (isLoading ?
+                    <View
+                        style={styles.carregandoContent}
+                    ><Text
+                        style={styles.carregando}
+                    >Carregando...</Text></View> : <View
+                        style={styles.carregandoContent}
+                    ><Text
+                        style={styles.carregando}
+                    >Favor digitar um ID válido!</Text></View>
             )}
+            <MotiView
+                style={recentMatches.length == null ||
+                    recentMatches.length == 0 || erroRequest ? [styles.bottomContainer, { marginTop: 500 }] : styles.bottomContainer}
 
-            <View
-                style={{ flex: 1, width: '85%', marginBottom: 20, justifyContent: 'flex-end' }}
+                key={keyCounter + 500}
+                from={{ translateY: playerFocus ? 300 : 0, opacity: 1 }}
+                animate={{ translateY: playerFocus ? 0 : 300, opacity: 1 }}
+                transition={{ type: 'spring', duration: 9000 }}
             >
+
                 <TouchableOpacity
                     style={styles.buttonVoltar}
                     onPress={() => navToHome()}
@@ -343,7 +394,7 @@ export function BuscarPlayers({ navigation }: any) {
                     <Text style={styles.text}>oltar</Text>
                 </TouchableOpacity>
 
-            </View>
+            </MotiView>
             <Modal
                 visible={modalVisible}
                 transparent={true}

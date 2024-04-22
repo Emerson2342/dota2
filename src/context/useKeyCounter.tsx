@@ -5,6 +5,8 @@ interface KeyCounterContextType {
     setKeyCounter: React.Dispatch<React.SetStateAction<number>>;
     homeFocus: boolean;
     setHomeFocus: React.Dispatch<React.SetStateAction<boolean>>;
+    playerFocus: boolean;
+    setPlayerFocus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface KeyCounterProviderProps {
@@ -16,9 +18,10 @@ const KeyCounterContext = createContext<KeyCounterContextType | undefined>(undef
 export const KeyCounterProvider = ({ children }: KeyCounterProviderProps) => {
     const [keyCounter, setKeyCounter] = useState(0);
     const [homeFocus, setHomeFocus] = useState(true);
+    const [playerFocus, setPlayerFocus] = useState(false);
 
     return (
-        <KeyCounterContext.Provider value={{ keyCounter, setKeyCounter, homeFocus, setHomeFocus }}>
+        <KeyCounterContext.Provider value={{ keyCounter, setKeyCounter, homeFocus, setHomeFocus, playerFocus, setPlayerFocus }}>
             {children}
         </KeyCounterContext.Provider>
     );

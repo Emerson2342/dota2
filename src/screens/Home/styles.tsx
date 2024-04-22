@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: "50%"
+        height: "50%",
+        backgroundColor: "#000"
 
     },
     buttonContainer: {

@@ -8,7 +8,7 @@ import { useKeyCounter } from '../../context/useKeyCounter';
 
 
 export function Home({ navigation }: any) {
-    const { keyCounter, setKeyCounter, homeFocus, setHomeFocus } = useKeyCounter();
+    const { keyCounter, setKeyCounter, homeFocus, setHomeFocus, playerFocus, setPlayerFocus } = useKeyCounter();
 
     function resetAnimation() {
         setKeyCounter(keyCounter + 1);
@@ -27,10 +27,11 @@ export function Home({ navigation }: any) {
 
     function navToPlayers() {
         setHomeFocus(false)
+        setPlayerFocus(true)
         resetAnimation()
         setTimeout(() => {
             navigation.navigate("buscarPlayers")
-        }, 800)
+        }, 900)
     }
 
     function navToListaDeHerois() {
@@ -38,17 +39,24 @@ export function Home({ navigation }: any) {
         resetAnimation()
         setTimeout(() => {
             navigation.navigate('listaDeHerois');
-        }, 800);
+        }, 900);
     }
 
     return (
         <View style={styles.container}>
-            <Image
-                style={{ position: 'absolute' }}
-                source={
-                    require('../../images/home.jpg')
-                }
-            />
+            <  MotiView
+                key={keyCounter + 500}
+                from={{ opacity: homeFocus ? 0 : 1 }}
+                animate={{ opacity: homeFocus ? 1 : 0 }}
+                transition={{ duration: 2000 }}
+            >
+                <Image
+                    style={{ position: 'absolute' }}
+                    source={
+                        require('../../images/home.jpg')
+                    }
+                />
+            </MotiView>
             <  MotiView
                 key={keyCounter}
                 from={{ translateY: homeFocus ? -500 : 0, opacity: 1 }}
