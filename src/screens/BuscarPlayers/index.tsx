@@ -129,7 +129,7 @@ export function BuscarPlayers({ navigation }: any) {
         const formattedMinutes = String(minutes).padStart(2, '0');
         const formattedDuration = `${formattedHours}:${formattedMinutes}`;
 
-        const hoursDate = startDate.getHours() - 3;
+        const hoursDate = startDate.getHours();
         const minutesDate = startDate.getMinutes();
 
         const formattedTime = `${hoursDate.toString().padStart(2, '0')}:${minutesDate.toString().padStart(2, '0')}`;
