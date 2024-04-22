@@ -66,7 +66,7 @@ export function Home({ navigation }: any) {
             >
 
                 <View
-                    style={{ width: "50%", alignSelf: 'flex-end', }}
+                    style={{ width: "50%", left: 260 }}
                 >
                     <Image
                         style={{ resizeMode: 'contain' }}
@@ -83,8 +83,8 @@ export function Home({ navigation }: any) {
                         onPress={navToPlayers}
                         style={styles.button}
                     >
-                        <Text style={[styles.textButton, { color: '#fff' }]}> P</Text>
-                        <Text style={styles.textButton}>rocurar Players</Text>
+                        <Text style={[styles.textButton, { color: '#fff' }]}>J</Text>
+                        <Text style={styles.textButton}>ogador</Text>
                     </TouchableOpacity>
 
 

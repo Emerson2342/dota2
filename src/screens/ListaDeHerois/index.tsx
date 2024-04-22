@@ -103,9 +103,9 @@ export function ListaDeHerois({ navigation }: any) {
     return (
         <View style={styles.container}>
             <Image
-                style={{ position: 'absolute' }}
+                style={{ position: 'absolute', opacity: 0.7 }}
                 source={
-                    require('../../images/player.jpg')
+                    require('../../images/orc.jpg')
                 }
             />
             <View
@@ -132,15 +132,19 @@ export function ListaDeHerois({ navigation }: any) {
                 />
             </View>
             <TouchableOpacity
-                style={styles.button}
+                style={styles.buttonContainer}
                 onPress={() => navToHome()}
             >
-                <Text
-                    style={[styles.text, { color: "#fff" }]}
-                >V</Text>
-                <Text
-                    style={styles.text}
-                >oltar</Text>
+                <View
+                    style={styles.button}
+                >
+                    <Text
+                        style={[styles.text, { color: "#fff" }]}
+                    >V</Text>
+                    <Text
+                        style={styles.text}
+                    >oltar</Text>
+                </View>
             </TouchableOpacity>
             <Modal
                 visible={modalVisible}

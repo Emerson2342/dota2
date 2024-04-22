@@ -153,9 +153,15 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
         fontWeight: "bold"
     },
+    correnteContainer: {
+        marginTop: 20,
+        width: "100%",
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     bottomContainer: {
-        marginTop: 15,
-        width: '50%',
+        width: '60%',
         padding: 5,
         justifyContent: 'flex-end',
         alignItems: 'center',
@@ -164,18 +170,6 @@ export const styles = StyleSheet.create({
         borderTopColor: "#3c3c3c",
         borderLeftColor: "#3c3c3c",
     },
-    bottomContainer2: {
-        marginTop: 500,
-        width: '50%',
-        padding: 5,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        backgroundColor: "rgba(0,0,0,0.8)",
-        borderWidth: 5,
-        borderTopColor: "#3c3c3c",
-        borderLeftColor: "#3c3c3c",
-    },
-
     buttonVoltar: {
         width: "90%",
         flexDirection: "row",
@@ -187,11 +181,11 @@ export const styles = StyleSheet.create({
         borderLeftColor: "blue",
     },
     carregandoContent: {
-        top: 150,
-        backgroundColor: "rgba(0,0,0,0.8)",
+        backgroundColor: "#050a64",
+        marginTop: 50,
         borderWidth: 5,
-        borderTopColor: "#3c3c3c",
-        borderLeftColor: "#3c3c3c",
+        borderTopColor: "blue",
+        borderLeftColor: "blue",
         borderRadius: 5,
         padding: 10,
     },

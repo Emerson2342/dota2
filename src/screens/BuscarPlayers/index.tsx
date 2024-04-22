@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput, Image, FlatList, Modal, Keyboard } from 'react-native';
-import { usePlayerContext } from '../../context/useDatasContex';
-import { PlayerModel, RecentMatches, WL, HeroInfo, PlayerDetails } from './props';
-import { fetchGetPlayerData } from '../../APIs/getPlayer';
-import { fetchGetRecentMatchesData } from '../../APIs/getRecentMatches';
+import { PlayerModel, RecentMatches } from './props';
 import { HeroesList } from '../../components/Heroes/heroesList';
 import { styles } from './styles';
 import { PICTURE_HERO_BASE_URL, PLAYER_PROFILE_API_BASE_URL } from '../../constants/player';
@@ -27,8 +24,9 @@ export function BuscarPlayers({ navigation }: any) {
 
     const playerIdLong = parseInt(playerId, 10);
     const [isLoading, setIsLoading] = useState(false);
-    const [erroRequest, setErroRequest] = useState(true);
-    const [erroMessage, setErroMessage] = useState([]);
+    const [erroRequest, setErroRequest] = useState(false);
+    const [erroMessage, setErroMessage] = useState('');
+    const [firstEntry, setFirstEntry] = useState(true);
 
     const { data, loading, error } = useQuery(GET_PLAYER_DATA,
         { variables: { steamAccountId: playerIdLong } });
@@ -75,54 +73,49 @@ export function BuscarPlayers({ navigation }: any) {
         const response = await fetch(url);
         const data = await response.json();
         setPlayer(data);
-        setIsLoading(false)
+        setIsLoading(false);
     }
 
     const getRecentMatches = async (url: any) => {
+        const response = await fetch(url);
+        response.ok ? setErroRequest(false) : setErroRequest(true);
         try {
-            const response = await fetch(url);
+
             if (!response.ok) {
                 const errorData = await response.json();
-                setErroRequest(true);
-                console.log(errorData)
-                throw new Error('Erro ao carregar os dados: ' + response.statusText);
+                console.log("Erro Mensagem: ", errorData);
+                if (errorData.error == "invalid account id") {
+                    setErroMessage("Conta da Steam inválida");
+                }
+                if (errorData.error == "Internal Server Error") {
+                    setErroMessage("Erro interno do servidor");
+                }
 
+                throw new Error('Erro ao carregar os dados: ' + response.statusText);
             } else {
                 const data = await response.json();
                 setRecentMatches(data);
-                setErroRequest(false);
             }
-
-
         } catch (error: any) {
-            console.log('Erro na solicitação:' + error.message);
-            setErroRequest(true);
-
+            console.log('Erro na solicitaçãosss:' + error.message);
         }
+        response.ok ? setErroRequest(false) : setErroRequest(true);
     };
 
-    console.log("Solicitação: ", erroRequest);
+    console.log("Erro na Solicitação: ", erroRequest);
 
     const buscarId = () => {
         setPlayerId(searchId);
         setSearchId('');
         Keyboard.dismiss();
         console.log(erroMessage);
-    }
-
-    useEffect(() => {
-        const searchPlayer = `${PLAYER_PROFILE_API_BASE_URL}${playerId}`;
+        const searchPlayer = `${PLAYER_PROFILE_API_BASE_URL}${searchId}`;
         getSearchPlayer(searchPlayer);
 
-        const recentMatches = `${PLAYER_PROFILE_API_BASE_URL}${playerId}/recentMatches`;
+        const recentMatches = `${PLAYER_PROFILE_API_BASE_URL}${searchId}/recentMatches`;
         getRecentMatches(recentMatches);
-
-        console.log(searchPlayer)
-        console.log("ID:", playerId)
-        console.log("últimas Partidas", recentMatches)
-
-    }, [playerId])
-
+        setFirstEntry(false);
+    }
 
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
@@ -228,7 +221,7 @@ export function BuscarPlayers({ navigation }: any) {
             >
                 <Image
                     source={
-                        require('../../images/orc.jpg')
+                        require('../../images/player.jpg')
                     }
                 />
             </MotiView>
@@ -284,8 +277,7 @@ export function BuscarPlayers({ navigation }: any) {
                 style={{ top: 100, alignSelf: 'center', width: 150, height: 100 }}
             />}
             {!isLoading && player && player.profile && player !== null && player !== undefined ? (
-                <View
-                >
+                <View>
                     < MotiView
                         from={{ translateY: playerFocus ? -100 : 0, opacity: 1 }}
                         animate={{ translateY: playerFocus ? 0 : -300, opacity: 1 }}
@@ -335,15 +327,21 @@ export function BuscarPlayers({ navigation }: any) {
                                 </View>
                             </View>
                         </View>
-
                     </MotiView>
-
-                    <View style={styles.flatListContainer} >
+                    < MotiView
+                        key={keyCounter + 400}
+                        from={{ opacity: playerFocus ? 0 : 1 }}
+                        animate={{ opacity: playerFocus ? 1 : 0 }}
+                        transition={{ duration: 900 }}
+                        style={styles.flatListContainer} >
                         {erroRequest ? (<View
                             style={styles.carregandoContent}
                         ><Text
                             style={styles.carregando}
-                        >Erro ao carregar os dados</Text></View>) :
+                        >Erro ao carregar os dados: </Text>
+                            <Text
+                                style={styles.carregando}
+                            >{erroMessage}</Text></View>) :
                             (<  MotiView
                                 key={keyCounter + 200}
                                 from={{ opacity: playerFocus ? 0 : 1 }}
@@ -364,36 +362,82 @@ export function BuscarPlayers({ navigation }: any) {
                                     keyExtractor={(item) => item.match_id.toString()} />
                             </MotiView>)
                         }
-                    </View>
+                    </MotiView>
                 </View>) : (isLoading ?
                     <View
+                        style={[styles.carregandoContent, { marginTop: 150 }]}
+                    ><Text
+                        style={styles.carregando}
+                    >Carregando...</Text></View> : erroRequest ? <MotiView
+                        key={keyCounter + 400}
+                        from={{ opacity: playerFocus ? 0 : 1 }}
+                        animate={{ opacity: playerFocus ? 1 : 0 }}
+                        transition={{ duration: 900 }}
                         style={styles.carregandoContent}
                     ><Text
                         style={styles.carregando}
-                    >Carregando...</Text></View> : <View
+                    >Erro ao carregar dados:</Text>
+                        <Text
+                            style={styles.carregando}
+                        >{erroMessage}</Text>
+                    </MotiView> : firstEntry ? <MotiView
+                        key={keyCounter + 400}
+                        from={{ opacity: playerFocus ? 0 : 1 }}
+                        animate={{ opacity: playerFocus ? 1 : 0 }}
+                        transition={{ duration: 900 }}
                         style={styles.carregandoContent}
                     ><Text
                         style={styles.carregando}
-                    >Favor digitar um ID válido!</Text></View>
+                    >Favor digitar ID válido!</Text></MotiView> : <MotiView
+                        key={keyCounter + 400}
+                        from={{ opacity: playerFocus ? 0 : 1 }}
+                        animate={{ opacity: playerFocus ? 1 : 0 }}
+                        transition={{ duration: 900 }}
+                        style={styles.carregandoContent}
+                    ><Text
+                        style={styles.carregando}
+                    >ID não encontrado!</Text></MotiView>
             )}
+
             <MotiView
                 style={recentMatches.length == null ||
-                    recentMatches.length == 0 || erroRequest ? [styles.bottomContainer, { marginTop: 500 }] : styles.bottomContainer}
-
+                    recentMatches.length == 0 || erroRequest ? [styles.correnteContainer, { marginTop: 450 }] : styles.correnteContainer}
                 key={keyCounter + 500}
                 from={{ translateY: playerFocus ? 300 : 0, opacity: 1 }}
                 animate={{ translateY: playerFocus ? 0 : 300, opacity: 1 }}
                 transition={{ type: 'spring', duration: 9000 }}
             >
-
-                <TouchableOpacity
-                    style={styles.buttonVoltar}
-                    onPress={() => navToHome()}
+                <View>
+                    <Image
+                        style={{ resizeMode: 'contain' }}
+                        source={
+                            require('../../images/correnteH.png')
+                        }
+                    />
+                </View>
+                <View
+                    style={recentMatches.length == null ||
+                        recentMatches.length == 0 || erroRequest ? [styles.bottomContainer] : styles.bottomContainer}
                 >
-                    <Text style={[styles.text, { color: "#fff" }]}>V</Text>
-                    <Text style={styles.text}>oltar</Text>
-                </TouchableOpacity>
 
+
+                    <TouchableOpacity
+                        style={styles.buttonVoltar}
+                        onPress={() => navToHome()}
+                    >
+                        <Text style={[styles.text, { color: "#fff" }]}>V</Text>
+                        <Text style={styles.text}>oltar</Text>
+                    </TouchableOpacity>
+
+                </View>
+                <View>
+                    <Image
+                        style={{ resizeMode: 'contain' }}
+                        source={
+                            require('../../images/correnteH.png')
+                        }
+                    />
+                </View>
             </MotiView>
             <Modal
                 visible={modalVisible}

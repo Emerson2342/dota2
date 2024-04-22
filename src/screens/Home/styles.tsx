@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
 
     },
     buttonContainer: {
-        width: "55%",
+        width: "50%",
         backgroundColor: "rgba(0,0,0,0.8)",
         alignSelf: "flex-end",
         marginRight: 10,

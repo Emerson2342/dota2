@@ -4,7 +4,8 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        paddingTop: 20
+        paddingTop: 20,
+        backgroundColor: "#000"
     },
     titleContainer: {
         flexDirection: 'row',
@@ -35,17 +36,27 @@ export const styles = StyleSheet.create({
         height: 40,
         resizeMode: "contain"
     },
-    button: {
+    buttonContainer: {
         top: 30,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        padding: 7,
         width: '80%',
         borderRadius: 5,
         backgroundColor: "rgba(0,0,0,0.3)",
         borderWidth: 5,
         borderTopColor: "#3c3c3c",
         borderLeftColor: "#3c3c3c",
+        padding: 7,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    button: {
+        width: '70%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        borderRadius: 5,
+        backgroundColor: "#050a64",
+        borderWidth: 5,
+        borderTopColor: "blue",
+        borderLeftColor: "blue",
     },
     text: {
         textAlign: "center",
