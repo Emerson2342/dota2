@@ -22,6 +22,9 @@ export function BuscarPlayers({ navigation }: any) {
     const [player, setPlayer] = useState<PlayerModel | null>(null);
     const [recentMatches, setRecentMatches] = useState([]);
 
+    let vitorias = 0;
+    let derrotas = 0;
+
     const playerIdLong = parseInt(playerId, 10);
     const [isLoading, setIsLoading] = useState(false);
     const [erroRequest, setErroRequest] = useState(false);
@@ -38,6 +41,10 @@ export function BuscarPlayers({ navigation }: any) {
     }
 
     const heroesList = HeroesList();
+
+    useEffect(() => {
+        console.log("Recent Matches atualizada:", recentMatches);
+    }, [recentMatches]);
 
     const medalRank = player?.rank_tier;
     const [modalVisible, setModalVisible] = useState(false);
@@ -100,6 +107,7 @@ export function BuscarPlayers({ navigation }: any) {
             console.log('Erro na solicitaçãosss:' + error.message);
         }
         response.ok ? setErroRequest(false) : setErroRequest(true);
+
     };
 
     console.log("Erro na Solicitação: ", erroRequest);
@@ -115,7 +123,31 @@ export function BuscarPlayers({ navigation }: any) {
         const recentMatches = `${PLAYER_PROFILE_API_BASE_URL}${searchId}/recentMatches`;
         getRecentMatches(recentMatches);
         setFirstEntry(false);
+
+
     }
+    const calcularResultadoFinal = (item: RecentMatches): boolean => {
+        const team = item.player_slot < 5 ? 1 : 2;
+        const resultadoFinal = (team === 1 && item.radiant_win) || (team === 2 && !item.radiant_win);
+        return resultadoFinal;
+    };
+
+    recentMatches.forEach((item: RecentMatches) => {
+        const resultadoFinal = calcularResultadoFinal(item);
+        if (resultadoFinal) {
+            vitorias++;
+        } else {
+            derrotas++;
+        }
+
+    });
+    const winrate = (vitorias / (vitorias + derrotas)) * 100;
+    console.log("Vitórias", vitorias);
+    console.log("Derrotas", derrotas);
+    console.log("Winrate:", winrate.toFixed(2) + "%");
+
+
+
 
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
@@ -156,8 +188,6 @@ export function BuscarPlayers({ navigation }: any) {
         let imgSource =
             PICTURE_HERO_BASE_URL + nomeHero + ".png";
 
-
-
         return (
             <MotiView
                 from={{ translateX: playerFocus ? 300 : 0, opacity: playerFocus ? 0 : 1 }}
@@ -167,6 +197,7 @@ export function BuscarPlayers({ navigation }: any) {
 
                 <TouchableOpacity
                     onPress={() => {
+
                         setMatchIndex({
                             id: item.match_id,
                             data: startDate.toLocaleDateString('pt-BR'),
@@ -248,7 +279,6 @@ export function BuscarPlayers({ navigation }: any) {
                 <View
                     style={styles.inputContainer}
                 >
-
                     <TextInput
                         keyboardType='numeric'
                         style={styles.input}
@@ -257,7 +287,6 @@ export function BuscarPlayers({ navigation }: any) {
                         value={searchId}
                         onSubmitEditing={buscarId}
                     />
-
                     <TouchableOpacity
                         onPress={buscarId}
                         style={styles.buttonBuscar}>
@@ -315,6 +344,7 @@ export function BuscarPlayers({ navigation }: any) {
                                         <Text style={styles.nomeJogador}>{player?.profile.personaname} </Text>
                                         <Text style={styles.title}> Vitórias: {data?.player.winCount}</Text>
                                         <Text style={styles.title}> Partidas: {data?.player.matchCount}</Text>
+                                        <Text style={styles.title}>  Vitórias: {vitorias} Derrotas: {derrotas} Winrate: {winrate}%</Text>
 
 
                                         <View style={{ flexDirection: "row", justifyContent: "center" }}>
