@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput, Image, FlatList, Modal, Keyboard } from 'react-native';
-import { PlayerModel, RecentMatches } from './props';
+import { PlayerModel, RecentMatches, WinrateHero } from './props';
 import { HeroesList } from '../../components/Heroes/heroesList';
 import { styles } from './styles';
 import { PICTURE_HERO_BASE_URL, PLAYER_PROFILE_API_BASE_URL } from '../../constants/player';
@@ -22,6 +22,11 @@ export function BuscarPlayers({ navigation }: any) {
     const [player, setPlayer] = useState<PlayerModel | null>(null);
     const [recentMatches, setRecentMatches] = useState([]);
 
+    const [heroesPlayed, setHeroesPlayed] = useState<{ hero: number; resultado: boolean }[]>([]);
+    const [winrateHeroes, setWinrateHeroes] = useState<WinrateHero[]>([]);
+
+
+
     let vitorias = 0;
     let derrotas = 0;
 
@@ -30,6 +35,7 @@ export function BuscarPlayers({ navigation }: any) {
     const [erroRequest, setErroRequest] = useState(false);
     const [erroMessage, setErroMessage] = useState('');
     const [firstEntry, setFirstEntry] = useState(true);
+
 
     const { data, loading, error } = useQuery(GET_PLAYER_DATA,
         { variables: { steamAccountId: playerIdLong } });
@@ -41,10 +47,6 @@ export function BuscarPlayers({ navigation }: any) {
     }
 
     const heroesList = HeroesList();
-
-    useEffect(() => {
-        console.log("Recent Matches atualizada:", recentMatches);
-    }, [recentMatches]);
 
     const medalRank = player?.rank_tier;
     const [modalVisible, setModalVisible] = useState(false);
@@ -102,6 +104,7 @@ export function BuscarPlayers({ navigation }: any) {
             } else {
                 const data = await response.json();
                 setRecentMatches(data);
+                updateHeroesPlayed(data);
             }
         } catch (error: any) {
             console.log('Erro na solicitaçãosss:' + error.message);
@@ -111,6 +114,12 @@ export function BuscarPlayers({ navigation }: any) {
     };
 
     console.log("Erro na Solicitação: ", erroRequest);
+
+
+    useEffect(() => {
+        console.log(JSON.stringify(heroesPlayed, null, 2));
+    }, [heroesPlayed]);
+
 
     const buscarId = () => {
         setPlayerId(searchId);
@@ -139,15 +148,25 @@ export function BuscarPlayers({ navigation }: any) {
         } else {
             derrotas++;
         }
-
     });
+
+
+
+    const updateHeroesPlayed = (matches: RecentMatches[]) => {
+        const updatedHeroesPlayed = [...heroesPlayed];
+
+        matches.forEach((match: RecentMatches) => {
+            const heroId = match.hero_id;
+            const resultadoFinal = calcularResultadoFinal(match);
+            updatedHeroesPlayed.push({ hero: heroId, resultado: resultadoFinal });
+        });
+        setHeroesPlayed(updatedHeroesPlayed);
+    };
+
     const winrate = (vitorias / (vitorias + derrotas)) * 100;
     console.log("Vitórias", vitorias);
     console.log("Derrotas", derrotas);
     console.log("Winrate:", winrate.toFixed(2) + "%");
-
-
-
 
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
@@ -183,10 +202,11 @@ export function BuscarPlayers({ navigation }: any) {
         const resultadoFinal = (team == 1 && item.radiant_win == true || team == 2 && item.radiant_win == false) ? true : false
 
         const hero = heroesList.find(hero => hero.id === item.hero_id);
-        let nomeHero = hero?.name;
+        let nomeHero = hero?.name || '';
 
         let imgSource =
             PICTURE_HERO_BASE_URL + nomeHero + ".png";
+
 
         return (
             <MotiView

@@ -31,6 +31,12 @@ export interface HeroInfo {
     winCount: number;
     lossCount: number;
 }
+export interface WinrateHero {
+    heroId: number;
+    localized_name: string;
+    vitorias: number;
+    derrotas: number;
+}
 
 
 export interface WL {
