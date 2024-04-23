@@ -419,7 +419,7 @@ export function BuscarPlayers({ navigation }: any) {
 
             <MotiView
                 style={recentMatches.length == null ||
-                    recentMatches.length == 0 || erroRequest ? [styles.correnteContainer, { marginTop: 450 }] : styles.correnteContainer}
+                    recentMatches.length == 0 || erroRequest ? [styles.correnteContainer, { marginTop: 500 }] : styles.correnteContainer}
                 key={keyCounter + 500}
                 from={{ translateY: playerFocus ? 300 : 0, opacity: 1 }}
                 animate={{ translateY: playerFocus ? 0 : 300, opacity: 1 }}
@@ -434,11 +434,8 @@ export function BuscarPlayers({ navigation }: any) {
                     />
                 </View>
                 <View
-                    style={recentMatches.length == null ||
-                        recentMatches.length == 0 || erroRequest ? [styles.bottomContainer] : styles.bottomContainer}
+                    style={styles.bottomContainer}
                 >
-
-
                     <TouchableOpacity
                         style={styles.buttonVoltar}
                         onPress={() => navToHome()}

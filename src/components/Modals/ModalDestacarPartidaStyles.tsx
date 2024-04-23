@@ -37,11 +37,8 @@ export const styles = StyleSheet.create({
         width: "95%",
         borderRadius: 5,
         marginVertical: 10,
-        borderTopColor: 'green',
         borderWidth: 5,
-        borderLeftColor: 'green',
-        borderRightColor: "#073d12",
-        borderBottomColor: "#073d12",
+        borderColor: "green",
         padding: 5
     },
     modalTemidos: {
@@ -49,11 +46,8 @@ export const styles = StyleSheet.create({
         width: "95%",
         borderRadius: 5,
         marginVertical: 10,
-        borderTopColor: 'red',
         borderWidth: 5,
-        borderLeftColor: 'red',
-        borderRightColor: "#3c1c1c",
-        borderBottomColor: "#3c1c1c",
+        borderColor: "red",
         padding: 5
     },
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, FlatList, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, Image, FlatList, Platform, StatusBar } from 'react-native';
 
 import { styles } from './ModalDestacarPartidaStyles';
 import { HeroesList } from '../Heroes/heroesList';
@@ -22,10 +22,21 @@ export function ModalDestacarPartida(
         }) {
 
 
-    const { keyCounter, setKeyCounter, homeFocus, setHomeFocus, playerFocus, setPlayerFocus } = useKeyCounter();
+    const [modalFocus, setModalFocus] = useState(true);
+    const [keyCounter, setKeyCounter] = useState(1)
 
     const [matchDetails, setMatchDetails] = useState<MatchDetailsModel | null>(null);
     const [loading, setLoading] = useState(true);
+
+
+    function closeModal() {
+        setKeyCounter(keyCounter + 1);
+        setModalFocus(false);
+        setTimeout(() => {
+            handleClose();
+        }, 900);
+    }
+
 
 
     useEffect(() => {
@@ -34,7 +45,7 @@ export function ModalDestacarPartida(
                 const recentMatchesDataResponse = await fetchGetMatchDetailsData(id);
                 setMatchDetails(recentMatchesDataResponse ?? null);
             } catch (error) {
-                console.error('Erro ao buscar detalhes da partida:', error);
+                console.log('Erro ao buscar detalhes da partida:', error);
             } finally {
                 setLoading(false);
             }
@@ -204,6 +215,9 @@ export function ModalDestacarPartida(
 
     return (
         <View style={styles.container}>
+            <StatusBar
+                backgroundColor={'rgba(0,0,0,0.8)'}
+            />
             {loading ? (<View
                 style={styles.carregandoContent}
             >
@@ -226,9 +240,9 @@ export function ModalDestacarPartida(
                 >
                     <MotiView
                         key={keyCounter}
-                        from={{ translateX: -200, opacity: 1 }}
-                        animate={{ translateX: 0, opacity: 1 }}
-                        transition={{ type: 'spring', duration: 9000 }}
+                        from={{ translateX: modalFocus ? -400 : 0, opacity: 1 }}
+                        animate={{ translateX: modalFocus ? 0 : -500, opacity: 1 }}
+                        transition={{ type: 'timing', duration: 1000 }}
                         style={styles.modalIluminados}
                     >
                         <FlatList
@@ -239,9 +253,9 @@ export function ModalDestacarPartida(
                     </MotiView>
                     <MotiView
                         key={keyCounter + 150}
-                        from={{ translateX: 200, opacity: 1 }}
-                        animate={{ translateX: 0, opacity: 1 }}
-                        transition={{ type: 'spring', duration: 9000 }}
+                        from={{ translateX: modalFocus ? 500 : 0, opacity: 1 }}
+                        animate={{ translateX: modalFocus ? 0 : 500, opacity: 10 }}
+                        transition={{ type: 'timing', duration: 1000 }}
                         style={styles.modalTemidos}
                     >
                         <FlatList
@@ -250,11 +264,15 @@ export function ModalDestacarPartida(
                             keyExtractor={(item) => item.match_id.toString()}
                         />
                     </MotiView>
-                    <View
+                    <MotiView
+                        key={keyCounter + 100}
+                        from={{ translateY: modalFocus ? 200 : 0, opacity: 1 }}
+                        animate={{ translateY: modalFocus ? 0 : 200, opacity: 1 }}
+                        transition={{ type: 'timing', duration: 1000 }}
 
                     >
                         <TouchableOpacity
-                            onPress={() => handleClose()}
+                            onPress={() => closeModal()}
                             style={styles.buttonFechar}>
                             <Text
                                 style={[styles.textButton, { color: "#fff" }]}
@@ -262,7 +280,7 @@ export function ModalDestacarPartida(
                                 style={styles.textButton}
                             >echar</Text>
                         </TouchableOpacity>
-                    </View>
+                    </MotiView>
                 </View>) : (
                     <View
                         style={styles.carregandoContent}

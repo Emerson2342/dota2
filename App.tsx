@@ -12,7 +12,8 @@ export default function App() {
         <PlayerProvider>
           <Routes />
           <StatusBar
-            backgroundColor={"#000"}
+            backgroundColor={"transparent"}
+            translucent={true}
 
           />
         </PlayerProvider>
@@ -24,5 +25,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
   },
 });
