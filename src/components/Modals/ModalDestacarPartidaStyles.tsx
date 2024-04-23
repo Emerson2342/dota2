@@ -4,8 +4,8 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "rgba(0,0,0,0.8)",
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'center'
     },
     carregandoContent: {
         width: '85%',
@@ -25,22 +25,38 @@ export const styles = StyleSheet.create({
         padding: 5,
         borderRadius: 5
     },
+
     textButtonModal: {
         fontSize: 15,
         textAlign: 'center',
         fontWeight: "bold",
         color: "#000"
     },
-    modal: {
+    modalIluminados: {
         backgroundColor: "#000",
-        width: "97%",
+        width: "95%",
         borderRadius: 5,
-        borderWidth: 1,
-        borderColor: "green",
+        marginVertical: 10,
+        borderTopColor: 'green',
+        borderWidth: 5,
+        borderLeftColor: 'green',
+        borderRightColor: "#073d12",
+        borderBottomColor: "#073d12",
+        padding: 5
     },
-    modalContent: {
-        top: 20,
+    modalTemidos: {
+        backgroundColor: "#000",
+        width: "95%",
+        borderRadius: 5,
+        marginVertical: 10,
+        borderTopColor: 'red',
+        borderWidth: 5,
+        borderLeftColor: 'red',
+        borderRightColor: "#3c1c1c",
+        borderBottomColor: "#3c1c1c",
+        padding: 5
     },
+
     button: {
         top: 65,
         alignSelf: "center",
@@ -50,118 +66,118 @@ export const styles = StyleSheet.create({
         borderRadius: 7,
         width: "75%",
     },
+
+    buttonFechar: {
+        width: "50%",
+        alignSelf: 'center',
+        flexDirection: "row",
+        borderRadius: 5,
+        backgroundColor: "#050a64",
+        borderWidth: 5,
+        borderTopColor: "blue",
+        borderLeftColor: "blue",
+        padding: 5,
+        justifyContent: 'center'
+    },
     textButton: {
-        color: "#000",
+        color: "yellow",
         fontSize: 20,
-        fontWeight: "bold"
+        letterSpacing: 1,
+        fontWeight: "bold",
+        textAlign: 'center',
+
     },
     textNome: {
         fontSize: 15,
         fontWeight: "bold",
         color: "#fff"
     },
-    info: {
-        flexDirection: 'row',
-    },
     radiantContainer: {
         flexDirection: "row",
-        borderRadius: 10
-
+        borderRadius: 5
     },
     title: {
         fontSize: 30,
         color: "#fff",
         fontStyle: "italic",
         fontWeight: "bold",
-
     },
     cabecalho: {
         flexDirection: "row",
-        justifyContent: "flex-end",
+        justifyContent: "center",
         width: "80%",
         alignSelf: "flex-end",
-        padding: 5
     },
     cabecalhoText: {
         color: "#fff",
         textAlign: "center",
-        fontWeight: "bold",
-        alignSelf: "flex-end"
+        alignSelf: "center",
     },
     imageHero: {
-        width: 45,
-        height: 30,
-        resizeMode: "contain",
-        borderRadius: 3
+        width: 40,
+        height: 35,
+        borderRadius: 3,
+        resizeMode: 'center',
     },
     imageMedal: {
-        height: 30,
-        width: 25,
-        resizeMode: "contain"
+        width: 35,
+        height: 35,
+        resizeMode: 'center',
     },
     infoContainer: {
         flexDirection: 'row',
         width: "80%",
-        justifyContent: "space-around"
+        justifyContent: "center"
     },
     k: {
-        fontWeight: 'bold',
         color: "green",
         width: '7%',
         textAlign: 'center',
         alignSelf: "center"
     },
     d: {
-        fontWeight: 'bold',
         color: "red",
         width: '7%',
         textAlign: 'center',
         alignSelf: "center"
     },
     a: {
-        fontWeight: 'bold',
         color: "yellow",
         width: '7%',
         textAlign: 'center',
         alignSelf: "center"
     },
     lhs: {
-        fontWeight: 'bold',
         color: "orange",
         width: '10%',
         textAlign: 'center',
         alignSelf: "center"
     },
     denies: {
-        fontWeight: 'bold',
         color: "yellow",
         width: '8%',
         textAlign: 'center',
         alignSelf: "center"
     },
     hDamage: {
-        fontWeight: 'bold',
         color: "orange",
         width: '15%',
         textAlign: 'center',
         alignSelf: "center"
     },
     tDamage: {
-        fontWeight: 'bold',
         color: "yellow",
         width: '15%',
         textAlign: 'center',
         alignSelf: "center"
     },
     healing: {
-        fontWeight: 'bold',
         color: "orange",
         width: '15%',
         textAlign: 'center',
         alignSelf: "center"
     },
     netWorth: {
-        fontWeight: 'bold',
         color: "yellow",
         width: '15%',
         textAlign: 'center',

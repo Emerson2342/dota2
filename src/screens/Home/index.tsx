@@ -57,7 +57,7 @@ export function Home({ navigation }: any) {
                     }
                 />
             </MotiView>
-            <  MotiView
+            <MotiView
                 key={keyCounter}
                 from={{ translateY: homeFocus ? -500 : 0, opacity: 1 }}
                 animate={{ translateY: homeFocus ? 0 : -500, opacity: 1 }}
@@ -83,8 +83,8 @@ export function Home({ navigation }: any) {
                         onPress={navToPlayers}
                         style={styles.button}
                     >
-                        <Text style={[styles.textButton, { color: '#fff' }]}>J</Text>
-                        <Text style={styles.textButton}>ogador</Text>
+                        <Text style={[styles.textButton, { color: '#fff' }]}>E</Text>
+                        <Text style={styles.textButton}>statísticas</Text>
                     </TouchableOpacity>
 
 

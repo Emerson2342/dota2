@@ -22,13 +22,10 @@ export function BuscarPlayers({ navigation }: any) {
     const [player, setPlayer] = useState<PlayerModel | null>(null);
     const [recentMatches, setRecentMatches] = useState([]);
 
-    const [heroesPlayed, setHeroesPlayed] = useState<{ hero: number; resultado: boolean }[]>([]);
-    const [winrateHeroes, setWinrateHeroes] = useState<WinrateHero[]>([]);
-
-
 
     let vitorias = 0;
     let derrotas = 0;
+
 
     const playerIdLong = parseInt(playerId, 10);
     const [isLoading, setIsLoading] = useState(false);
@@ -104,7 +101,7 @@ export function BuscarPlayers({ navigation }: any) {
             } else {
                 const data = await response.json();
                 setRecentMatches(data);
-                updateHeroesPlayed(data);
+
             }
         } catch (error: any) {
             console.log('Erro na solicitaçãosss:' + error.message);
@@ -114,11 +111,6 @@ export function BuscarPlayers({ navigation }: any) {
     };
 
     console.log("Erro na Solicitação: ", erroRequest);
-
-
-    useEffect(() => {
-        console.log(JSON.stringify(heroesPlayed, null, 2));
-    }, [heroesPlayed]);
 
 
     const buscarId = () => {
@@ -132,8 +124,6 @@ export function BuscarPlayers({ navigation }: any) {
         const recentMatches = `${PLAYER_PROFILE_API_BASE_URL}${searchId}/recentMatches`;
         getRecentMatches(recentMatches);
         setFirstEntry(false);
-
-
     }
     const calcularResultadoFinal = (item: RecentMatches): boolean => {
         const team = item.player_slot < 5 ? 1 : 2;
@@ -149,20 +139,6 @@ export function BuscarPlayers({ navigation }: any) {
             derrotas++;
         }
     });
-
-
-
-    const updateHeroesPlayed = (matches: RecentMatches[]) => {
-        const updatedHeroesPlayed = [...heroesPlayed];
-
-        matches.forEach((match: RecentMatches) => {
-            const heroId = match.hero_id;
-            const resultadoFinal = calcularResultadoFinal(match);
-            updatedHeroesPlayed.push({ hero: heroId, resultado: resultadoFinal });
-        });
-        setHeroesPlayed(updatedHeroesPlayed);
-    };
-
     const winrate = (vitorias / (vitorias + derrotas)) * 100;
     console.log("Vitórias", vitorias);
     console.log("Derrotas", derrotas);
@@ -430,15 +406,7 @@ export function BuscarPlayers({ navigation }: any) {
                         <Text
                             style={styles.carregando}
                         >{erroMessage}</Text>
-                    </MotiView> : firstEntry ? <MotiView
-                        key={keyCounter + 400}
-                        from={{ opacity: playerFocus ? 0 : 1 }}
-                        animate={{ opacity: playerFocus ? 1 : 0 }}
-                        transition={{ duration: 900 }}
-                        style={styles.carregandoContent}
-                    ><Text
-                        style={styles.carregando}
-                    >Favor digitar ID válido!</Text></MotiView> : <MotiView
+                    </MotiView> : firstEntry ? <MotiView></MotiView> : <MotiView
                         key={keyCounter + 400}
                         from={{ opacity: playerFocus ? 0 : 1 }}
                         animate={{ opacity: playerFocus ? 1 : 0 }}

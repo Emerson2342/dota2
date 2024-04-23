@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     titleContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        padding: 10,
+        padding: 5,
     },
     titleText: {
         fontSize: 25,
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         zIndex: 1,
-        padding: 10,
+        padding: 5,
     },
     input: {
         alignItems: "center",
@@ -142,10 +142,9 @@ export const styles = StyleSheet.create({
         padding: 10
     },
     textList: {
-        color: "#fff",
+        color: '#fff',
         textAlign: 'center',
         alignSelf: "center",
-        fontWeight: "bold"
     },
     textTitle: {
         color: "yellow",
@@ -183,16 +182,15 @@ export const styles = StyleSheet.create({
     carregandoContent: {
         backgroundColor: "#050a64",
         marginTop: 50,
-        borderWidth: 5,
+        borderWidth: 3,
         borderTopColor: "blue",
         borderLeftColor: "blue",
         borderRadius: 5,
-        padding: 10,
+        padding: 5,
     },
     carregando: {
         color: "yellow",
-        fontSize: 20,
+        fontSize: 15,
         textAlign: 'center',
-        fontWeight: 'bold',
     },
 });

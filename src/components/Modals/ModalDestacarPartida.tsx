@@ -9,6 +9,8 @@ import { PICTURE_HERO_BASE_URL } from '../../constants/player';
 import { Medal } from '../Medals/MedalsList';
 import LottieView from 'lottie-react-native';
 import loadingAnimation from '../AnimatedButtons/loading.json'
+import { MotiView } from 'moti';
+import { useKeyCounter } from '../../context/useKeyCounter';
 const heroesList = HeroesList();
 
 export function ModalDestacarPartida(
@@ -19,6 +21,8 @@ export function ModalDestacarPartida(
 
         }) {
 
+
+    const { keyCounter, setKeyCounter, homeFocus, setHomeFocus, playerFocus, setPlayerFocus } = useKeyCounter();
 
     const [matchDetails, setMatchDetails] = useState<MatchDetailsModel | null>(null);
     const [loading, setLoading] = useState(true);
@@ -78,7 +82,7 @@ export function ModalDestacarPartida(
                             key={index}
                             style={
                                 (playerId && player.account_id && playerId === player.account_id.toString()) ?
-                                    [styles.radiantContainer, { backgroundColor: "#888" }] :
+                                    [styles.radiantContainer, { backgroundColor: "rgba(0,0,250,0.7)" }] :
                                     styles.radiantContainer
                             }
                         >
@@ -157,7 +161,7 @@ export function ModalDestacarPartida(
                             key={index}
                             style={
                                 (playerId && player.account_id && playerId === player.account_id.toString()) ?
-                                    [styles.radiantContainer, { backgroundColor: "#888" }] :
+                                    [styles.radiantContainer, { backgroundColor: "rgba(0,0,250,0.7)" }] :
                                     styles.radiantContainer
                             }
                         >
@@ -218,30 +222,47 @@ export function ModalDestacarPartida(
                     >Cancelar</Text>
                 </TouchableOpacity>
             </View>) : (
-
                 matchDetails ? (<View
-                    style={(resultadoFinal == true) ? styles.modal : [styles.modal, { borderColor: "red" }]}
                 >
-                    <View
-                        style={styles.modalContent}>
+                    <MotiView
+                        key={keyCounter}
+                        from={{ translateX: -200, opacity: 1 }}
+                        animate={{ translateX: 0, opacity: 1 }}
+                        transition={{ type: 'spring', duration: 9000 }}
+                        style={styles.modalIluminados}
+                    >
                         <FlatList
                             data={matchDetails ? [matchDetails] : []}
                             renderItem={renderItemIluminados}
                             keyExtractor={(item) => item.match_id.toString()}
                         />
+                    </MotiView>
+                    <MotiView
+                        key={keyCounter + 150}
+                        from={{ translateX: 200, opacity: 1 }}
+                        animate={{ translateX: 0, opacity: 1 }}
+                        transition={{ type: 'spring', duration: 9000 }}
+                        style={styles.modalTemidos}
+                    >
                         <FlatList
                             data={matchDetails ? [matchDetails] : []}
                             renderItem={renderItemTemidos}
                             keyExtractor={(item) => item.match_id.toString()}
                         />
+                    </MotiView>
+                    <View
+
+                    >
+                        <TouchableOpacity
+                            onPress={() => handleClose()}
+                            style={styles.buttonFechar}>
+                            <Text
+                                style={[styles.textButton, { color: "#fff" }]}
+                            >F</Text><Text
+                                style={styles.textButton}
+                            >echar</Text>
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity
-                        onPress={() => handleClose()}
-                        style={resultadoFinal ? styles.button : [styles.button, { backgroundColor: "red" }]}>
-                        <Text
-                            style={styles.textButton}
-                        >Fechar</Text>
-                    </TouchableOpacity>
                 </View>) : (
                     <View
                         style={styles.carregandoContent}
@@ -258,7 +279,8 @@ export function ModalDestacarPartida(
                         </TouchableOpacity>
                     </View>
                 )
-            )}
-        </View>
+            )
+            }
+        </View >
     );
 }

@@ -30,7 +30,6 @@ export const styles = StyleSheet.create({
         borderRadius: 9,
         flexDirection: 'row',
         justifyContent: 'center'
-
     },
     textButton: {
         color: "yellow",
