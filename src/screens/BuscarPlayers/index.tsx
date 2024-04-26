@@ -139,10 +139,10 @@ export function BuscarPlayers({ navigation }: any) {
             derrotas++;
         }
     });
-    const winrate = (vitorias / (vitorias + derrotas)) * 100;
+    const winrate = ((vitorias / (vitorias + derrotas)) * 100).toFixed(2).toString().replace('.', ',');
     console.log("Vitórias", vitorias);
     console.log("Derrotas", derrotas);
-    console.log("Winrate:", winrate.toFixed(2) + "%");
+    console.log("Winrate:", winrate + "%");
 
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
@@ -338,9 +338,9 @@ export function BuscarPlayers({ navigation }: any) {
                                     <Text style={styles.textRank}>{player?.leaderboard_rank}</Text>
                                     <View style={{ justifyContent: "center", width: "75%" }}>
                                         <Text style={styles.nomeJogador}>{player?.profile.personaname} </Text>
-                                        <Text style={styles.title}> Vitórias: {data?.player.winCount}</Text>
-                                        <Text style={styles.title}> Partidas: {data?.player.matchCount}</Text>
-                                        <Text style={styles.title}>  Vitórias: {vitorias} Derrotas: {derrotas} Winrate: {winrate}%</Text>
+                                        <Text style={styles.title}>Vitórias: {data?.player.winCount}</Text>
+                                        <Text style={styles.title}>Partidas: {data?.player.matchCount}</Text>
+                                        <Text style={styles.title}>Vitórias: {vitorias} Derrotas: {derrotas} Winrate: {winrate ? `${winrate}%` : ""}</Text>
 
 
                                         <View style={{ flexDirection: "row", justifyContent: "center" }}>

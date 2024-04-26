@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Image, TouchableOpacity, Animated, Easing } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 
 import { styles } from './styles';
-import { Heroes } from '../BuscarPlayers/props';
 import { MotiView } from 'moti';
 import { useKeyCounter } from '../../context/useKeyCounter';
 
@@ -83,8 +82,8 @@ export function Home({ navigation }: any) {
                         onPress={navToPlayers}
                         style={styles.button}
                     >
-                        <Text style={[styles.textButton, { color: '#fff' }]}>E</Text>
-                        <Text style={styles.textButton}>statísticas</Text>
+                        <Text style={[styles.textButton, { color: '#fff' }]}>P</Text>
+                        <Text style={styles.textButton}>erfil</Text>
                     </TouchableOpacity>
 
 
