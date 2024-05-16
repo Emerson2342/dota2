@@ -82,8 +82,16 @@ export function Home({ navigation }: any) {
                         onPress={navToPlayers}
                         style={styles.button}
                     >
-                        <Text style={[styles.textButton, { color: '#fff' }]}>P</Text>
-                        <Text style={styles.textButton}>erfil</Text>
+                        <Text style={[styles.textButton, { color: '#fff' }]}>M</Text>
+                        <Text style={styles.textButton}>eu Perfil</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        //onPress={navToListaDeHerois}
+                        style={styles.button}
+                    >
+                        <Text style={[styles.textButton, { color: '#fff' }]}>A</Text>
+                        <Text style={styles.textButton}>migos</Text>
                     </TouchableOpacity>
 
 

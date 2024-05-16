@@ -14,11 +14,14 @@ import { GET_PLAYER_DATA } from '../../graphql/queries';
 import { MotiView } from 'moti';
 import LottieView from 'lottie-react-native';
 import { useKeyCounter } from '../../context/useKeyCounter';
+import { usePlayerContext } from '../../context/useDatasContex';
+
 
 export function BuscarPlayers({ navigation }: any) {
 
     const [searchId, setSearchId] = useState('');
-    const [playerId, setPlayerId] = useState('');
+    //const [playerId, setPlayerId] = useState('');
+    const { playerId, setPlayerId } = usePlayerContext();
     const [player, setPlayer] = useState<PlayerModel | null>(null);
     const [recentMatches, setRecentMatches] = useState([]);
 
@@ -32,7 +35,6 @@ export function BuscarPlayers({ navigation }: any) {
     const [erroRequest, setErroRequest] = useState(false);
     const [erroMessage, setErroMessage] = useState('');
     const [firstEntry, setFirstEntry] = useState(true);
-
 
     const { data, loading, error } = useQuery(GET_PLAYER_DATA,
         { variables: { steamAccountId: playerIdLong } });
@@ -113,17 +115,23 @@ export function BuscarPlayers({ navigation }: any) {
     console.log("Erro na Solicitação: ", erroRequest);
 
 
-    const buscarId = () => {
-        setPlayerId(searchId);
-        setSearchId('');
-        Keyboard.dismiss();
-        console.log(erroMessage);
-        const searchPlayer = `${PLAYER_PROFILE_API_BASE_URL}${searchId}`;
+    useEffect(() => {
+        const searchPlayer = `${PLAYER_PROFILE_API_BASE_URL}${playerId}`;
         getSearchPlayer(searchPlayer);
 
-        const recentMatches = `${PLAYER_PROFILE_API_BASE_URL}${searchId}/recentMatches`;
+        const recentMatches = `${PLAYER_PROFILE_API_BASE_URL}${playerId}/recentMatches`;
         getRecentMatches(recentMatches);
         setFirstEntry(false);
+
+    }, [playerId])
+
+
+    const buscarId = () => {
+        setPlayerId(searchId);
+        // setSearchId('');
+        Keyboard.dismiss();
+        console.log(erroMessage);
+
     }
     const calcularResultadoFinal = (item: RecentMatches): boolean => {
         const team = item.player_slot < 5 ? 1 : 2;
