@@ -10,14 +10,13 @@ import { Medal } from '../Medals/MedalsList';
 import LottieView from 'lottie-react-native';
 import loadingAnimation from '../AnimatedButtons/loading.json'
 import { MotiView } from 'moti';
-import { useKeyCounter } from '../../context/useKeyCounter';
 const heroesList = HeroesList();
 
 export function ModalDestacarPartida(
     {
-        handleClose, id, resultadoFinal, playerId }:
+        handleClose, id, playerId, data, modo, hora, duracao }:
         {
-            handleClose(): void, id: string, resultadoFinal: boolean, playerId: string
+            handleClose(): void, id: string, playerId: string, data: string, modo: string, hora: string, duracao: string
 
         }) {
 
@@ -70,12 +69,12 @@ export function ModalDestacarPartida(
                 <View
                     style={styles.cabecalho}
                 >
-                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>K</Text>
-                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>D</Text>
-                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>A</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>K</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>D</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>A</Text>
                     <Text style={[styles.cabecalhoText, { width: '8%' }]}>LH</Text>
                     <Text style={[styles.cabecalhoText, { width: '10%' }]}>Den</Text>
-                    <Text style={[styles.cabecalhoText, { width: '18%' }]}>Dano Heróis</Text>
+                    <Text style={[styles.cabecalhoText, { width: '17%' }]}>Dano Heróis</Text>
                     <Text style={[styles.cabecalhoText, { width: '15%' }]}>Dano Torres</Text>
                     <Text style={[styles.cabecalhoText, { width: '15%' }]}>Cura</Text>
                     <Text style={[styles.cabecalhoText, { width: '15%' }]}>Net Worth</Text>
@@ -93,7 +92,7 @@ export function ModalDestacarPartida(
                             key={index}
                             style={
                                 (playerId && player.account_id && playerId === player.account_id.toString()) ?
-                                    [styles.radiantContainer, { backgroundColor: "rgba(0,0,250,0.7)" }] :
+                                    [styles.radiantContainer, { backgroundColor: "gray" }] :
                                     styles.radiantContainer
                             }
                         >
@@ -149,12 +148,12 @@ export function ModalDestacarPartida(
                 <View
                     style={styles.cabecalho}
                 >
-                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>K</Text>
-                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>D</Text>
-                    <Text style={[styles.cabecalhoText, { width: '7%' }]}>A</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>K</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>D</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>A</Text>
                     <Text style={[styles.cabecalhoText, { width: '8%' }]}>LH</Text>
                     <Text style={[styles.cabecalhoText, { width: '10%' }]}>Den</Text>
-                    <Text style={[styles.cabecalhoText, { width: '18%' }]}>Dano Heróis</Text>
+                    <Text style={[styles.cabecalhoText, { width: '17%' }]}>Dano Heróis</Text>
                     <Text style={[styles.cabecalhoText, { width: '15%' }]}>Dano Torres</Text>
                     <Text style={[styles.cabecalhoText, { width: '15%' }]}>Cura</Text>
                     <Text style={[styles.cabecalhoText, { width: '15%' }]}>Net Worth</Text>
@@ -172,7 +171,7 @@ export function ModalDestacarPartida(
                             key={index}
                             style={
                                 (playerId && player.account_id && playerId === player.account_id.toString()) ?
-                                    [styles.radiantContainer, { backgroundColor: "rgba(0,0,250,0.7)" }] :
+                                    [styles.radiantContainer, { backgroundColor: "gray" }] :
                                     styles.radiantContainer
                             }
                         >
@@ -238,6 +237,23 @@ export function ModalDestacarPartida(
             </View>) : (
                 matchDetails ? (<View
                 >
+                    <MotiView
+
+                        key={keyCounter + 120}
+                        from={{ translateY: modalFocus ? -100 : 0, opacity: 1 }}
+                        animate={{ translateY: modalFocus ? 0 : -100, opacity: 1 }}
+                        transition={{ type: 'timing', duration: 1000 }}
+                        style={styles.detalhesContainer}>
+                        <View style={styles.detalhesContext}>
+                            <Text style={styles.textDetails}>Data:</Text><Text style={[styles.textDetails, { color: "gray" }]}>{data}</Text>
+                            <Text style={styles.textDetails}>Hora:</Text><Text style={[styles.textDetails, { color: "gray" }]}>{hora}</Text>
+                        </View>
+                        <View style={styles.detalhesContext}>
+                            <Text style={styles.textDetails}>Modo:</Text><Text style={[styles.textDetails, { color: "gray" }]}>{modo}</Text>
+                            <Text style={styles.textDetails}>Duração:</Text><Text style={[styles.textDetails, { color: "gray" }]}>{duracao}</Text>
+                        </View>
+
+                    </MotiView>
                     <MotiView
                         key={keyCounter}
                         from={{ translateX: modalFocus ? -400 : 0, opacity: 1 }}

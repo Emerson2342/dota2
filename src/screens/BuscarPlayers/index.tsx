@@ -68,6 +68,7 @@ export function BuscarPlayers({ navigation }: any) {
     })
 
 
+
     function navToHome() {
         resetAnimation()
         setHomeFocus(true);
@@ -112,8 +113,6 @@ export function BuscarPlayers({ navigation }: any) {
 
     };
 
-    console.log("Erro na Solicitação: ", erroRequest);
-
 
     useEffect(() => {
         const searchPlayer = `${PLAYER_PROFILE_API_BASE_URL}${playerId}`;
@@ -131,7 +130,13 @@ export function BuscarPlayers({ navigation }: any) {
         // setSearchId('');
         Keyboard.dismiss();
         console.log(erroMessage);
+    }
 
+    console.log(searchId)
+
+    if (searchId.length == 9) {
+        buscarId();
+        setSearchId("");
     }
     const calcularResultadoFinal = (item: RecentMatches): boolean => {
         const team = item.player_slot < 5 ? 1 : 2;
@@ -148,10 +153,6 @@ export function BuscarPlayers({ navigation }: any) {
         }
     });
     const winrate = ((vitorias / (vitorias + derrotas)) * 100).toFixed(2).toString().replace('.', ',');
-    console.log("Vitórias", vitorias);
-    console.log("Derrotas", derrotas);
-    console.log("Winrate:", winrate + "%");
-
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
 
@@ -289,18 +290,9 @@ export function BuscarPlayers({ navigation }: any) {
                         placeholder='Digite o ID do jogador'
                         onChangeText={(text) => setSearchId(text)}
                         value={searchId}
-                        onSubmitEditing={buscarId}
+                    // onSubmitEditing={buscarId}
                     />
-                    <TouchableOpacity
-                        onPress={buscarId}
-                        style={styles.buttonBuscar}>
-                        <Text
-                            style={[styles.buscarText, { color: "#fff" }]}
-                        >B</Text>
-                        <Text
-                            style={styles.buscarText}
-                        >uscar</Text>
-                    </TouchableOpacity>
+
                 </View>
             </MotiView>
             {isLoading && <LottieView
@@ -470,8 +462,11 @@ export function BuscarPlayers({ navigation }: any) {
                 <ModalDestacarPartida
                     handleClose={() => setModalVisible(false)}
                     id={matchIndex.id}
-                    resultadoFinal={matchIndex.resultadoFinal}
                     playerId={playerId.toString()}
+                    data={matchIndex.data}
+                    modo={matchIndex.modo}
+                    hora={matchIndex.hora}
+                    duracao={matchIndex.duracao}
                 />
             </Modal>
         </View>

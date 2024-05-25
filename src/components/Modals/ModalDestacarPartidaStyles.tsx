@@ -17,6 +17,26 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
     },
+    detalhesContainer: {
+        backgroundColor: '#000',
+        borderWidth: 3,
+        borderColor: '#3c3c3c',
+        borderRadius: 5
+    },
+
+    detalhesContext: {
+        flexDirection: 'row',
+        justifyContent: "space-around",
+        width: '90%',
+    },
+    textDetails: {
+        alignItems: "center",
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: "yellow",
+        padding: '1%'
+    },
     buttonModal: {
         top: 250,
         backgroundColor: "rgb(0,255, 255)",
@@ -25,7 +45,6 @@ export const styles = StyleSheet.create({
         padding: 5,
         borderRadius: 5
     },
-
     textButtonModal: {
         fontSize: 15,
         textAlign: 'center',
@@ -36,19 +55,19 @@ export const styles = StyleSheet.create({
         backgroundColor: "#000",
         width: "95%",
         borderRadius: 5,
-        marginVertical: 10,
-        borderWidth: 5,
+        marginVertical: 5,
+        borderWidth: 2,
         borderColor: "green",
-        padding: 5
+        padding: 2
     },
     modalTemidos: {
         backgroundColor: "#000",
         width: "95%",
         borderRadius: 5,
-        marginVertical: 10,
-        borderWidth: 5,
+        marginVertical: 5,
+        borderWidth: 2,
         borderColor: "red",
-        padding: 5
+        padding: 2
     },
 
     button: {
@@ -62,12 +81,13 @@ export const styles = StyleSheet.create({
     },
 
     buttonFechar: {
+        marginTop: '7%',
         width: "50%",
         alignSelf: 'center',
         flexDirection: "row",
         borderRadius: 5,
         backgroundColor: "#050a64",
-        borderWidth: 5,
+        borderWidth: 3,
         borderTopColor: "blue",
         borderLeftColor: "blue",
         padding: 5,
@@ -91,7 +111,7 @@ export const styles = StyleSheet.create({
         borderRadius: 5
     },
     title: {
-        fontSize: 30,
+        fontSize: 23,
         color: "#fff",
         fontStyle: "italic",
         fontWeight: "bold",
@@ -108,13 +128,13 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
     },
     imageHero: {
-        width: 40,
-        height: 35,
+        width: 35,
+        height: 'auto',
         borderRadius: 3,
         resizeMode: 'center',
     },
     imageMedal: {
-        width: 35,
+        width: 30,
         height: 35,
         resizeMode: 'center',
     },
@@ -131,7 +151,7 @@ export const styles = StyleSheet.create({
     },
     d: {
         color: "red",
-        width: '7%',
+        width: '6%',
         textAlign: 'center',
         alignSelf: "center"
     },
@@ -161,7 +181,7 @@ export const styles = StyleSheet.create({
     },
     tDamage: {
         color: "yellow",
-        width: '15%',
+        width: '17%',
         textAlign: 'center',
         alignSelf: "center"
     },
@@ -173,7 +193,7 @@ export const styles = StyleSheet.create({
     },
     netWorth: {
         color: "yellow",
-        width: '15%',
+        width: '17%',
         textAlign: 'center',
         alignSelf: "center"
     }

@@ -29,35 +29,21 @@ export const styles = StyleSheet.create({
         textAlign: 'center'
     },
     inputContainer: {
-        flexDirection: "row",
-        justifyContent: "space-around",
+        width: '100%',
         zIndex: 1,
         padding: 5,
+        alignItems: "center"
     },
     input: {
         alignItems: "center",
         backgroundColor: "#fff",
         borderRadius: 5,
         padding: 7,
-    },
-    buttonBuscar: {
-        flexDirection: 'row',
-        width: "50%",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 5,
-        backgroundColor: "#050a64",
-        borderWidth: 5,
-        borderTopColor: "blue",
-        borderLeftColor: "blue",
-    },
-    buscarText: {
-        fontSize: 20,
-        color: "yellow",
-        letterSpacing: 1,
-        fontWeight: "bold",
-    },
+        width: '80%',
+        textAlign: 'center',
+        fontSize: 17,
 
+    },
     profile: {
         flexDirection: "row",
         alignItems: 'center',
@@ -84,7 +70,7 @@ export const styles = StyleSheet.create({
     image: {
         height: 100,
         width: 100,
-        borderRadius: 20,
+        borderRadius: 7,
     },
     imageMedal: {
         height: 60,
