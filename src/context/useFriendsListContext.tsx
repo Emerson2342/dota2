@@ -12,6 +12,8 @@ import { FriendDetailsModel } from '../screens/BuscarPlayers/props';
 interface FriendsListContextData {
     friendsList: FriendDetailsModel[];
     setFriendsList: Dispatch<SetStateAction<FriendDetailsModel[]>>;
+    friendDetails: FriendDetailsModel[];
+    setFriendDetails: Dispatch<SetStateAction<FriendDetailsModel[]>>;
 }
 
 //criação do Context
@@ -25,6 +27,7 @@ interface FriendsListProviderProps {
 //criação do provider
 export const FriendsListProvider: React.FC<FriendsListProviderProps> = ({ children }) => {
     const [friendsList, setFriendsList] = useState<FriendDetailsModel[]>([]);
+    const [friendDetails, setFriendDetails] = useState<FriendDetailsModel[]>([]);
 
     //carregando dados do AsyncStorage
     useEffect(() => {
@@ -34,11 +37,23 @@ export const FriendsListProvider: React.FC<FriendsListProviderProps> = ({ childr
                 if (storedFriendsList) {
                     setFriendsList(JSON.parse(storedFriendsList));
                 }
+
             } catch (error) {
                 console.error('Erro ao carregar dados do AsyncStorage:', error);
             }
         };
+        const loadFriendDetails = async () => {
+            try {
+                const storedFriendDetails = await AsyncStorage.getItem('friendDetails');
+                if (storedFriendDetails) {
+                    setFriendDetails(JSON.parse(storedFriendDetails))
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados do AsyncStorage:', error);
+            }
+        }
         loadFriendsList();
+        loadFriendDetails();
     }, []);
 
     //salvando dados no AsyncStorage
@@ -50,13 +65,23 @@ export const FriendsListProvider: React.FC<FriendsListProviderProps> = ({ childr
                 console.error('Erro ao salvar dados no AsyncStorage:', error);
             }
         };
+        const saveFriendDetails = async () => {
+            try {
+                await AsyncStorage.setItem('friendDetails', JSON.stringify(friendDetails));
+            } catch (error) {
+                console.error('Erro ao salvar dados no AsyncStorage:', error);
+            }
+        }
         saveFriendsList();
+        saveFriendDetails();
     }, [friendsList]);
 
     //valor do contexto
     const contextValue: FriendsListContextData = {
         friendsList,
         setFriendsList,
+        friendDetails,
+        setFriendDetails
     };
 
     return (

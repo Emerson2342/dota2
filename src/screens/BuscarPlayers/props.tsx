@@ -25,6 +25,7 @@ export interface FriendDetailsModel {
     name: string;
     account_id: number;
     medal: number;
+    att: string;
 }
 
 export interface RecentMatches {

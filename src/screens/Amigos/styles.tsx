@@ -56,9 +56,16 @@ export const styles = StyleSheet.create({
         padding: '1%'
     },
     imageMedal: {
-        width: 100,
+        width: 60,
+        height: 60,
+        resizeMode: 'contain',
+
+    },
+    imageProfile: {
+        width: 80,
         height: 80,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        borderRadius: 5
     },
     text: {
         color: "#fff",

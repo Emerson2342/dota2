@@ -11,19 +11,26 @@ import { useQuery } from '@apollo/client';
 import { GET_PLAYER_DATA } from '../../graphql/queries';
 import { ModalFriendDetails } from '../../components/Modals/ModalFriendDetails';
 import { Medal } from '../../components/Medals/MedalsList';
+import { usePlayerContext } from '../../context/useDatasContex';
 
 export function Friends({ navigation }: any) {
 
-    const { friendsFocus, setFriendsFocus, keyCounter, setKeyCounter } = useKeyCounter();
-
+    const { friendsFocus, setFriendsFocus, keyCounter, setKeyCounter, setPlayerFocus } = useKeyCounter();
+    const { friendDetails, setFriendDetails } = useFriendsListContext();
     const { friendsList, setFriendsList } = useFriendsListContext();
+    const { setPlayerId } = usePlayerContext();
     const [id, setId] = useState(0);
 
-
     const [modalAddVisible, setModalAddVisible] = useState(false);
-    const [modalFriendDetail, setModalFriendDetail] = useState(false);
 
-    const [friendDetails, setFriendDetails] = useState<FriendDetailsModel[]>([]);
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
 
     function navToHome() {
         setKeyCounter(keyCounter + 1);
@@ -34,7 +41,20 @@ export function Friends({ navigation }: any) {
     }
 
     const { data, loading, error } = useQuery(GET_PLAYER_DATA,
-        { variables: { steamAccountId: id } });
+        {
+            variables: { steamAccountId: id },
+            skip: id === null,
+        });
+
+    function navToPlayers() {
+        setFriendsFocus(false)
+        setPlayerFocus(true)
+        setKeyCounter(keyCounter + 17);
+        setTimeout(() => {
+            navigation.navigate("buscarPlayers")
+        }, 900)
+    }
+
 
     useEffect(() => {
         if (id !== null && data) {
@@ -48,37 +68,66 @@ export function Friends({ navigation }: any) {
             setFriendDetails(newFriendDetails);
         }
 
-    }, [id])
+    }, [id, data])
+
+    console.log("Carregando? " + loading)
+    console.log("Erro? " + error)
 
     useEffect(() => {
-        const initialFriendDetails = friendsList.map(friend => ({
+
+        const existingFriendIds = new Set(friendDetails.map(friend => friend.idFriend));
+
+        const newFriends = friendsList.filter(friend => !existingFriendIds.has(friend.idFriend));
+
+        const newFriendDetails = newFriends.map(friend => ({
             avatar: '',
             personaname: '',
             name: '',
-            account_id: 0,
-            medal: 0,
+            account_id: friend.idFriend,
+            medal: 0, // Valor padrão
             friend: friend.friend,
             idFriend: friend.idFriend,
+            att: ''
         }));
-        setFriendDetails(initialFriendDetails);
-    }, [friendsList]);
+
+
+        if (newFriendDetails.length > 0) {
+            setFriendDetails(prevDetails => [...prevDetails, ...newFriendDetails]);
+        }
+    }, [friendsList, friendDetails]);
+
 
     console.log(id)
     console.log("Perfil " + JSON.stringify(friendDetails, null, 2))
 
     const renderItem = ({ item, index }: { item: FriendDetailsModel, index: number }) => {
 
-        const medalRank = item.medal
+        const handlePress = () => {
+            const formattedDateTime = `${day}/${month}/${year} às ${hours}:${minutes}:${seconds}`;
+
+            setFriendDetails(prevDetails => prevDetails.map(friend =>
+                friend.idFriend === item.idFriend
+                    ? { ...friend, att: formattedDateTime }
+                    : friend
+            ));
+        };
+        const medalRank = item.medal;
+        const avatar = item.avatar;
 
         return (
             <View >
-                <TouchableOpacity
+                <View
                     style={styles.listaContent}
-                    onPress={() => setId(item.idFriend)}
                 >
-                    <View
-                        style={{ backgroundColor: "#000", width: '30%' }}
-                    >
+                    <View>
+                        <Image
+                            style={styles.imageProfile}
+                            source={{
+                                uri: avatar == '' ? 'fafa' : avatar
+                            }}
+                        />
+                    </View>
+                    <View style={{ alignItems: "center" }}>
                         <Image
                             style={styles.imageMedal}
                             source={{
@@ -88,19 +137,36 @@ export function Friends({ navigation }: any) {
                         <Text style={styles.text}>{item.personaname}</Text>
 
                     </View>
-                    <View
-                        style={{ width: '70%' }}
-                    >
+                    <View>
                         <Text style={[styles.text, { fontSize: 30, fontStyle: 'italic' }]}>{item.friend}</Text>
                         <Text style={[styles.text, { color: 'gray', fontStyle: 'italic' }]}> id: {item.idFriend}</Text>
                     </View>
+                    <View
+                        style={{ height: '100%' }}
+                    >
+                        <TouchableOpacity
+                            style={{
+                                marginBottom: "1%",
+                            }}
+                            onPress={() => {
+                                setId(item.idFriend);
+                                handlePress()
+                            }}
+                        ><Text style={{ color: "#fff" }}>Atualizar</Text></TouchableOpacity>
 
-
-                </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{ marginTop: "50%" }}
+                            onPress={() => {
+                                navToPlayers();
+                                setPlayerId(item.account_id.toString())
+                            }}
+                        ><Text style={{ color: "#fff" }}>Abrir Perfil</Text></TouchableOpacity>
+                    </View>
+                </View>
+                <Text style={[styles.text, { color: 'gray', fontStyle: 'italic' }]}>Atualizado em {item.att}</Text>
             </View>
         )
     }
-
 
     return (
         <View style={styles.container}>
@@ -145,7 +211,7 @@ export function Friends({ navigation }: any) {
                     style={styles.flatList}
                     data={friendDetails}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.idFriend.toString()}
+                    keyExtractor={(item) => item.friend.toString()}
                 />
             </View>
 
@@ -181,19 +247,13 @@ export function Friends({ navigation }: any) {
                 transparent={true}
             >
                 <ModalAddFriends
-                    handleClose={() => setModalAddVisible(false)}
+                    handleClose={() => {
+                        setModalAddVisible(false);
+                        setId(0);
+                    }}
                 />
             </Modal>
 
-            <Modal
-                visible={modalFriendDetail}
-                transparent={true}
-            >
-                <ModalFriendDetails
-                    handleClose={() => setModalFriendDetail(false)}
-                    id={id}
-                />
-            </Modal>
 
         </View>
     );
