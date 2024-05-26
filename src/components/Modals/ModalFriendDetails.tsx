@@ -1,42 +1,23 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, TextInput, StatusBar, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, StatusBar } from 'react-native';
 import { FriendDetailsModel, ModalAddFriendsProps } from '../../screens/BuscarPlayers/props';
-import { useFriendsListContext } from '../../context/useFriendsListContext';
 import { MotiView } from 'moti';
+import { useQuery } from '@apollo/client';
+import { GET_PLAYER_DATA } from '../../graphql/queries';
 
 
-export function ModalAddFriends({ handleClose }: ModalAddFriendsProps) {
+export function ModalFriendDetails({ handleClose, id }: { handleClose(): ModalAddFriendsProps, id: number }) {
 
-    const { friendsList, setFriendsList } = useFriendsListContext();
 
-    const [friendName, setFriendName] = useState('');
-    const [friendId, setFriendId] = useState('');
 
-    const handleSalvar = () => {
-        const verificarId = /^[0-9]+$/;
 
-        if (friendName === '') {
-            Alert.alert('Atenção', "Nome não pode ficar vazio");
-        } else if (friendId.length !== 9) {
-            Alert.alert('Erro', 'O ID deve conter 9 dígitos');
-        } else if (!verificarId.test(friendId)) {
-            Alert.alert('Erro', 'O ID do jogador deve conter apenas números');
-        } else {
-            const newFriend: FriendDetailsModel = {
-                friend: friendName.trim(),
-                idFriend: parseInt(friendId, 10),
-                avatar: '',
-                personaname: '',
-                name: '',
-                account_id: 0,
-                medal: 0
-            }
-            setFriendsList([...friendsList, newFriend]);
 
-            handleClose();
-        }
+
+    function handlePress() {
+        const { data, loading, error } = useQuery(GET_PLAYER_DATA,
+            { variables: { steamAccountId: id } });
+        console.log(JSON.stringify(data, null, 2))
     }
-
 
     return (
         <MotiView style={styles.container}>
@@ -48,24 +29,8 @@ export function ModalAddFriends({ handleClose }: ModalAddFriendsProps) {
             >
                 <Text
                     style={styles.textTitle}
-                >Adicionar Amigo</Text>
-                <View
-                    style={styles.inputContainer}
-                >
-                    <TextInput
-                        style={styles.input}
-                        placeholder='Digite o nome do jogador'
-                        // value={friendName}
-                        onChangeText={setFriendName}
-                    />
-                    <TextInput
-                        keyboardType='numeric'
-                        style={styles.input}
-                        placeholder='Digite o ID do jogador'
-                        // value={friendId}
-                        onChangeText={setFriendId}
-                    />
-                </View>
+                >{id}</Text>
+
                 <View
                     style={styles.buttonContainer}
                 >
@@ -73,7 +38,7 @@ export function ModalAddFriends({ handleClose }: ModalAddFriendsProps) {
                         style={styles.buttonContent}
                         onPress={() => {
                             handleClose()
-                            console.log(JSON.stringify(friendsList, null, 2))
+
                         }}
                     >
                         <Text
@@ -82,7 +47,7 @@ export function ModalAddFriends({ handleClose }: ModalAddFriendsProps) {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.buttonContent}
-                        onPress={handleSalvar}
+
                     >
                         <Text
                             style={styles.buttonText}

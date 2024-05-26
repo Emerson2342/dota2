@@ -1,16 +1,17 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FriendDetailsModel } from '../screens/BuscarPlayers/props';
 
 //interface Friend
-interface Friend {
+/* interface Friend {
     friend: string;
     idFriend: number;
 }
-
+ */
 //contexto dos dados
 interface FriendsListContextData {
-    friendsList: Friend[];
-    setFriendsList: Dispatch<SetStateAction<Friend[]>>;
+    friendsList: FriendDetailsModel[];
+    setFriendsList: Dispatch<SetStateAction<FriendDetailsModel[]>>;
 }
 
 //criação do Context
@@ -23,7 +24,7 @@ interface FriendsListProviderProps {
 
 //criação do provider
 export const FriendsListProvider: React.FC<FriendsListProviderProps> = ({ children }) => {
-    const [friendsList, setFriendsList] = useState<Friend[]>([]);
+    const [friendsList, setFriendsList] = useState<FriendDetailsModel[]>([]);
 
     //carregando dados do AsyncStorage
     useEffect(() => {

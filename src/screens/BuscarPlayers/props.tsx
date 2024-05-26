@@ -11,9 +11,20 @@ export interface PlayerModel {
 export interface ModalAddFriendsProps {
     handleClose: () => void;
 }
+
 export interface Friend {
     friend: string;
-    idFriend: number
+    idFriend: number;
+}
+
+export interface FriendDetailsModel {
+    friend: string;
+    idFriend: number;
+    avatar: string;
+    personaname: string;
+    name: string;
+    account_id: number;
+    medal: number;
 }
 
 export interface RecentMatches {

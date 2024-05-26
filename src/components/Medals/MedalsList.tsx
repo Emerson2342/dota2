@@ -112,9 +112,8 @@ export function Medal(rank_tier: number | undefined) {
             rank = 'https://static.wikia.nocookie.net/dota2_gamepedia/images/f/f2/SeasonalRankTop0.png'
             break;
         case null:
-            rank = 'https://static.wikia.nocookie.net/dota2_gamepedia/images/e/e7/SeasonalRank0-0.png'
-            break;
         case undefined:
+        case 0:
             rank = 'https://static.wikia.nocookie.net/dota2_gamepedia/images/e/e7/SeasonalRank0-0.png'
             break;
         default:

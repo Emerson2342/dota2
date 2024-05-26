@@ -55,10 +55,14 @@ export const styles = StyleSheet.create({
         width: '100%',
         padding: '1%'
     },
+    imageMedal: {
+        width: 100,
+        height: 80,
+        resizeMode: 'contain'
+    },
     text: {
         color: "#fff",
         textAlign: 'center',
-        width: '31%',
         fontWeight: 'bold'
     },
     buttonContainer: {
