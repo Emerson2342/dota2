@@ -4,18 +4,20 @@ import { StyleSheet, StatusBar, View } from 'react-native';
 import { Routes } from './src/routes';
 import { PlayerProvider } from './src/context/useDatasContex';
 import { KeyCounterProvider } from './src/context/useKeyCounter';
+import { FriendsListProvider } from './src/context/useFriendsListContext';
 
 export default function App() {
   return (
     <View style={styles.container}>
       <KeyCounterProvider>
         <PlayerProvider>
-          <Routes />
-          <StatusBar
-            backgroundColor={"transparent"}
-            translucent={true}
-
-          />
+          <FriendsListProvider>
+            <Routes />
+            <StatusBar
+              backgroundColor={"transparent"}
+              translucent={true}
+            />
+          </FriendsListProvider>
         </PlayerProvider>
       </KeyCounterProvider>
     </View>

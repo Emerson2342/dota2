@@ -8,6 +8,14 @@ export interface PlayerModel {
     leaderboard_rank: null;
 };
 
+export interface ModalAddFriendsProps {
+    handleClose: () => void;
+}
+export interface Friend {
+    friend: string;
+    idFriend: number
+}
+
 export interface RecentMatches {
     match_id: string;
     radiant_win: boolean;

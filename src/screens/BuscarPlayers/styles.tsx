@@ -42,7 +42,6 @@ export const styles = StyleSheet.create({
         width: '80%',
         textAlign: 'center',
         fontSize: 17,
-
     },
     profile: {
         flexDirection: "row",

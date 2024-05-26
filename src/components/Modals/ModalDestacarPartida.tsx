@@ -240,8 +240,8 @@ export function ModalDestacarPartida(
                     <MotiView
 
                         key={keyCounter + 120}
-                        from={{ translateY: modalFocus ? -100 : 0, opacity: 1 }}
-                        animate={{ translateY: modalFocus ? 0 : -100, opacity: 1 }}
+                        from={{ translateY: modalFocus ? -150 : 0, opacity: 1 }}
+                        animate={{ translateY: modalFocus ? 0 : -150, opacity: 1 }}
                         transition={{ type: 'timing', duration: 1000 }}
                         style={styles.detalhesContainer}>
                         <View style={styles.detalhesContext}>

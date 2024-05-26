@@ -20,12 +20,9 @@ import { usePlayerContext } from '../../context/useDatasContex';
 export function BuscarPlayers({ navigation }: any) {
 
     const [searchId, setSearchId] = useState('');
-    //const [playerId, setPlayerId] = useState('');
     const { playerId, setPlayerId } = usePlayerContext();
     const [player, setPlayer] = useState<PlayerModel | null>(null);
     const [recentMatches, setRecentMatches] = useState([]);
-
-
     let vitorias = 0;
     let derrotas = 0;
 
@@ -41,9 +38,6 @@ export function BuscarPlayers({ navigation }: any) {
 
     const { keyCounter, setKeyCounter, setHomeFocus, playerFocus, setPlayerFocus } = useKeyCounter();
 
-    function resetAnimation() {
-        setKeyCounter(keyCounter + 1);
-    }
 
     const heroesList = HeroesList();
 
@@ -70,7 +64,7 @@ export function BuscarPlayers({ navigation }: any) {
 
 
     function navToHome() {
-        resetAnimation()
+        setKeyCounter(keyCounter + 1);
         setHomeFocus(true);
         setPlayerFocus(false);
         setTimeout(() => {
@@ -113,7 +107,6 @@ export function BuscarPlayers({ navigation }: any) {
 
     };
 
-
     useEffect(() => {
         const searchPlayer = `${PLAYER_PROFILE_API_BASE_URL}${playerId}`;
         getSearchPlayer(searchPlayer);
@@ -125,17 +118,12 @@ export function BuscarPlayers({ navigation }: any) {
     }, [playerId])
 
 
-    const buscarId = () => {
-        setPlayerId(searchId);
-        // setSearchId('');
-        Keyboard.dismiss();
-        console.log(erroMessage);
-    }
-
     console.log(searchId)
 
     if (searchId.length == 9) {
-        buscarId();
+        setPlayerId(searchId);
+        Keyboard.dismiss();
+        console.log(erroMessage);
         setSearchId("");
     }
     const calcularResultadoFinal = (item: RecentMatches): boolean => {
@@ -292,7 +280,6 @@ export function BuscarPlayers({ navigation }: any) {
                         value={searchId}
                     // onSubmitEditing={buscarId}
                     />
-
                 </View>
             </MotiView>
             {isLoading && <LottieView
@@ -423,7 +410,7 @@ export function BuscarPlayers({ navigation }: any) {
                 key={keyCounter + 500}
                 from={{ translateY: playerFocus ? 300 : 0, opacity: 1 }}
                 animate={{ translateY: playerFocus ? 0 : 300, opacity: 1 }}
-                transition={{ type: 'spring', duration: 9000 }}
+                transition={{ duration: 9000, type: 'spring' }}
             >
                 <View>
                     <Image

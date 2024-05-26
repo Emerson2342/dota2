@@ -5,9 +5,8 @@ import { styles } from './styles';
 import { MotiView } from 'moti';
 import { useKeyCounter } from '../../context/useKeyCounter';
 
-
 export function Home({ navigation }: any) {
-    const { keyCounter, setKeyCounter, homeFocus, setHomeFocus, playerFocus, setPlayerFocus } = useKeyCounter();
+    const { keyCounter, setKeyCounter, homeFocus, setHomeFocus, playerFocus, setPlayerFocus, setFriendsFocus } = useKeyCounter();
 
     function resetAnimation() {
         setKeyCounter(keyCounter + 1);
@@ -33,6 +32,15 @@ export function Home({ navigation }: any) {
         }, 900)
     }
 
+    function navToFriends() {
+        setHomeFocus(false);
+        setFriendsFocus(true);
+        resetAnimation();
+        setTimeout(() => {
+            navigation.navigate("friends")
+        }, 900)
+    }
+
     function navToListaDeHerois() {
         setHomeFocus(false)
         resetAnimation()
@@ -47,7 +55,7 @@ export function Home({ navigation }: any) {
                 key={keyCounter + 500}
                 from={{ opacity: homeFocus ? 0 : 1 }}
                 animate={{ opacity: homeFocus ? 1 : 0 }}
-                transition={{ duration: 2000 }}
+                transition={{ duration: 900 }}
             >
                 <Image
                     style={{ position: 'absolute' }}
@@ -58,10 +66,10 @@ export function Home({ navigation }: any) {
             </MotiView>
             <MotiView
                 key={keyCounter}
-                from={{ translateY: homeFocus ? -500 : 0, opacity: 1 }}
-                animate={{ translateY: homeFocus ? 0 : -500, opacity: 1 }}
-                transition={{ type: 'spring', duration: 9000 }}
-                style={{ flex: 1, top: -100 }}
+                from={{ translateY: homeFocus ? -600 : 0, opacity: 1 }}
+                animate={{ translateY: homeFocus ? 0 : -600, opacity: 1 }}
+                transition={{ type: homeFocus ? 'spring' : 'timing', duration: homeFocus ? 8000 : 1000 }}
+                style={{ flex: 1, top: '-25%' }}
             >
 
                 <View
@@ -87,7 +95,7 @@ export function Home({ navigation }: any) {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        //onPress={navToListaDeHerois}
+                        onPress={navToFriends}
                         style={styles.button}
                     >
                         <Text style={[styles.textButton, { color: '#fff' }]}>A</Text>

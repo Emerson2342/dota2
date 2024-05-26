@@ -8,6 +8,7 @@ import { BuscarPlayers } from "../screens/BuscarPlayers";
 import { BuscarProPlayers } from "../screens/BuscarProPlayers";
 import { HeroisMaisJogados } from "../screens/HeroisMaisJogados";
 import { ListaDeHerois } from "../screens/ListaDeHerois";
+import { Friends } from "../screens/Amigos";
 
 export function StackRoutes() {
     return (
@@ -17,23 +18,27 @@ export function StackRoutes() {
                 component={Home}
                 options={{
                     headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS
+                    animationEnabled: false,
+
                 }}
             />
-            <Screen
-                name="buscarPartidasPorId"
-                component={BuscarPartidasPorId}
-                options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS
-                }}
-            />
+
             <Screen
                 name='buscarPlayers'
                 component={BuscarPlayers}
                 options={{
                     headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS
+                    animationEnabled: false,
+
+                }}
+            />
+            <Screen
+                name="friends"
+                component={Friends}
+                options={{
+                    headerShown: false,
+                    animationEnabled: false,
+
                 }}
             />
             <Screen
@@ -41,7 +46,8 @@ export function StackRoutes() {
                 component={BuscarProPlayers}
                 options={{
                     headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS
+                    animationEnabled: false,
+
                 }}
             />
             <Screen
@@ -49,7 +55,7 @@ export function StackRoutes() {
                 component={HeroisMaisJogados}
                 options={{
                     headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS
+                    animationEnabled: false,
                 }}
             />
             <Screen
@@ -57,7 +63,7 @@ export function StackRoutes() {
                 component={ListaDeHerois}
                 options={{
                     headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS
+                    animationEnabled: false,
                 }}
             />
         </Navigator>
