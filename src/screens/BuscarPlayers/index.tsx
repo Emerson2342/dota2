@@ -36,7 +36,7 @@ export function BuscarPlayers({ navigation }: any) {
     const { data, loading, error } = useQuery(GET_PLAYER_DATA,
         { variables: { steamAccountId: playerIdLong } });
 
-    const { keyCounter, setKeyCounter, setHomeFocus, playerFocus, setPlayerFocus } = useKeyCounter();
+    const { keyCounter, setKeyCounter, setHomeFocus, playerFocus, setPlayerFocus, setFriendsFocus } = useKeyCounter();
 
 
     const heroesList = HeroesList();
@@ -61,15 +61,14 @@ export function BuscarPlayers({ navigation }: any) {
         hora: ''
     })
 
-
-
     function navToHome() {
-        setKeyCounter(keyCounter + 1);
+        setKeyCounter(keyCounter + 11);
         setHomeFocus(true);
+        setFriendsFocus(true)
         setPlayerFocus(false);
         setTimeout(() => {
             navigation.goBack()
-        }, 1500)
+        }, 1200)
     }
     const getSearchPlayer = async (url: any) => {
         setIsLoading(true);
@@ -183,9 +182,9 @@ export function BuscarPlayers({ navigation }: any) {
 
         return (
             <MotiView
-                from={{ translateX: playerFocus ? 300 : 0, opacity: playerFocus ? 0 : 1 }}
-                animate={{ translateX: playerFocus ? 0 : 400, opacity: playerFocus ? 1 : 0 }}
-                transition={{ type: 'timing', duration: 1 * (500 * (index * 0.5)) }}
+                from={{ translateY: playerFocus ? 200 : 0, opacity: playerFocus ? 0 : 1 }}
+                animate={{ translateY: playerFocus ? 0 : 1500, opacity: playerFocus ? 1 : 0 }}
+                transition={{ type: 'timing', duration: 3000 }}
             >
 
                 <TouchableOpacity

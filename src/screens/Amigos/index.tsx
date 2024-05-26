@@ -13,13 +13,15 @@ import { ModalFriendDetails } from '../../components/Modals/ModalFriendDetails';
 import { Medal } from '../../components/Medals/MedalsList';
 import { usePlayerContext } from '../../context/useDatasContex';
 
+
 export function Friends({ navigation }: any) {
 
-    const { friendsFocus, setFriendsFocus, keyCounter, setKeyCounter, setPlayerFocus } = useKeyCounter();
+    const { friendsFocus, setFriendsFocus, keyCounter, setKeyCounter, setPlayerFocus, modalFocus, setModalFocus } = useKeyCounter();
     const { friendDetails, setFriendDetails } = useFriendsListContext();
     const { friendsList, setFriendsList } = useFriendsListContext();
     const { setPlayerId } = usePlayerContext();
     const [id, setId] = useState(0);
+
 
     const [modalAddVisible, setModalAddVisible] = useState(false);
 
@@ -40,21 +42,20 @@ export function Friends({ navigation }: any) {
         }, 900)
     }
 
-    const { data, loading, error } = useQuery(GET_PLAYER_DATA,
-        {
-            variables: { steamAccountId: id },
-            skip: id === null,
-        });
-
     function navToPlayers() {
+        setKeyCounter(keyCounter + 17);
         setFriendsFocus(false)
         setPlayerFocus(true)
-        setKeyCounter(keyCounter + 17);
         setTimeout(() => {
             navigation.navigate("buscarPlayers")
         }, 900)
     }
 
+    const { data, loading, error } = useQuery(GET_PLAYER_DATA,
+        {
+            variables: { steamAccountId: id },
+            skip: id === null,
+        });
 
     useEffect(() => {
         if (id !== null && data) {
@@ -76,20 +77,17 @@ export function Friends({ navigation }: any) {
     useEffect(() => {
 
         const existingFriendIds = new Set(friendDetails.map(friend => friend.idFriend));
-
         const newFriends = friendsList.filter(friend => !existingFriendIds.has(friend.idFriend));
-
         const newFriendDetails = newFriends.map(friend => ({
             avatar: '',
             personaname: '',
             name: '',
             account_id: friend.idFriend,
-            medal: 0, // Valor padrão
+            medal: 0,
             friend: friend.friend,
             idFriend: friend.idFriend,
             att: ''
         }));
-
 
         if (newFriendDetails.length > 0) {
             setFriendDetails(prevDetails => [...prevDetails, ...newFriendDetails]);
@@ -97,9 +95,9 @@ export function Friends({ navigation }: any) {
     }, [friendsList, friendDetails]);
 
 
-    console.log(id)
-    console.log("Perfil " + JSON.stringify(friendDetails, null, 2))
-
+    //console.log(id)
+    //console.log("Perfil " + JSON.stringify(friendDetails, null, 2))
+    console.log(modalFocus)
     const renderItem = ({ item, index }: { item: FriendDetailsModel, index: number }) => {
 
         const handlePress = () => {
@@ -115,10 +113,18 @@ export function Friends({ navigation }: any) {
         const avatar = item.avatar;
 
         return (
-            <View >
+            <MotiView
+                style={styles.renderItem}
+                key={keyCounter + 20}
+                from={{ translateX: friendsFocus ? 500 : 0 }}
+                animate={{ translateX: friendsFocus ? 0 : 1500 }}
+                transition={{ type: 'timing', duration: 5 * (500 * ((1 + index) * 0.5)) }}
+            >
+                <Text style={styles.text}>{item.friend}</Text>
                 <View
                     style={styles.listaContent}
                 >
+
                     <View>
                         <Image
                             style={styles.imageProfile}
@@ -134,11 +140,10 @@ export function Friends({ navigation }: any) {
                                 uri: `${Medal(medalRank)}`
                             }}
                         />
-                        <Text style={styles.text}>{item.personaname}</Text>
 
                     </View>
                     <View>
-                        <Text style={[styles.text, { fontSize: 30, fontStyle: 'italic' }]}>{item.friend}</Text>
+                        <Text style={[styles.text, { fontSize: 17, fontStyle: 'italic' }]}>{item.personaname}</Text>
                         <Text style={[styles.text, { color: 'gray', fontStyle: 'italic' }]}> id: {item.idFriend}</Text>
                     </View>
                     <View
@@ -146,25 +151,41 @@ export function Friends({ navigation }: any) {
                     >
                         <TouchableOpacity
                             style={{
-                                marginBottom: "1%",
+                                marginTop: "15%",
+                                alignItems: "center"
+                            }}
+                            onPress={() => {
+                                navToPlayers();
+                                setPlayerId(item.account_id.toString())
+                            }}
+                        >
+                            <Image
+                                style={{ width: 30, height: 30 }}
+                                source={require('../../images/profile.png')}
+                            />
+                            <Text style={{ color: "#fff" }}>Abrir Perfil</Text></TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={{
+                                marginTop: "3%",
+                                alignItems: "center"
                             }}
                             onPress={() => {
                                 setId(item.idFriend);
                                 handlePress()
                             }}
-                        ><Text style={{ color: "#fff" }}>Atualizar</Text></TouchableOpacity>
+                        >
+                            <Image
+                                style={{ width: 30, height: 30 }}
+                                source={require('../../images/refresh.png')}
+                            />
+                        </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={{ marginTop: "50%" }}
-                            onPress={() => {
-                                navToPlayers();
-                                setPlayerId(item.account_id.toString())
-                            }}
-                        ><Text style={{ color: "#fff" }}>Abrir Perfil</Text></TouchableOpacity>
                     </View>
                 </View>
-                <Text style={[styles.text, { color: 'gray', fontStyle: 'italic' }]}>Atualizado em {item.att}</Text>
-            </View>
+
+                {item.att.length > 0 ? <Text style={[styles.text, { color: 'gray', fontStyle: 'italic' }]}>Atualizado em {item.att}</Text> : <Text style={[styles.text, { color: 'gray', fontStyle: 'italic' }]}>Favor Atualizar</Text>}
+            </MotiView>
         )
     }
 
@@ -200,13 +221,9 @@ export function Friends({ navigation }: any) {
             </MotiView>
             <View
                 style={{
-                    backgroundColor: "rgba(0,0,0,0.5)",
-                    borderWidth: 5,
-                    borderTopColor: "#3c3c3c",
-                    borderLeftColor: "#3c3c3c", alignItems: 'center', marginTop: '5%', width: '95%', alignSelf: 'center'
+                    alignItems: 'center', marginTop: '5%', width: '95%', alignSelf: 'center'
                 }}
             >
-
                 <FlatList
                     style={styles.flatList}
                     data={friendDetails}
@@ -234,10 +251,10 @@ export function Friends({ navigation }: any) {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.buttonVoltar}
-                    onPress={() => setModalAddVisible(true)}
-
-
-                >
+                    onPress={() => {
+                        setModalAddVisible(true);
+                        setModalFocus(true);
+                    }}>
                     <Text style={[styles.textVoltar, { color: "#fff" }]}>A</Text><Text style={styles.textVoltar}>dicionar Amigos</Text>
                 </TouchableOpacity>
             </MotiView>
@@ -253,8 +270,6 @@ export function Friends({ navigation }: any) {
                     }}
                 />
             </Modal>
-
-
         </View>
     );
 }

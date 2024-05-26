@@ -9,6 +9,8 @@ interface KeyCounterContextType {
     setPlayerFocus: React.Dispatch<React.SetStateAction<boolean>>;
     friendsFocus: boolean;
     setFriendsFocus: React.Dispatch<React.SetStateAction<boolean>>;
+    modalFocus: boolean;
+    setModalFocus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface KeyCounterProviderProps {
@@ -22,9 +24,10 @@ export const KeyCounterProvider = ({ children }: KeyCounterProviderProps) => {
     const [homeFocus, setHomeFocus] = useState(true);
     const [playerFocus, setPlayerFocus] = useState(false);
     const [friendsFocus, setFriendsFocus] = useState(false);
+    const [modalFocus, setModalFocus] = useState(false);
 
     return (
-        <KeyCounterContext.Provider value={{ keyCounter, setKeyCounter, homeFocus, setHomeFocus, playerFocus, setPlayerFocus, friendsFocus, setFriendsFocus }}>
+        <KeyCounterContext.Provider value={{ modalFocus, setModalFocus, keyCounter, setKeyCounter, homeFocus, setHomeFocus, playerFocus, setPlayerFocus, friendsFocus, setFriendsFocus }}>
             {children}
         </KeyCounterContext.Provider>
     );

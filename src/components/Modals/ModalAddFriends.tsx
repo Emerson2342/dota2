@@ -3,11 +3,14 @@ import { View, StyleSheet, Text, TouchableOpacity, TextInput, StatusBar, Alert }
 import { FriendDetailsModel, ModalAddFriendsProps } from '../../screens/BuscarPlayers/props';
 import { useFriendsListContext } from '../../context/useFriendsListContext';
 import { MotiView } from 'moti';
+import { useKeyCounter } from '../../context/useKeyCounter';
 
 
 export function ModalAddFriends({ handleClose }: ModalAddFriendsProps) {
 
     const { friendsList, setFriendsList } = useFriendsListContext();
+
+    const { modalFocus, setModalFocus, keyCounter } = useKeyCounter();
 
     const [friendName, setFriendName] = useState('');
     const [friendId, setFriendId] = useState('');
@@ -29,22 +32,31 @@ export function ModalAddFriends({ handleClose }: ModalAddFriendsProps) {
                 personaname: '',
                 name: '',
                 account_id: 0,
-                medal: 0
+                medal: 0,
+                att: ''
             }
             setFriendsList([...friendsList, newFriend]);
 
-            handleClose();
-        }
-    }
 
+        }
+        setModalFocus(false);
+        setTimeout(() => {
+            handleClose();
+        }, 1200)
+    }
+    console.log(modalFocus)
 
     return (
         <MotiView style={styles.container}>
             <StatusBar
                 backgroundColor={'rgba(0,0,0,0.5)'}
             />
-            <View
+            <MotiView
+                key={keyCounter}
                 style={styles.modalContainer}
+                from={{ rotateY: modalFocus ? '90deg' : '0deg', opacity: 1 }}
+                animate={{ rotateY: modalFocus ? '0deg' : '-90deg', opacity: 1 }}
+                transition={{ type: 'timing', duration: 700 }}
             >
                 <Text
                     style={styles.textTitle}
@@ -72,8 +84,10 @@ export function ModalAddFriends({ handleClose }: ModalAddFriendsProps) {
                     <TouchableOpacity
                         style={styles.buttonContent}
                         onPress={() => {
-                            handleClose()
-                            console.log(JSON.stringify(friendsList, null, 2))
+                            setTimeout(() => {
+                                handleClose();
+                            }, 1200)
+                            setModalFocus(false)
                         }}
                     >
                         <Text
@@ -90,7 +104,7 @@ export function ModalAddFriends({ handleClose }: ModalAddFriendsProps) {
                     </TouchableOpacity>
 
                 </View>
-            </View>
+            </MotiView>
 
         </MotiView>
     );

@@ -48,12 +48,18 @@ export const styles = StyleSheet.create({
         height: '75%',
         width: '100%',
     },
+    renderItem: {
+        backgroundColor: "rgba(0,0,0,0.7)",
+        borderWidth: 5,
+        borderTopColor: "#3c3c3c",
+        borderLeftColor: "#3c3c3c",
+        marginVertical: '2%'
+    },
     listaContent: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
         width: '100%',
-        padding: '1%'
     },
     imageMedal: {
         width: 60,

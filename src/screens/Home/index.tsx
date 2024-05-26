@@ -35,7 +35,7 @@ export function Home({ navigation }: any) {
     function navToFriends() {
         setHomeFocus(false);
         setFriendsFocus(true);
-        resetAnimation();
+        setKeyCounter(keyCounter + 1);
         setTimeout(() => {
             navigation.navigate("friends")
         }, 900)
