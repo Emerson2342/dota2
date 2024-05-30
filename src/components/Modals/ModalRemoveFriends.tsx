@@ -8,10 +8,21 @@ import { useKeyCounter } from '../../context/useKeyCounter';
 
 export function ModalRemoveFriends({ handleClose, idFriend, friend }: { handleClose(): void, idFriend: number, friend: string }) {
 
-    const { friendsList, setFriendsList } = useFriendsListContext();
+    const { friendDetails, setFriendDetails } = useFriendsListContext();
 
     const { modalFocus, setModalFocus, keyCounter } = useKeyCounter();
 
+    const handleDelete = () => {
+        const updatedFriendsList = friendDetails.filter(friend => friend.idFriend !== idFriend);
+        alert(JSON.stringify(updatedFriendsList, null, 2))
+        setFriendDetails(updatedFriendsList);
+        /*  setTimeout(() => {
+             handleClose();
+         }, 1200)
+         setModalFocus(false); */
+        handleClose();
+
+    }
 
 
     return (
@@ -51,12 +62,8 @@ export function ModalRemoveFriends({ handleClose, idFriend, friend }: { handleCl
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.buttonContent}
-                        onPress={() => {
-                            setTimeout(() => {
-                                handleClose();
-                            }, 1200)
-                            setModalFocus(false)
-                        }}
+                        onPress={() => handleDelete()}
+                    // onPress={() => console.log(JSON.stringify(friendsList, null, 2))}
                     >
                         <Text
                             style={styles.buttonText}
