@@ -83,6 +83,29 @@ export function Friends({ navigation }: any) {
             )
             setFriendDetails(newFriendDetails);
 
+            if (player?.leaderboard_rank) {
+                const newFriendDetails = friendDetails?.map(friend =>
+                    friend.idFriend === id ? {
+                        ...friend, personaname: player?.profile.personaname,
+                        avatar: player?.profile.avatarfull,
+                        medal: player?.rank_tier,
+                        leaderboard_rank: player?.leaderboard_rank
+                    } : friend
+                )
+                setFriendDetails(newFriendDetails);
+                if (player?.profile.name) {
+                    const newFriendDetails = friendDetails?.map(friend =>
+                        friend.idFriend === id ? {
+                            ...friend, personaname: player?.profile.name,
+                            avatar: player?.profile.avatarfull,
+                            medal: player?.rank_tier,
+                            leaderboard_rank: player?.leaderboard_rank
+                        } : friend
+                    )
+                    setFriendDetails(newFriendDetails);
+                }
+            }
+
         } else {
             const newFriendDetails = friendDetails?.map(friend =>
                 friend.idFriend === id ? {
@@ -145,6 +168,7 @@ export function Friends({ navigation }: any) {
         const medalRank = item.medal;
         const avatar = item.avatar;
 
+
         return (
             <MotiView
                 style={styles.renderItem}
@@ -153,11 +177,10 @@ export function Friends({ navigation }: any) {
                 animate={{ translateX: friendsFocus ? 0 : 1500 }}
                 transition={{ type: 'timing', duration: 5 * (500 * ((1 + index) * 0.5)) }}
             >
-                <Text style={styles.text}>{item.friend}</Text>
+                <Text style={[styles.text, { fontSize: 17 }]}>{item.friend}</Text>
                 <View
                     style={styles.listaContent}
                 >
-
                     <View>
                         <Image
                             style={styles.imageProfile}
@@ -166,68 +189,61 @@ export function Friends({ navigation }: any) {
                             }}
                         />
                     </View>
-                    <View style={{ alignItems: "center" }}>
+                    <View
+                        style={{ alignItems: "center" }}
+                    >
                         <Image
                             style={styles.imageMedal}
                             source={{
                                 uri: `${Medal(medalRank)}`
                             }}
                         />
+                        <Text style={{ color: "#fff", fontWeight: 'bold', top: -27 }}>{item.leaderboard_rank}</Text>
 
                     </View>
-                    <View>
+                    <View
+                        style={{ width: '50%' }}
+                    >
                         <Text style={[styles.text, { fontSize: 17, fontStyle: 'italic' }]}>{item.personaname}</Text>
                         <Text style={[styles.text, { color: 'gray', fontStyle: 'italic' }]}> id: {item.idFriend}</Text>
                     </View>
-                    <View>
-                        <TouchableOpacity
-                            style={{
-                                marginTop: "1%",
-                                alignItems: "center",
-                                paddingTop: '20%'
-                            }}
-                            onPress={() => {
-                                navToPlayers();
-                                setPlayerId(item.account_id.toString())
-                            }}
-                        >
-                            <Image
-                                style={{ width: 30, height: 30 }}
-                                source={require('../../images/profile.png')}
-                            />
-                        </TouchableOpacity>
+                </View>
+                <View
+                    style={styles.buttonContent}
+                >
+                    <TouchableOpacity
+                        onPress={() => {
+                            navToPlayers();
+                            setPlayerId(item.account_id.toString())
+                        }}
+                    >
+                        <Image
+                            style={styles.icon}
+                            source={require('../../images/profile.png')}
+                        />
+                    </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={{
-                                alignItems: "center",
-                                paddingTop: '20%'
-                            }}
-                            onPress={() => {
-                                setId(item.idFriend);
-                                setLoad(true);
-                                handlePress()
-                            }}
-                        >
-                            <Image
-                                style={{ width: 30, height: 30 }}
-                                source={require('../../images/refresh.png')}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={{
-                                alignItems: "center",
-                                paddingTop: '20%'
-                            }}
-                            onPressIn={() => handleDelete(item.idFriend, item.friend)}
-                            onPressOut={handleDeleteModal}
-                        >
-                            <Image
-                                style={{ width: 30, height: 30 }}
-                                source={require('../../images/delete.png')}
-                            />
-                        </TouchableOpacity>
-
-                    </View>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setId(item.idFriend);
+                            setLoad(true);
+                            handlePress()
+                        }}
+                    >
+                        <Image
+                            style={styles.icon}
+                            source={require('../../images/refresh.png')}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPressIn={() => handleDelete(item.idFriend, item.friend)}
+                        onPressOut={handleDeleteModal}
+                    >
+                        <Image
+                            style={styles.icon}
+                            source={require('../../images/delete.png')}
+                        />
+                    </TouchableOpacity>
                 </View>
 
                 {item.att.length > 0 ? <Text style={[styles.text, { color: 'gray', fontStyle: 'italic' }]}>Atualizado em {item.att}</Text> : <Text style={[styles.text, { color: 'gray', fontStyle: 'italic' }]}>Favor Atualizar</Text>}
@@ -246,7 +262,7 @@ export function Friends({ navigation }: any) {
                 <Image
                     style={styles.imageBackground}
                     source={
-                        require('../../images/orc.jpg')
+                        require('../../images/wallpaper.jpg')
                     }
                 />
             </MotiView>

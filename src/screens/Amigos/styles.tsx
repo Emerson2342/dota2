@@ -30,20 +30,6 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold'
     },
-    inputContainer: {
-        width: '90%',
-        paddingTop: '5%',
-        flexDirection: 'row',
-        justifyContent: 'space-around'
-    },
-    inputContent: {
-        width: '65%',
-        backgroundColor: "#fff",
-        padding: '1%',
-        textAlign: 'center',
-        borderRadius: 5,
-        fontSize: 15
-    },
     flatList: {
         height: '75%',
         width: '100%',
@@ -53,7 +39,8 @@ export const styles = StyleSheet.create({
         borderWidth: 5,
         borderTopColor: "#3c3c3c",
         borderLeftColor: "#3c3c3c",
-        marginVertical: '2%'
+        alignItems: "center",
+        marginVertical: '0.5%',
     },
     listaContent: {
         flexDirection: 'row',
@@ -63,19 +50,28 @@ export const styles = StyleSheet.create({
     },
     imageMedal: {
         width: 70,
-        height: 100,
+        height: 80,
         resizeMode: 'contain',
     },
     imageProfile: {
-        width: 50,
-        height: 50,
-        resizeMode: 'contain',
-        borderRadius: 5
+        width: 60,
+        height: 60,
+        borderRadius: 3
     },
+
     text: {
         color: "#fff",
         textAlign: 'center',
         fontWeight: 'bold'
+    },
+    buttonContent: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        width: '50%',
+    },
+    icon: {
+        width: 20,
+        height: 20
     },
     buttonContainer: {
         flex: 1,
@@ -83,7 +79,6 @@ export const styles = StyleSheet.create({
         alignItems: 'flex-end',
         marginBottom: '5%',
         flexDirection: 'row',
-
     },
     buttonVoltar: {
         width: "60%",

@@ -261,11 +261,11 @@ export function BuscarPlayers({ navigation }: any) {
                 >
                     <Text
                         style={[styles.titleText, { color: "#fff" }]}>
-                        E
+                        P
                     </Text>
                     <Text
                         style={styles.titleText}>
-                        statísticas do jogador
+                        erfil
                     </Text>
                 </View>
                 <View

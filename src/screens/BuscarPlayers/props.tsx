@@ -1,5 +1,6 @@
 export interface PlayerModel {
     profile: {
+        name: string;
         account_id: number;
         personaname: string;
         avatarfull: string;
@@ -30,6 +31,7 @@ export interface FriendDetailsModel {
         account_id?: number;
         personaname?: string;
         avatarfull?: string;
+        name?: string;
     },
     rank_tier?: number;
     leaderboard_rank?: null;

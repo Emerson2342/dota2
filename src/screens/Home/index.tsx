@@ -90,8 +90,8 @@ export function Home({ navigation }: any) {
                         onPress={navToPlayers}
                         style={styles.button}
                     >
-                        <Text style={[styles.textButton, { color: '#fff' }]}>M</Text>
-                        <Text style={styles.textButton}>eu Perfil</Text>
+                        <Text style={[styles.textButton, { color: '#fff' }]}>P</Text>
+                        <Text style={styles.textButton}>erfil</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
