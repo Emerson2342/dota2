@@ -29,6 +29,7 @@ export const FriendsListProvider: React.FC<FriendsListProviderProps> = ({ childr
     const [friendsList, setFriendsList] = useState<FriendDetailsModel[]>([]);
     const [friendDetails, setFriendDetails] = useState<FriendDetailsModel[]>([]);
 
+
     //carregando dados do AsyncStorage
     useEffect(() => {
         const loadFriendsList = async () => {
@@ -52,6 +53,7 @@ export const FriendsListProvider: React.FC<FriendsListProviderProps> = ({ childr
                 console.error('Erro ao carregar dados do AsyncStorage:', error);
             }
         }
+
         loadFriendsList();
         loadFriendDetails();
     }, []);
@@ -72,16 +74,18 @@ export const FriendsListProvider: React.FC<FriendsListProviderProps> = ({ childr
                 console.error('Erro ao salvar dados no AsyncStorage:', error);
             }
         }
+
+
         saveFriendsList();
         saveFriendDetails();
-    }, [friendsList]);
+    }, [friendsList, friendDetails]); //dependência para o useEffect
 
     //valor do contexto
     const contextValue: FriendsListContextData = {
         friendsList,
         setFriendsList,
         friendDetails,
-        setFriendDetails
+        setFriendDetails,
     };
 
     return (

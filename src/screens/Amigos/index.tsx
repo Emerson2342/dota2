@@ -6,27 +6,31 @@ import { MotiView } from 'moti';
 import { useKeyCounter } from '../../context/useKeyCounter';
 import { useFriendsListContext } from '../../context/useFriendsListContext';
 import { ModalAddFriends } from '../../components/Modals/ModalAddFriends';
+import { ModalRemoveFriends } from '../../components/Modals/ModalRemoveFriends';
 import { FriendDetailsModel, PlayerModel } from '../BuscarPlayers/props';
-import { useQuery } from '@apollo/client';
-import { GET_PLAYER_DATA } from '../../graphql/queries';
-import { ModalFriendDetails } from '../../components/Modals/ModalFriendDetails';
 import { Medal } from '../../components/Medals/MedalsList';
 import { usePlayerContext } from '../../context/useDatasContex';
 import { PLAYER_PROFILE_API_BASE_URL } from '../../constants/player';
 
 
+
 export function Friends({ navigation }: any) {
 
     const { friendsFocus, setFriendsFocus, keyCounter, setKeyCounter, setPlayerFocus, modalFocus, setModalFocus } = useKeyCounter();
-    const { friendDetails, setFriendDetails } = useFriendsListContext();
-    const { friendsList, setFriendsList } = useFriendsListContext();
+    const { friendDetails, setFriendDetails, friendsList, setFriendsList } = useFriendsListContext();
     const { setPlayerId } = usePlayerContext();
     const [player, setPlayer] = useState<PlayerModel | null>(null);
     const [load, setLoad] = useState(false);
     const [id, setId] = useState(0);
 
+    const [indexToRemove, setIndexToRemove] = useState({
+        idFriend: 0,
+        friend: ''
+    })
+
 
     const [modalAddVisible, setModalAddVisible] = useState(false);
+    const [modalRemoveVisible, setModalRemoveVisible] = useState(false);
 
     const now = new Date();
     const year = now.getFullYear();
@@ -129,6 +133,15 @@ export function Friends({ navigation }: any) {
                     : friend
             ));
         };
+
+        const handleDelete = (idFriend: number, friend: string) => {
+            setIndexToRemove({ idFriend, friend })
+
+        }
+        const handleDeleteModal = () => {
+            setModalRemoveVisible(true);
+            setModalFocus(true);
+        }
         const medalRank = item.medal;
         const avatar = item.avatar;
 
@@ -166,13 +179,12 @@ export function Friends({ navigation }: any) {
                         <Text style={[styles.text, { fontSize: 17, fontStyle: 'italic' }]}>{item.personaname}</Text>
                         <Text style={[styles.text, { color: 'gray', fontStyle: 'italic' }]}> id: {item.idFriend}</Text>
                     </View>
-                    <View
-                        style={{ height: '100%' }}
-                    >
+                    <View>
                         <TouchableOpacity
                             style={{
-                                marginTop: "15%",
-                                alignItems: "center"
+                                marginTop: "1%",
+                                alignItems: "center",
+                                paddingTop: '20%'
                             }}
                             onPress={() => {
                                 navToPlayers();
@@ -183,12 +195,12 @@ export function Friends({ navigation }: any) {
                                 style={{ width: 30, height: 30 }}
                                 source={require('../../images/profile.png')}
                             />
-                            <Text style={{ color: "#fff" }}>Abrir Perfil</Text></TouchableOpacity>
+                        </TouchableOpacity>
 
                         <TouchableOpacity
                             style={{
-                                marginTop: "3%",
-                                alignItems: "center"
+                                alignItems: "center",
+                                paddingTop: '20%'
                             }}
                             onPress={() => {
                                 setId(item.idFriend);
@@ -199,6 +211,19 @@ export function Friends({ navigation }: any) {
                             <Image
                                 style={{ width: 30, height: 30 }}
                                 source={require('../../images/refresh.png')}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{
+                                alignItems: "center",
+                                paddingTop: '20%'
+                            }}
+                            onPressIn={() => handleDelete(item.idFriend, item.friend)}
+                            onPressOut={handleDeleteModal}
+                        >
+                            <Image
+                                style={{ width: 30, height: 30 }}
+                                source={require('../../images/delete.png')}
                             />
                         </TouchableOpacity>
 
@@ -289,6 +314,18 @@ export function Friends({ navigation }: any) {
                         setModalAddVisible(false);
                         setId(0);
                     }}
+                />
+            </Modal>
+            <Modal
+                visible={modalRemoveVisible}
+                transparent={true}
+            >
+                <ModalRemoveFriends
+                    handleClose={() => {
+                        setModalRemoveVisible(false);
+                    }}
+                    idFriend={indexToRemove.idFriend}
+                    friend={indexToRemove.friend}
                 />
             </Modal>
         </View>

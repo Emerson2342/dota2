@@ -62,14 +62,13 @@ export const styles = StyleSheet.create({
         width: '100%',
     },
     imageMedal: {
-        width: 60,
-        height: 60,
+        width: 70,
+        height: 100,
         resizeMode: 'contain',
-
     },
     imageProfile: {
-        width: 80,
-        height: 80,
+        width: 50,
+        height: 50,
         resizeMode: 'contain',
         borderRadius: 5
     },
