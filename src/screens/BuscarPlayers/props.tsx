@@ -20,12 +20,19 @@ export interface Friend {
 export interface FriendDetailsModel {
     friend: string;
     idFriend: number;
-    avatar: string;
-    personaname: string;
-    name: string;
+    avatar?: string;
+    personaname?: string;
+    name?: string;
     account_id: number;
-    medal: number;
+    medal?: number;
     att: string;
+    profile?: {
+        account_id?: number;
+        personaname?: string;
+        avatarfull?: string;
+    },
+    rank_tier?: number;
+    leaderboard_rank?: null;
 }
 
 export interface RecentMatches {

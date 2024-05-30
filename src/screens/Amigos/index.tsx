@@ -12,6 +12,7 @@ import { GET_PLAYER_DATA } from '../../graphql/queries';
 import { ModalFriendDetails } from '../../components/Modals/ModalFriendDetails';
 import { Medal } from '../../components/Medals/MedalsList';
 import { usePlayerContext } from '../../context/useDatasContex';
+import { PLAYER_PROFILE_API_BASE_URL } from '../../constants/player';
 
 
 export function Friends({ navigation }: any) {
@@ -20,6 +21,8 @@ export function Friends({ navigation }: any) {
     const { friendDetails, setFriendDetails } = useFriendsListContext();
     const { friendsList, setFriendsList } = useFriendsListContext();
     const { setPlayerId } = usePlayerContext();
+    const [player, setPlayer] = useState<PlayerModel | null>(null);
+    const [load, setLoad] = useState(false);
     const [id, setId] = useState(0);
 
 
@@ -51,28 +54,48 @@ export function Friends({ navigation }: any) {
         }, 900)
     }
 
-    const { data, loading, error } = useQuery(GET_PLAYER_DATA,
-        {
-            variables: { steamAccountId: id },
-            skip: id === null,
-        });
+    const getSearchPlayer = async (url: string) => {
+
+        const response = await fetch(url);
+        const data = await response.json();
+        setPlayer(data);
+        setLoad(false);
+        setPlayer(null);
+    }
 
     useEffect(() => {
-        if (id !== null && data) {
+        if (load) {
+            const searchPlayer = `${PLAYER_PROFILE_API_BASE_URL}${id}`;
+            getSearchPlayer(searchPlayer);
+        }
+
+        if (player && player?.profile) {
             const newFriendDetails = friendDetails?.map(friend =>
                 friend.idFriend === id ? {
-                    ...friend, personaname: data.player.steamAccount.name,
-                    avatar: data.player.steamAccount.avatar,
-                    medal: data.player.steamAccount.seasonRank
+                    ...friend, personaname: player?.profile.personaname,
+                    avatar: player?.profile.avatarfull,
+                    medal: player?.rank_tier
+                } : friend
+            )
+            setFriendDetails(newFriendDetails);
+
+        } else {
+            const newFriendDetails = friendDetails?.map(friend =>
+                friend.idFriend === id ? {
+                    ...friend, personaname: "Id não encontrado",
+                    avatar: undefined,
+                    medal: 0
                 } : friend
             )
             setFriendDetails(newFriendDetails);
         }
+        console.log(JSON.stringify(player, null, 2))
 
-    }, [id, data])
+    }, [load, id])
 
-    console.log("Carregando? " + loading)
-    console.log("Erro? " + error)
+
+
+
 
     useEffect(() => {
 
@@ -95,9 +118,6 @@ export function Friends({ navigation }: any) {
     }, [friendsList, friendDetails]);
 
 
-    //console.log(id)
-    //console.log("Perfil " + JSON.stringify(friendDetails, null, 2))
-    console.log(modalFocus)
     const renderItem = ({ item, index }: { item: FriendDetailsModel, index: number }) => {
 
         const handlePress = () => {
@@ -172,6 +192,7 @@ export function Friends({ navigation }: any) {
                             }}
                             onPress={() => {
                                 setId(item.idFriend);
+                                setLoad(true);
                                 handlePress()
                             }}
                         >
