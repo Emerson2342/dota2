@@ -11,7 +11,7 @@ Bem-vindo à minha **API do Dota 2**! Este projeto foi criado para conseguir bus
 - Ver últimas 20 partidas
 - Lista dos Heróis
 
-- **Tecnologias Utilizadas**:
+## Tecnologias Utilizadas**:
   - 🚀 TypeScript
   - ⚛️ React Native
 
