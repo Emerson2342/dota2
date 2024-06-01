@@ -1,9 +1,25 @@
 
-![Jogador](https://github.com/Emerson2342/dota2/blob/main/assets/JogadorGif.gif)
-![Heróis](https://github.com/Emerson2342/dota2/blob/main/assets/GifHeroes.gif)
-![Home](https://github.com/Emerson2342/dota2/blob/main/assets/home.jpg)
-![Detalhe Jogador](https://github.com/Emerson2342/dota2/blob/main/assets/player.jpg)
-![Carregando Dados](https://github.com/Emerson2342/dota2/blob/main/assets/carregando.jpg)
-![Detalhe Partida](https://github.com/Emerson2342/dota2/blob/main/assets/matchDetails.jpg)
-![Heróis](https://github.com/Emerson2342/dota2/blob/main/assets/herois.jpg)
-![Detalhe Heróis](https://github.com/Emerson2342/dota2/blob/main/assets/heroDetails.jpg)
+# 📱 API Dota 2
+
+## ✨ Introdução✨ 
+
+Bem-vindo à minha **API do Dota 2**! Este projeto foi criado para conseguir buscar dados de jogadores do Dota 2. Aqui está uma visão geral do que você encontrará:
+
+**-Listar amigos;**
+**-Ver últimas 20 partidas;**
+**-Lista dos Heróis;**
+
+- **Tecnologias Utilizadas**:
+  - 🚀 TypeScript
+  - ⚛️ React Native
+
+  📸 Screenshots
+![Jogador](assets/JogadorGif.gif)![Heróis](assets/GifHeroes.gif)
+
+![Home](assets/home.jpg)![Detalhe Jogador](assets/player.jpg)
+
+![Carregando Dados](assets/carregando.jpg)![Detalhe Partida](assets/matchDetails.jpg)
+
+![Heróis](assets/herois.jpg)![Detalhe Heróis](assets/heroDetails.jpg)
+
+
