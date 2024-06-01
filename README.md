@@ -14,12 +14,13 @@ Bem-vindo à minha **API do Dota 2**! Este projeto foi criado para conseguir bus
   - ⚛️ React Native
 
   📸 Screenshots
-![Jogador](assets/JogadorGif.gif)![Heróis](assets/GifHeroes.gif)
-
-![Home](assets/home.jpg)![Detalhe Jogador](assets/player.jpg)
-
-![Carregando Dados](assets/carregando.jpg)![Detalhe Partida](assets/matchDetails.jpg)
-
-![Heróis](assets/herois.jpg)![Detalhe Heróis](assets/heroDetails.jpg)
+![Jogador](assets/JogadorGif.gif)
+![Heróis](assets/GifHeroes.gif)
+![Home](assets/home.jpg)
+![Detalhe Jogador](assets/player.jpg)
+![Carregando Dados](assets/carregando.jpg)
+![Detalhe Partida](assets/matchDetails.jpg)
+![Heróis](assets/herois.jpg)
+![Detalhe Heróis](assets/heroDetails.jpg)
 
 
