@@ -23,7 +23,6 @@ export const styles = StyleSheet.create({
         borderColor: '#3c3c3c',
         borderRadius: 5
     },
-
     detalhesContext: {
         flexDirection: 'row',
         justifyContent: "space-around",
@@ -53,21 +52,21 @@ export const styles = StyleSheet.create({
     },
     modalIluminados: {
         backgroundColor: "#000",
-        width: "95%",
+        width: "100%",
         borderRadius: 5,
         marginVertical: 5,
         borderWidth: 2,
         borderColor: "green",
-        padding: 2
+        padding: 1
     },
     modalTemidos: {
         backgroundColor: "#000",
-        width: "95%",
+        width: "100%",
         borderRadius: 5,
         marginVertical: 5,
         borderWidth: 2,
         borderColor: "red",
-        padding: 2
+        padding: 1
     },
 
     button: {
@@ -99,7 +98,6 @@ export const styles = StyleSheet.create({
         letterSpacing: 1,
         fontWeight: "bold",
         textAlign: 'center',
-
     },
     textNome: {
         fontSize: 15,
@@ -108,7 +106,15 @@ export const styles = StyleSheet.create({
     },
     radiantContainer: {
         flexDirection: "row",
-        borderRadius: 5
+        borderRadius: 3,
+        width: '100%'
+    },
+    playerDestaque: {
+        borderTopRightRadius: 5,
+        borderTopLeftRadius: 5,
+        borderBottomRightRadius: 5,
+        borderBottomLeftRadius: 5,
+        backgroundColor: "rgba(0,255, 255, 0.9)"
     },
     title: {
         fontSize: 23,
@@ -119,7 +125,7 @@ export const styles = StyleSheet.create({
     cabecalho: {
         flexDirection: "row",
         justifyContent: "center",
-        width: "80%",
+        width: "83%",
         alignSelf: "flex-end",
     },
     cabecalhoText: {

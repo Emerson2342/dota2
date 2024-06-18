@@ -69,14 +69,14 @@ export function ModalDestacarPartida(
                 <View
                     style={styles.cabecalho}
                 >
-                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>K</Text>
-                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>D</Text>
-                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>A</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-20%' }]}>K</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-17%' }]}>D</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-9%' }]}>A</Text>
                     <Text style={[styles.cabecalhoText, { width: '8%' }]}>LH</Text>
                     <Text style={[styles.cabecalhoText, { width: '10%' }]}>Den</Text>
-                    <Text style={[styles.cabecalhoText, { width: '17%' }]}>Dano Heróis</Text>
-                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Dano Torres</Text>
-                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Cura</Text>
+                    <Text style={[styles.cabecalhoText, { width: '17%', left: '-13%' }]}>Dano Heróis</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-20%' }]}>Dano Torres</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-17%' }]}>Cura</Text>
                     <Text style={[styles.cabecalhoText, { width: '15%' }]}>Net Worth</Text>
                 </View>
                 {radiant.map((player, index) => {
@@ -92,7 +92,7 @@ export function ModalDestacarPartida(
                             key={index}
                             style={
                                 (playerId && player.account_id && playerId === player.account_id.toString()) ?
-                                    [styles.radiantContainer, { backgroundColor: "gray" }] :
+                                    [styles.radiantContainer, [styles.playerDestaque]] :
                                     styles.radiantContainer
                             }
                         >
@@ -148,14 +148,14 @@ export function ModalDestacarPartida(
                 <View
                     style={styles.cabecalho}
                 >
-                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>K</Text>
-                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>D</Text>
-                    <Text style={[styles.cabecalhoText, { width: '5%' }]}>A</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-20%' }]}>K</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-17%' }]}>D</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-9%' }]}>A</Text>
                     <Text style={[styles.cabecalhoText, { width: '8%' }]}>LH</Text>
                     <Text style={[styles.cabecalhoText, { width: '10%' }]}>Den</Text>
-                    <Text style={[styles.cabecalhoText, { width: '17%' }]}>Dano Heróis</Text>
-                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Dano Torres</Text>
-                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Cura</Text>
+                    <Text style={[styles.cabecalhoText, { width: '17%', left: '-13%' }]}>Dano Heróis</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-20%' }]}>Dano Torres</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-17%' }]}>Cura</Text>
                     <Text style={[styles.cabecalhoText, { width: '15%' }]}>Net Worth</Text>
                 </View>
                 {radiant.map((player, index) => {
@@ -171,7 +171,7 @@ export function ModalDestacarPartida(
                             key={index}
                             style={
                                 (playerId && player.account_id && playerId === player.account_id.toString()) ?
-                                    [styles.radiantContainer, { backgroundColor: "gray" }] :
+                                    [styles.radiantContainer, [styles.playerDestaque]] :
                                     styles.radiantContainer
                             }
                         >

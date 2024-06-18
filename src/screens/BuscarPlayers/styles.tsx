@@ -124,7 +124,6 @@ export const styles = StyleSheet.create({
     listTitle: {
         flexDirection: "row",
         justifyContent: "space-around",
-        padding: 10
     },
     textList: {
         color: '#fff',

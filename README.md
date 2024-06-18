@@ -18,11 +18,11 @@ Bem-vindo à minha **API do Dota 2**! Este projeto foi criado para conseguir bus
   📸 Screenshots
 <!-- ![Jogador](assets/JogadorGif.gif) -->
 <!-- ![Heróis](assets/GifHeroes.gif) -->
-![Home](assets/home.jpg)
-![Detalhe Jogador](assets/player.jpg)
-![Lista de Amigos](assets/amigos.jpg)
-![Detalhe Partida](assets/matchDetails.jpg)
-![Heróis](assets/herois.jpg)
-![Detalhe Heróis](assets/heroDetails.jpg)
+![Home](assets/home.jpg) | ![Detalhe Jogador](assets/player.jpg)
+|:---:|:---:|
+![Lista de Amigos](assets/amigos.jpg) | ![Detalhe Partida](assets/matchDetails.jpg)
+|:---:|:---:|
+![Heróis](assets/herois.jpg) | ![Detalhe Heróis](assets/heroDetails.jpg)
+|:---:|:---:|
 
 

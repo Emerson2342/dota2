@@ -183,8 +183,8 @@ export function BuscarPlayers({ navigation }: any) {
         return (
             <MotiView
                 from={{ translateY: playerFocus ? 200 : 0, opacity: playerFocus ? 0 : 1 }}
-                animate={{ translateY: playerFocus ? 0 : 1500, opacity: playerFocus ? 1 : 0 }}
-                transition={{ type: 'timing', duration: 3000 }}
+                animate={{ translateY: playerFocus ? 0 : 500, opacity: playerFocus ? 1 : 0 }}
+                transition={{ type: 'timing', duration: 1300 }}
             >
 
                 <TouchableOpacity
@@ -239,7 +239,7 @@ export function BuscarPlayers({ navigation }: any) {
                 key={keyCounter + 900}
                 from={{ opacity: playerFocus ? 0 : 1 }}
                 animate={{ opacity: playerFocus ? 1 : 0 }}
-                transition={{ duration: 1300 }}
+                transition={{ duration: 1200 }}
                 style={{ alignItems: 'center', position: 'absolute' }}
             >
                 <Image
@@ -249,12 +249,8 @@ export function BuscarPlayers({ navigation }: any) {
                 />
             </MotiView>
 
-            <MotiView
+            <View
                 style={styles.topContainer}
-                key={keyCounter}
-                from={{ translateY: playerFocus ? -200 : 0, opacity: 1 }}
-                animate={{ translateY: playerFocus ? 0 : -200, opacity: 1 }}
-                transition={{ type: 'spring', duration: 7000 }}
             >
                 <View
                     style={styles.titleContainer}
@@ -280,7 +276,7 @@ export function BuscarPlayers({ navigation }: any) {
                     // onSubmitEditing={buscarId}
                     />
                 </View>
-            </MotiView>
+            </View>
             {isLoading && <LottieView
                 source={loadingAnimation}
                 loop={true}
@@ -290,9 +286,9 @@ export function BuscarPlayers({ navigation }: any) {
             {!isLoading && player && player.profile && player !== null && player !== undefined ? (
                 <View>
                     < MotiView
-                        from={{ translateY: playerFocus ? -100 : 0, opacity: 1 }}
-                        animate={{ translateY: playerFocus ? 0 : -300, opacity: 1 }}
-                        transition={{ type: 'spring', duration: 7000 }}
+                        from={{ opacity: playerFocus ? 0 : 1 }}
+                        animate={{ opacity: playerFocus ? 1 : 0 }}
+                        transition={{ type: 'timing', duration: 1300 }}
                     >
                         <View
                             style={styles.profile}
@@ -344,7 +340,7 @@ export function BuscarPlayers({ navigation }: any) {
                         key={keyCounter + 400}
                         from={{ opacity: playerFocus ? 0 : 1 }}
                         animate={{ opacity: playerFocus ? 1 : 0 }}
-                        transition={{ duration: 900 }}
+                        transition={{ type: 'timing', duration: 1300 }}
                         style={styles.flatListContainer} >
                         {erroRequest ? (<View
                             style={styles.carregandoContent}
@@ -356,9 +352,9 @@ export function BuscarPlayers({ navigation }: any) {
                             >{erroMessage}</Text></View>) :
                             (<  MotiView
                                 key={keyCounter + 200}
-                                from={{ opacity: playerFocus ? 0 : 1 }}
-                                animate={{ opacity: playerFocus ? 1 : 0 }}
-                                transition={{ duration: 900 }}
+                                from={{ translateY: playerFocus ? 200 : 0, opacity: playerFocus ? 0 : 1 }}
+                                animate={{ translateY: playerFocus ? 0 : 500, opacity: playerFocus ? 1 : 0 }}
+                                transition={{ type: 'timing', duration: 1300 }}
 
                             ><View style={styles.listTitle}>
                                     <Text style={[styles.textTitle, { width: "10%", fontWeight: 'bold', color: "#fff" }]}>Herói</Text>
@@ -407,20 +403,13 @@ export function BuscarPlayers({ navigation }: any) {
                 style={recentMatches.length == null ||
                     recentMatches.length == 0 || erroRequest ? [styles.correnteContainer, { marginTop: 500 }] : styles.correnteContainer}
                 key={keyCounter + 500}
-                from={{ translateY: playerFocus ? 300 : 0, opacity: 1 }}
-                animate={{ translateY: playerFocus ? 0 : 300, opacity: 1 }}
-                transition={{ duration: 9000, type: 'spring' }}
+                from={{ translateY: playerFocus ? 200 : 0, opacity: 1 }}
+                animate={{ translateY: playerFocus ? 0 : 200, opacity: 1 }}
+                transition={{ duration: 1500, type: 'timing' }}
             >
-                <View>
-                    <Image
-                        style={{ resizeMode: 'contain' }}
-                        source={
-                            require('../../images/correnteH.png')
-                        }
-                    />
-                </View>
+
                 <View
-                    style={styles.bottomContainer}
+
                 >
                     <TouchableOpacity
                         style={styles.buttonVoltar}
@@ -431,14 +420,7 @@ export function BuscarPlayers({ navigation }: any) {
                     </TouchableOpacity>
 
                 </View>
-                <View>
-                    <Image
-                        style={{ resizeMode: 'contain' }}
-                        source={
-                            require('../../images/correnteH.png')
-                        }
-                    />
-                </View>
+
             </MotiView>
             <Modal
                 visible={modalVisible}
