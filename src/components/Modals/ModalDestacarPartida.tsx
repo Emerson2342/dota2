@@ -69,15 +69,15 @@ export function ModalDestacarPartida(
                 <View
                     style={styles.cabecalho}
                 >
-                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-20%' }]}>K</Text>
-                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-17%' }]}>D</Text>
-                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-9%' }]}>A</Text>
-                    <Text style={[styles.cabecalhoText, { width: '8%' }]}>LH</Text>
-                    <Text style={[styles.cabecalhoText, { width: '10%' }]}>Den</Text>
-                    <Text style={[styles.cabecalhoText, { width: '17%', left: '-13%' }]}>Dano Heróis</Text>
-                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-20%' }]}>Dano Torres</Text>
-                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-17%' }]}>Cura</Text>
-                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Net Worth</Text>
+                    <Text style={[styles.cabecalhoText, { width: '7%', left: '-70%' }]}>K</Text>
+                    <Text style={[styles.cabecalhoText, { width: '3%', left: '-55%' }]}>D</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-33%' }]}>A</Text>
+                    <Text style={[styles.cabecalhoText, { width: '8%', left: '-12%' }]}>LH</Text>
+                    <Text style={[styles.cabecalhoText, { width: '10%', left: '-12%' }]}>Den</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-12%' }]}>Dano Heróis</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-12%' }]}>Dano Torres</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Cura</Text>
+                    <Text style={[styles.cabecalhoText, { width: '13%' }]}>Net Worth</Text>
                 </View>
                 {radiant.map((player, index) => {
 
@@ -148,15 +148,15 @@ export function ModalDestacarPartida(
                 <View
                     style={styles.cabecalho}
                 >
-                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-20%' }]}>K</Text>
-                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-17%' }]}>D</Text>
-                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-9%' }]}>A</Text>
-                    <Text style={[styles.cabecalhoText, { width: '8%' }]}>LH</Text>
-                    <Text style={[styles.cabecalhoText, { width: '10%' }]}>Den</Text>
-                    <Text style={[styles.cabecalhoText, { width: '17%', left: '-13%' }]}>Dano Heróis</Text>
-                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-20%' }]}>Dano Torres</Text>
-                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-17%' }]}>Cura</Text>
-                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Net Worth</Text>
+                    <Text style={[styles.cabecalhoText, { width: '7%', left: '-70%' }]}>K</Text>
+                    <Text style={[styles.cabecalhoText, { width: '3%', left: '-55%' }]}>D</Text>
+                    <Text style={[styles.cabecalhoText, { width: '5%', left: '-33%' }]}>A</Text>
+                    <Text style={[styles.cabecalhoText, { width: '8%', left: '-12%' }]}>LH</Text>
+                    <Text style={[styles.cabecalhoText, { width: '10%', left: '-12%' }]}>Den</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-12%' }]}>Dano Heróis</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%', left: '-12%' }]}>Dano Torres</Text>
+                    <Text style={[styles.cabecalhoText, { width: '15%' }]}>Cura</Text>
+                    <Text style={[styles.cabecalhoText, { width: '13%' }]}>Net Worth</Text>
                 </View>
                 {radiant.map((player, index) => {
 

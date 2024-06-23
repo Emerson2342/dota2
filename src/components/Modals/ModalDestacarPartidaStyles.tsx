@@ -110,11 +110,8 @@ export const styles = StyleSheet.create({
         width: '100%'
     },
     playerDestaque: {
-        borderTopRightRadius: 5,
-        borderTopLeftRadius: 5,
-        borderBottomRightRadius: 5,
-        borderBottomLeftRadius: 5,
-        backgroundColor: "rgba(0,255, 255, 0.9)"
+        borderWidth: 2,
+        borderColor: "rgba(0,255, 255, 0.9)",
     },
     title: {
         fontSize: 23,
@@ -125,7 +122,7 @@ export const styles = StyleSheet.create({
     cabecalho: {
         flexDirection: "row",
         justifyContent: "center",
-        width: "83%",
+        width: "77%",
         alignSelf: "flex-end",
     },
     cabecalhoText: {
@@ -134,14 +131,13 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
     },
     imageHero: {
-        width: 35,
+        width: 40,
         height: 'auto',
-        borderRadius: 3,
-        resizeMode: 'center',
+        resizeMode: 'contain',
     },
     imageMedal: {
-        width: 30,
-        height: 35,
+        width: 40,
+        height: 40,
         resizeMode: 'center',
     },
     infoContainer: {
