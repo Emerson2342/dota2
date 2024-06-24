@@ -40,9 +40,12 @@ Atualmente não suportado.
 
 ![Home](assets/home.jpg) | ![Detalhe Jogador](assets/player.jpg)
 |:---:|:---:|
+
 ![Lista de Amigos](assets/amigos.jpg) | ![Detalhe Partida](assets/matchDetails.jpg)
 |:---:|:---:|
+
 ![Heróis](assets/herois.jpg) | ![Detalhe Heróis](assets/heroDetails.jpg)
+|:---:|:---:|
 
   ## Licença
 [![License](https://img.shields.io/badge/License-Custom-blue.svg)](LICENSE)
