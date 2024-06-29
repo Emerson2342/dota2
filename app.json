@@ -2,7 +2,7 @@
   "expo": {
     "name": "Dota 2",
     "slug": "Dota2",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./src/images/dota2Icon.png",
     "userInterfaceStyle": "light",
