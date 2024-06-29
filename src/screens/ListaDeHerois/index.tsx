@@ -37,21 +37,18 @@ export function ListaDeHerois({ navigation }: any) {
         resetAnimation();
     }
 
-    const listaDeHerois = HeroesList();
     const columns = 2;
 
 
     const renderItem = ({ item }: { item: any }) => {
-
         let atributo;
-
 
         switch (item.primary_attr) {
             case "all":
                 atributo = "Universal";
                 break;
             case "str":
-                atributo = "Froça";
+                atributo = "Força";
                 break;
             case "agi":
                 atributo = "Agilidade";
@@ -124,7 +121,7 @@ export function ListaDeHerois({ navigation }: any) {
                 style={{ height: 550, paddingTop: 15 }}
             >
                 <FlatList
-                    data={listaDeHerois}
+                    data={HeroesList}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id.toString()}
                     numColumns={columns}

@@ -55,6 +55,7 @@ export interface RecentMatches {
     hero_healing: number;
     lobby_type: number;
 }
+
 export interface HeroInfo {
     heroId: number;
     winCount: number;
@@ -90,11 +91,10 @@ export interface Heroes {
     id: number;
     name: string;
     localized_name: string;
-    primaty_attr: string;
+    primary_attr: string;
     attack_type: string;
-    roles: [
-        string, string, string
-    ],
+    roles: string[],
+    legs: number
 }
 
 export interface MatchDetailsModel {

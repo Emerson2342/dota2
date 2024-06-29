@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput, Image, FlatList, Modal, Keyboard } from 'react-native';
-import { Hero, PlayerHeroesPerformance, PlayerModel, RecentMatches, WinrateHero } from './props';
+import { Hero, Heroes, PlayerHeroesPerformance, PlayerModel, RecentMatches } from './props';
 import { HeroesList } from '../../components/Heroes/heroesList';
 import { styles } from './styles';
 import { PICTURE_HERO_BASE_URL, PLAYER_PROFILE_API_BASE_URL } from '../../constants/player';
@@ -8,6 +8,7 @@ import { Medal } from '../../components/Medals/MedalsList';
 import loadingAnimation from '../../components/AnimatedButtons/loading.json'
 
 import { ModalDestacarPartida } from '../../components/Modals/ModalDestacarPartida';
+import { ModalDestacarHeroi } from '../../components/Modals/ModalDestacarHeroi';
 
 import { useQuery } from '@apollo/client';
 import { GET_PLAYER_DATA } from '../../graphql/queries';
@@ -19,11 +20,14 @@ import { usePlayerContext } from '../../context/useDatasContex';
 
 export function BuscarPlayers({ navigation }: any) {
 
-    const [searchId, setSearchId] = useState('');
+    const [searchId, setSearchId] = useState<string>('');
     const { playerId, setPlayerId } = usePlayerContext();
     const [player, setPlayer] = useState<PlayerModel | null>(null);
-    const [recentMatches, setRecentMatches] = useState([]);
+    const [recentMatches, setRecentMatches] = useState<RecentMatches[] | null>([]);
+    const [heroId, setHeroId] = useState<number[]>([]);
 
+    const [modalHeroVisible, setModalHeroVisible] = useState<boolean>(false);
+    const [heroIndex, setHeroIndex] = useState<Heroes | undefined>(undefined);
 
     let vitorias = 0;
     let derrotas = 0;
@@ -47,9 +51,6 @@ export function BuscarPlayers({ navigation }: any) {
     });
 
     const { keyCounter, setKeyCounter, setHomeFocus, playerFocus, setPlayerFocus, setFriendsFocus } = useKeyCounter();
-
-
-    const heroesList = HeroesList();
 
     const medalRank = player?.rank_tier;
     const [modalVisible, setModalVisible] = useState(false);
@@ -105,9 +106,12 @@ export function BuscarPlayers({ navigation }: any) {
 
                 throw new Error('Erro ao carregar os dados: ' + response.statusText);
             } else {
-                const data = await response.json();
+                const data: RecentMatches[] = await response.json();
                 setRecentMatches(data);
 
+                const heroIds: number[] = [...new Set(data.map(match => match.hero_id))];
+                setHeroId(heroIds);
+                console.log("Heróis Jogados", heroId);
             }
         } catch (error: any) {
             console.log('Erro na solicitaçãosss:' + error.message);
@@ -115,6 +119,8 @@ export function BuscarPlayers({ navigation }: any) {
         response.ok ? setErroRequest(false) : setErroRequest(true);
 
     };
+
+
 
     useEffect(() => {
         const searchPlayer = `${PLAYER_PROFILE_API_BASE_URL}${playerId}`;
@@ -141,7 +147,7 @@ export function BuscarPlayers({ navigation }: any) {
         return resultadoFinal;
     };
 
-    recentMatches.forEach((item: RecentMatches) => {
+    recentMatches?.forEach((item: RecentMatches) => {
         const resultadoFinal = calcularResultadoFinal(item);
         if (resultadoFinal) {
             vitorias++;
@@ -186,7 +192,7 @@ export function BuscarPlayers({ navigation }: any) {
 
         const resultadoFinal = (team == 1 && item.radiant_win == true || team == 2 && item.radiant_win == false) ? true : false
 
-        const hero = heroesList.find(hero => hero.id === item.hero_id);
+        const hero = HeroesList.find(hero => hero.id === item.hero_id);
         let nomeHero = hero?.name || '';
 
         let imgSource =
@@ -195,14 +201,12 @@ export function BuscarPlayers({ navigation }: any) {
 
         return (
             <MotiView
-                from={{ translateY: playerFocus ? 200 : 0, opacity: playerFocus ? 1 : 1 }}
-                animate={{ translateY: playerFocus ? 0 : 500, opacity: playerFocus ? 1 : 1 }}
-                transition={{ type: 'timing', duration: 1700 }}
+                from={{ opacity: playerFocus ? 0 : 1 }}
+                animate={{ opacity: playerFocus ? 1 : 0 }}
+                transition={{ type: 'timing', duration: 1000 }}
             >
-
                 <TouchableOpacity
                     onPress={() => {
-
                         setMatchIndex({
                             id: item.match_id,
                             data: startDate.toLocaleDateString('pt-BR'),
@@ -244,25 +248,36 @@ export function BuscarPlayers({ navigation }: any) {
         );
     };
 
-    const renderItem2 = ({ item }: { item: Hero }) => {
+    const renderItem2 = ({ item, index }: { item: number, index: number }) => {
 
-        const hero = heroesList.find(hero => hero.id === item.id);
+        const hero = HeroesList.find(hero => hero.id === item);
         let nomeHero = hero?.name || '';
 
         let imgSource =
             PICTURE_HERO_BASE_URL + nomeHero + ".png";
 
+        function updateHeroDetails() {
+            const heroDetails = HeroesList.find(hero => hero.id === item);
+            if (heroDetails) {
+                setHeroIndex(heroDetails);
+
+            }
+        };
 
         return (
-            <View>
+            <TouchableOpacity
+                style={{ margin: 1 }}
+                onPress={() => { updateHeroDetails(); setModalHeroVisible(true); }}
+
+            >
                 <Image
-                    style={{ width: 50, height: 50, borderRadius: 50, borderWidth: 1, borderColor: "orange" }}
+                    style={styles.imgHero}
                     source={{
                         uri: imgSource
                     }}
-                    key={item.id.toString()}
+                    key={index.toString()}
                 />
-            </View>
+            </TouchableOpacity>
         );
     };
 
@@ -277,40 +292,22 @@ export function BuscarPlayers({ navigation }: any) {
                 style={{ alignItems: 'center', position: 'absolute' }}
             >
                 <Image
-                    source={
-                        require('../../images/player.jpg')
-                    }
+                    style={{ opacity: 0.7 }}
+                    source={require('../../images/player.jpg')}
                 />
             </MotiView>
-
             <View
-                style={styles.topContainer}
+                style={styles.inputContainer}
             >
-                <View
-                    style={styles.titleContainer}
-                >
-                    <Text
-                        style={[styles.titleText, { color: "#fff" }]}>
-                        P
-                    </Text>
-                    <Text
-                        style={styles.titleText}>
-                        erfil
-                    </Text>
-                </View>
-                <View
-                    style={styles.inputContainer}
-                >
-                    <TextInput
-                        keyboardType='numeric'
-                        style={styles.input}
-                        placeholder='Digite o ID do jogador'
-                        onChangeText={(text) => setSearchId(text)}
-                        value={searchId}
-                    // onSubmitEditing={buscarId}
-                    />
-                </View>
+                <TextInput
+                    keyboardType='numeric'
+                    style={styles.input}
+                    placeholder='Digite o ID do jogador'
+                    onChangeText={(text) => setSearchId(text)}
+                    value={searchId}
+                />
             </View>
+
             {isLoading && <LottieView
                 source={loadingAnimation}
                 loop={true}
@@ -324,9 +321,11 @@ export function BuscarPlayers({ navigation }: any) {
                         animate={{ opacity: playerFocus ? 1 : 0 }}
                         transition={{ type: 'timing', duration: 1300 }}
                     >
+                        <Text style={[styles.nomeJogador, { fontSize: 30, color: "yellow" }]}>{player?.profile.personaname} </Text>
                         <View
                             style={styles.profile}
                         >
+
                             <View
                                 style={{ width: "30%", alignItems: "center" }}
                             >
@@ -346,73 +345,62 @@ export function BuscarPlayers({ navigation }: any) {
                                     style={styles.medals}>
                                     <Image
                                         style={styles.imageMedal}
-                                        source={{
-                                            uri: `${Medal(medalRank)}`
-                                        }}
+                                        source={{ uri: `${Medal(medalRank)}` }}
                                     />
-
                                     <Text style={styles.textRank}>{player?.leaderboard_rank}</Text>
                                     <View style={{ justifyContent: "center", width: "75%" }}>
-                                        <Text style={styles.nomeJogador}>{player?.profile.personaname} </Text>
-                                        <Text style={styles.title}>Vitórias: {data?.player.winCount}</Text>
-                                        <Text style={styles.title}>Partidas: {data?.player.matchCount}</Text>
-                                        <Text style={styles.title}>Vitórias: {vitorias} Derrotas: {derrotas} Winrate: {winrate ? `${winrate}%` : ""}</Text>
 
+                                        <Text style={styles.title}>Partidas: <Text style={{ color: "orange" }}>{data?.player.matchCount}</Text></Text>
+                                        <Text style={styles.title}>Vitórias: <Text style={{ color: "orange" }}>{data?.player.winCount}</Text></Text>
+                                        <Text style={styles.title}>Vitórias: <Text style={{ color: "orange" }}>{vitorias} <Text style={styles.title}>Derrotas:</Text> <Text style={{ color: 'orange' }}>{derrotas} <Text style={styles.title}>Winrate: </Text><Text style={{ color: 'orange' }}>{winrate ? `${winrate}%` : ""}</Text></Text></Text></Text>
 
                                         <View style={{ flexDirection: "row", justifyContent: "center" }}>
 
-                                            <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>id: </Text>
+                                            <Text style={[styles.nomeJogador, { fontSize: 13, color: "#c9c9c9", fontWeight: 'bold' }]}>id: </Text>
 
-                                            <Text style={[styles.nomeJogador, { fontSize: 13, color: "#999999" }]}>{playerId}</Text>
+                                            <Text style={[styles.nomeJogador, { fontSize: 13, color: "#c9c9c9", fontWeight: 'bold' }]}>{playerId}</Text>
                                         </View>
                                     </View>
                                 </View>
                             </View>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ color: 'aqua', fontStyle: 'italic', fontSize: 20, fontWeight: 'bold', marginBottom: "2%" }}>Heróis Jogados</Text>
+                            <Text style={styles.flatListHeroes}>Heróis Jogados</Text>
                             <FlatList
-                                style={{ flexGrow: 0, maxWidth: '95%' }}
+                                style={{ flexGrow: 0, maxWidth: '100%' }}
                                 horizontal
-                                data={heroData}
+                                data={heroId.slice(0, 10)}
                                 renderItem={renderItem2}
-                                keyExtractor={(item) => item.id.toString()} />
+                                keyExtractor={(item) => item.toString()} />
+                            <FlatList
+                                style={{ flexGrow: 0, maxWidth: '100%' }}
+                                horizontal
+                                data={heroId.slice(10, 20)}
+                                renderItem={renderItem2}
+                                keyExtractor={(item) => item.toString()} />
                         </View>
                     </MotiView>
                     < MotiView
-                        key={keyCounter + 400}
-                        from={{ opacity: playerFocus ? 0 : 1 }}
-                        animate={{ opacity: playerFocus ? 1 : 0 }}
-                        transition={{ type: 'timing', duration: 1300 }}
-                        style={styles.flatListContainer} >
-                        {erroRequest ? (<View
-                            style={styles.carregandoContent}
-                        ><Text
-                            style={styles.carregando}
-                        >Erro ao carregar os dados: </Text>
-                            <Text
-                                style={styles.carregando}
-                            >{erroMessage}</Text></View>) :
-                            (<  MotiView
-                                key={keyCounter + 200}
-                                from={{ translateY: playerFocus ? 200 : 0, opacity: playerFocus ? 0 : 1 }}
-                                animate={{ translateY: playerFocus ? 0 : 500, opacity: playerFocus ? 1 : 0 }}
-                                transition={{ type: 'timing', duration: 1300 }}
 
-                            ><View style={styles.listTitle}>
-                                    <Text style={[styles.textTitle, { width: "10%", fontWeight: 'bold', color: "#fff" }]}>Herói</Text>
-                                    <Text style={[styles.textTitle, { width: "40%", fontWeight: 'bold', color: "#fff" }]}>Data</Text>
-                                    <Text style={[styles.textTitle, { width: "17%", fontWeight: 'bold', color: "#fff" }]}>Modo</Text>
-                                    <Text style={[styles.textTitle, { width: "25%", fontWeight: 'bold', color: "#fff" }]}>Duração</Text>
-                                    <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>K</Text>
-                                    <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>D</Text>
-                                    <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fff" }]}>A</Text>
-                                </View><FlatList
-                                    data={recentMatches}
-                                    renderItem={renderItem}
-                                    keyExtractor={(item) => item.match_id.toString()} />
-                            </MotiView>)
-                        }
+                        style={styles.flatListContainer} >
+                        <MotiView
+                            key={keyCounter + 200}
+
+
+
+                        ><View style={styles.listTitle}>
+                                <Text style={[styles.textTitle, { width: "10%", fontWeight: 'bold', color: "#fffccc" }]}>Herói</Text>
+                                <Text style={[styles.textTitle, { width: "40%", fontWeight: 'bold', color: "#fffccc" }]}>Data</Text>
+                                <Text style={[styles.textTitle, { width: "17%", fontWeight: 'bold', color: "#fffccc" }]}>Modo</Text>
+                                <Text style={[styles.textTitle, { width: "25%", fontWeight: 'bold', color: "#fffccc" }]}>Duração</Text>
+                                <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fffccc" }]}>K</Text>
+                                <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fffccc" }]}>D</Text>
+                                <Text style={[styles.textTitle, { width: "5%", fontWeight: 'bold', color: "#fffccc" }]}>A</Text>
+                            </View><FlatList
+                                data={recentMatches}
+                                renderItem={renderItem}
+                                keyExtractor={(item) => item.match_id.toString()} />
+                        </MotiView>
                     </MotiView>
                 </View>) : (isLoading ?
                     <View
@@ -439,17 +427,21 @@ export function BuscarPlayers({ navigation }: any) {
                         style={styles.carregandoContent}
                     ><Text
                         style={styles.carregando}
-                    >ID não encontrado!</Text></MotiView>
+                    >ID não encontrado!</Text>
+
+                    </MotiView>
             )}
 
             <MotiView
-                style={{ marginTop: '-15%' }}
+                style={{ marginTop: recentMatches?.length && firstEntry != null ? '0%' : '50%' }}
                 key={keyCounter + 500}
                 from={{ translateY: playerFocus ? 200 : 0, opacity: 1 }}
                 animate={{ translateY: playerFocus ? 0 : 200, opacity: 1 }}
                 transition={{ duration: 1500, type: 'timing' }}
             >
-                <View>
+                <View
+                    style={{ marginTop: heroId.length > 10 ? '-9%' : "0%" }}
+                >
                     <TouchableOpacity
                         style={styles.buttonVoltar}
                         onPress={() => navToHome()}
@@ -476,6 +468,20 @@ export function BuscarPlayers({ navigation }: any) {
                     hora={matchIndex.hora}
                     duracao={matchIndex.duracao}
                 />
+            </Modal>
+            <Modal
+                visible={modalHeroVisible}
+                transparent={true}
+                animationType='fade'
+            >{heroIndex && (<ModalDestacarHeroi
+                handleClose={() => setModalHeroVisible(false)}
+                image={heroIndex.name}
+                name={heroIndex.localized_name}
+                primary_attr={heroIndex.primary_attr}
+                attack_type={heroIndex.attack_type}
+                roles={heroIndex.roles}
+            />)}
+
             </Modal>
         </View>
     );

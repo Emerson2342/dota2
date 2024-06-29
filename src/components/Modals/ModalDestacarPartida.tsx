@@ -10,7 +10,6 @@ import { Medal } from '../Medals/MedalsList';
 import LottieView from 'lottie-react-native';
 import loadingAnimation from '../AnimatedButtons/loading.json'
 import { MotiView } from 'moti';
-const heroesList = HeroesList();
 
 export function ModalDestacarPartida(
     {
@@ -81,7 +80,7 @@ export function ModalDestacarPartida(
                 </View>
                 {radiant.map((player, index) => {
 
-                    const hero = heroesList.find(hero => hero.id === player.hero_id);
+                    const hero = HeroesList.find(hero => hero.id === player.hero_id);
                     const nome = hero?.name;
 
                     let imgSource =
@@ -160,7 +159,7 @@ export function ModalDestacarPartida(
                 </View>
                 {radiant.map((player, index) => {
 
-                    const hero = heroesList.find(hero => hero.id === player.hero_id);
+                    const hero = HeroesList.find(hero => hero.id === player.hero_id);
                     const nome = hero?.name;
 
                     let imgSource =

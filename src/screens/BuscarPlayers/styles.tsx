@@ -42,12 +42,13 @@ export const styles = StyleSheet.create({
         width: '80%',
         textAlign: 'center',
         fontSize: 17,
+        borderWidth: 2,
+        borderColor: "black"
+
     },
     profile: {
         flexDirection: "row",
         alignItems: 'center',
-        padding: 15,
-        borderRadius: 8,
     },
     medals: {
         flexDirection: "row",
@@ -66,9 +67,23 @@ export const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: 'bold'
     },
+    imgHero: {
+        width: 40,
+        height: 40,
+        borderRadius: 50,
+        borderWidth: 2,
+        borderColor: "#007BFF"
+    },
+    flatListHeroes: {
+        color: '#fff',
+        fontStyle: 'italic',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: "2%"
+    },
     image: {
-        height: 100,
-        width: 100,
+        height: 80,
+        width: 80,
         borderRadius: 7,
     },
     imageMedal: {
@@ -105,8 +120,7 @@ export const styles = StyleSheet.create({
         borderColor: "rgb(0,255, 0)"
     },
     flatListContainer: {
-        height: "55%",
-        padding: 5,
+        height: "60%",
         width: "95%",
         alignSelf: 'center'
     },
@@ -115,7 +129,7 @@ export const styles = StyleSheet.create({
         justifyContent: "space-around",
         width: "100%",
         borderRadius: 3,
-        marginVertical: 3,
+        marginVertical: "0.7%",
         backgroundColor: "rgba(0,0,0,0.5)",
     },
 
