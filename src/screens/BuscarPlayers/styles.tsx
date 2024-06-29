@@ -68,8 +68,8 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     imgHero: {
-        width: 40,
-        height: 40,
+        width: 35,
+        height: 35,
         borderRadius: 50,
         borderWidth: 2,
         borderColor: "#007BFF"
@@ -120,7 +120,7 @@ export const styles = StyleSheet.create({
         borderColor: "rgb(0,255, 0)"
     },
     flatListContainer: {
-        height: "60%",
+        height: "57%",
         width: "95%",
         alignSelf: 'center'
     },
