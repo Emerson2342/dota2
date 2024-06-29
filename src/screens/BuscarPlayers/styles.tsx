@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        paddingTop: 50,
+        paddingTop: '10%',
         backgroundColor: "#000"
     },
     topContainer: {
@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         fontStyle: "italic",
-        color: "#fff",
+        color: "aqua",
         textAlign: "center",
     },
     title: {
@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
         borderColor: "rgb(0,255, 0)"
     },
     flatListContainer: {
-        height: 400,
+        height: "55%",
         padding: 5,
         width: "95%",
         alignSelf: 'center'
@@ -114,9 +114,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: "space-around",
         width: "100%",
-        padding: 1,
         borderRadius: 3,
-        borderWidth: 1,
         marginVertical: 3,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
@@ -136,23 +134,7 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
         fontWeight: "bold"
     },
-    correnteContainer: {
-        marginTop: 20,
-        width: "100%",
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    bottomContainer: {
-        width: '60%',
-        padding: 5,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        backgroundColor: "rgba(0,0,0,0.8)",
-        borderWidth: 5,
-        borderTopColor: "#3c3c3c",
-        borderLeftColor: "#3c3c3c",
-    },
+
     buttonVoltar: {
         width: "90%",
         flexDirection: "row",

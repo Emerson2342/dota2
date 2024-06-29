@@ -10,14 +10,10 @@ query GetPlayerData($steamAccountId: Long!) {
         }
       winCount
          matchCount
-         simpleSummary{
-          matchCount
-          supportCount
-          coreCount
-          heroes{
-            heroId
-            winCount
-            lossCount
+         heroesPerformance {
+          hero {
+            displayName
+            id
           }
         }
   }

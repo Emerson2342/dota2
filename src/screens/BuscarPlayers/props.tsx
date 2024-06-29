@@ -76,6 +76,15 @@ export interface WL {
         matchCount: number;
     }
 }
+export interface Hero {
+    displayName: string;
+    id: number;
+}
+
+export interface PlayerHeroesPerformance {
+    __typename: string; // tipo específico do GraphQL
+    hero: Hero;
+}
 
 export interface Heroes {
     id: number;

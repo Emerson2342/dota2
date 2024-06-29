@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput, Image, FlatList, Modal, Keyboard } from 'react-native';
-import { PlayerModel, RecentMatches, WinrateHero } from './props';
+import { Hero, PlayerHeroesPerformance, PlayerModel, RecentMatches, WinrateHero } from './props';
 import { HeroesList } from '../../components/Heroes/heroesList';
 import { styles } from './styles';
 import { PICTURE_HERO_BASE_URL, PLAYER_PROFILE_API_BASE_URL } from '../../constants/player';
@@ -23,6 +23,8 @@ export function BuscarPlayers({ navigation }: any) {
     const { playerId, setPlayerId } = usePlayerContext();
     const [player, setPlayer] = useState<PlayerModel | null>(null);
     const [recentMatches, setRecentMatches] = useState([]);
+
+
     let vitorias = 0;
     let derrotas = 0;
 
@@ -35,6 +37,14 @@ export function BuscarPlayers({ navigation }: any) {
 
     const { data, loading, error } = useQuery(GET_PLAYER_DATA,
         { variables: { steamAccountId: playerIdLong } });
+
+
+    const heroData: { displayName: string; id: number }[] = [];
+
+    data?.player.heroesPerformance.forEach((item: PlayerHeroesPerformance) => {
+        const { displayName, id } = item.hero;
+        heroData.push({ displayName, id });
+    });
 
     const { keyCounter, setKeyCounter, setHomeFocus, playerFocus, setPlayerFocus, setFriendsFocus } = useKeyCounter();
 
@@ -139,6 +149,9 @@ export function BuscarPlayers({ navigation }: any) {
             derrotas++;
         }
     });
+
+
+
     const winrate = ((vitorias / (vitorias + derrotas)) * 100).toFixed(2).toString().replace('.', ',');
 
     const renderItem = ({ item, index }: { item: RecentMatches, index: number }) => {
@@ -182,9 +195,9 @@ export function BuscarPlayers({ navigation }: any) {
 
         return (
             <MotiView
-                from={{ translateY: playerFocus ? 200 : 0, opacity: playerFocus ? 0 : 1 }}
-                animate={{ translateY: playerFocus ? 0 : 500, opacity: playerFocus ? 1 : 0 }}
-                transition={{ type: 'timing', duration: 1300 }}
+                from={{ translateY: playerFocus ? 200 : 0, opacity: playerFocus ? 1 : 1 }}
+                animate={{ translateY: playerFocus ? 0 : 500, opacity: playerFocus ? 1 : 1 }}
+                transition={{ type: 'timing', duration: 1700 }}
             >
 
                 <TouchableOpacity
@@ -231,6 +244,27 @@ export function BuscarPlayers({ navigation }: any) {
         );
     };
 
+    const renderItem2 = ({ item }: { item: Hero }) => {
+
+        const hero = heroesList.find(hero => hero.id === item.id);
+        let nomeHero = hero?.name || '';
+
+        let imgSource =
+            PICTURE_HERO_BASE_URL + nomeHero + ".png";
+
+
+        return (
+            <View>
+                <Image
+                    style={{ width: 50, height: 50, borderRadius: 50, borderWidth: 1, borderColor: "orange" }}
+                    source={{
+                        uri: imgSource
+                    }}
+                    key={item.id.toString()}
+                />
+            </View>
+        );
+    };
 
 
     return (
@@ -335,6 +369,15 @@ export function BuscarPlayers({ navigation }: any) {
                                 </View>
                             </View>
                         </View>
+                        <View style={{ alignItems: 'center' }}>
+                            <Text style={{ color: 'aqua', fontStyle: 'italic', fontSize: 20, fontWeight: 'bold', marginBottom: "2%" }}>Heróis Jogados</Text>
+                            <FlatList
+                                style={{ flexGrow: 0, maxWidth: '95%' }}
+                                horizontal
+                                data={heroData}
+                                renderItem={renderItem2}
+                                keyExtractor={(item) => item.id.toString()} />
+                        </View>
                     </MotiView>
                     < MotiView
                         key={keyCounter + 400}
@@ -400,17 +443,13 @@ export function BuscarPlayers({ navigation }: any) {
             )}
 
             <MotiView
-                style={recentMatches.length == null ||
-                    recentMatches.length == 0 || erroRequest ? [styles.correnteContainer, { marginTop: 500 }] : styles.correnteContainer}
+                style={{ marginTop: '-15%' }}
                 key={keyCounter + 500}
                 from={{ translateY: playerFocus ? 200 : 0, opacity: 1 }}
                 animate={{ translateY: playerFocus ? 0 : 200, opacity: 1 }}
                 transition={{ duration: 1500, type: 'timing' }}
             >
-
-                <View
-
-                >
+                <View>
                     <TouchableOpacity
                         style={styles.buttonVoltar}
                         onPress={() => navToHome()}
@@ -418,8 +457,9 @@ export function BuscarPlayers({ navigation }: any) {
                         <Text style={[styles.text, { color: "#fff" }]}>V</Text>
                         <Text style={styles.text}>oltar</Text>
                     </TouchableOpacity>
-
                 </View>
+
+
 
             </MotiView>
             <Modal
